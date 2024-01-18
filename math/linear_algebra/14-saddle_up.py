@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
+"""_Multiplying with numPy_
+"""
 
 
 def np_matmul(mat1, mat2):
