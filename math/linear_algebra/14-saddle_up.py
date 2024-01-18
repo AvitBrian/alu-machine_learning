@@ -2,7 +2,8 @@
 """
 Module for matrix multiplication using NumPy.
 
-This module provides a function, np_matmul, for performing matrix multiplication
+This module provides a function, np_matmul,
+for performing matrix multiplication
 using the NumPy library.
 
 Example:
