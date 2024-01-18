@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+"""
+Module for matrix multiplication using NumPy.
+
+This module provides a function, np_matmul, for performing matrix multiplication
+using the NumPy library.
+
+Example:
+    mat1 = np.array([[1, 2], [3, 4]])
+    mat2 = np.array([[5, 6], [7, 8]])
+    result = np_matmul(mat1, mat2)
+    print(result)
+"""
 import numpy as np
 
 
@@ -12,7 +24,7 @@ def np_matmul(mat1, mat2):
 
     Returns:
         numpy.ndarray: The result of matrix multiplication.
-        
+
     Raises:
         ValueError: If the matrices are not compatible for multiplication.
 
