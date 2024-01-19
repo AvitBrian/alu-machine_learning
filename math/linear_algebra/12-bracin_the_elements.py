@@ -38,8 +38,8 @@ def np_elementwise(mat1, mat2):
         print("Multiplication:", mul)
         print("Division:", div)
     """
-    if len(mat1) != len(mat2) or len(mat1[0]) != len(mat2[0]):
-        raise ValueError("Matrices must have the same dimensions.")
+    # if len(mat1) != len(mat2) or len(mat1[0]) != len(mat2[0]):
+    #     raise ValueError("Matrices must have the same dimensions.")
 
     addition = list(map(lambda row1, row2: list(
         map(lambda a, b: a + b, row1, row2)), mat1, mat2))
