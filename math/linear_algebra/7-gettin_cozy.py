@@ -6,13 +6,6 @@ This module provides a function to concatenate two matrices
 along a specified axis.
 The matrices must have compatible dimensions for concatenation.
 
-Example:
-    mat1 = [[1, 2],
-            [3, 4]]
-    mat2 = [[5, 6],
-            [7, 8]]
-    result = cat_matrices2D(mat1, mat2, axis=0)
-    print(result)
 """
 
 
@@ -30,24 +23,9 @@ def cat_matrices2D(mat1, mat2, axis=0):
         list or None: The concatenated matrix
         or None if matrices are incompatible.
     """
-    if axis == 0:
-        if len(mat1[0]) != len(mat2[0]):
-            return None
-
-        result_matrix = [row.copy() for row in mat1]
-        result_matrix.extend([row.copy() for row in mat2])
-
-    elif axis == 1:
-        if len(mat1) != len(mat2):
-            return None
-
-        result_matrix = [mat1[i].copy() + mat2[i] for i in range(len(mat1))]
-
-    return result_matrix
-
-
-# Example Usage:
-mat1 = [[1, 2], [3, 4]]
-mat2 = [[5, 6], [7, 8]]
-result = cat_matrices2D(mat1, mat2, axis=0)
-print(result)
+    if axis == 0 and len(mat1[0]) == len(mat2[0]):
+        return mat1 + mat2
+    elif axis == 1 and len(mat1) == len(mat2):
+        return [mat1[i] + mat2[i] for i in range(len(mat1))]
+    else:
+        return None
