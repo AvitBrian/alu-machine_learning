@@ -39,12 +39,16 @@ def np_elementwise(mat1, mat2):
         print("Multiplication:", mul)
         print("Division:", div)
     """
-    addition = list(map(lambda x, y: list(
-        map(lambda a, b: a + b, x, y)), mat1, mat2))
-    subtraction = list(map(lambda x, y: list(
-        map(lambda a, b: a - b, x, y)), mat1, mat2))
-    multiplication = list(map(lambda x, y: list(
-        map(lambda a, b: a * b, x, y)), mat1, mat2))
-    division = list(map(lambda x, y: list(
-        map(lambda a, b: a / b, x, y)), mat1, mat2))
+    def safe_map(func, *iterables):
+        return list(map(lambda args: func(*args), zip(*iterables)))
+
+    addition = safe_map(lambda x, y: safe_map(
+        lambda a, b: a + b, x, y), mat1, mat2)
+    subtraction = safe_map(lambda x, y: safe_map(
+        lambda a, b: a - b, x, y), mat1, mat2)
+    multiplication = safe_map(lambda x, y: safe_map(
+        lambda a, b: a * b, x, y), mat1, mat2)
+    division = safe_map(lambda x, y: safe_map(
+        lambda a, b: a / b, x, y), mat1, mat2)
+
     return addition, subtraction, multiplication, division
