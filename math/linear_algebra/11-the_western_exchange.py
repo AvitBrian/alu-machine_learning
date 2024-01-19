@@ -27,10 +27,10 @@ def np_transpose(matrix):
 
     Example:
         matrix = [[1, 2, 3], [4, 5, 6]]
-        transposed_matrix = matrix_transpose(matrix)
+        transposed_matrix = np_transpose(matrix)
         print("Original Matrix:")
         print(matrix)
         print("Transposed Matrix:")
         print(transposed_matrix)
     """
-    return list(map(list, zip(*matrix)))
+    return matrix.transpose()
