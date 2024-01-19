@@ -30,8 +30,4 @@ def np_shape(matrix):
         print("Matrix Shape:")
         print(shape_result)
     """
-    shape = []
-    while type(matrix) == list:
-        shape.append(len(matrix))
-        matrix = matrix[0]
-    return tuple(shape)
+    return tuple(matrix.shape)
