@@ -2,7 +2,7 @@
 """
 Module for calculating the shape of a NumPy array.
 
-This module provides a function, np_shape, 
+This module provides a function, np_shape,
 for calculating the shape of a NumPy
 array.
 
