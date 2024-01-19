@@ -2,7 +2,8 @@
 """
 Module for performing matrix multiplication.
 
-This module provides a function to perform matrix multiplication on two matrices.
+This module provides a function to perform matrix multiplication
+on two matrices.
 The matrices must be 2D and have compatible dimensions for multiplication.
 
 Example:
@@ -25,7 +26,8 @@ def mat_mul(mat1, mat2):
         mat2 (list): The second matrix.
 
     Returns:
-        list or None: The result of matrix multiplication or None if matrices are incompatible.
+        list or None: The result of matrix multiplication
+        or None if matrices are incompatible.
     """
     if len(mat1[0]) != len(mat2):
         return None
