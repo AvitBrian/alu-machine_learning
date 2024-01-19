@@ -2,7 +2,8 @@
 """
 Module for concatenating 2D matrices along a specific axis.
 
-This module provides a function to concatenate two matrices along a specified axis.
+This module provides a function to concatenate two matrices
+along a specified axis.
 The matrices must have compatible dimensions for concatenation.
 
 Example:
