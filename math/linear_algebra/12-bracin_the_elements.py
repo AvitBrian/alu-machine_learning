@@ -4,7 +4,8 @@ Module for element-wise matrix operations.
 
 This module provides a function, np_elementwise, 
 for performing element-wise
-addition, subtraction, multiplication, and division on two matrices.
+addition, subtraction, multiplication, and division
+on two matrices.
 
 Example:
     mat1 = [[1, 2], [3, 4]]
@@ -26,8 +27,8 @@ def np_elementwise(mat1, mat2):
         mat2 (list): The second matrix.
 
     Returns:
-        tuple: A tuple containing the element-wise sum, difference, product,
-            and quotient, respectively.
+        tuple: A tuple containing the element-wise sum, 
+        difference, product, and quotient, respectively.
 
     Example:
         mat1 = [[1, 2], [3, 4]]
@@ -38,12 +39,12 @@ def np_elementwise(mat1, mat2):
         print("Multiplication:", mul)
         print("Division:", div)
     """
-    addition = [[a + b for a, b in zip(row1, row2)]
-                for row1, row2 in zip(mat1, mat2)]
-    subtraction = [[a - b for a, b in zip(row1, row2)]
-                   for row1, row2 in zip(mat1, mat2)]
-    multiplication = [
-        [a * b for a, b in zip(row1, row2)] for row1, row2 in zip(mat1, mat2)]
-    division = [[a / b for a, b in zip(row1, row2)]
-                for row1, row2 in zip(mat1, mat2)]
+    addition = list(map(lambda x, y: list(
+        map(lambda a, b: a + b, x, y)), mat1, mat2))
+    subtraction = list(map(lambda x, y: list(
+        map(lambda a, b: a - b, x, y)), mat1, mat2))
+    multiplication = list(map(lambda x, y: list(
+        map(lambda a, b: a * b, x, y)), mat1, mat2))
+    division = list(map(lambda x, y: list(
+        map(lambda a, b: a / b, x, y)), mat1, mat2))
     return addition, subtraction, multiplication, division
