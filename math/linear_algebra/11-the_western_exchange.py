@@ -15,7 +15,7 @@ Example:
 """
 
 
-def matrix_transpose(matrix):
+def np_transpose(matrix):
     """
     Transpose a matrix.
 
