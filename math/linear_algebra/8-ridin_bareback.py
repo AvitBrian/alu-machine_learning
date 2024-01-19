@@ -6,14 +6,6 @@ This module provides a function to perform matrix multiplication
 on two matrices.
 The matrices must be 2D and have compatible dimensions for multiplication.
 
-Example:
-    mat1 = [[1, 2],
-            [3, 4],
-            [5, 6]]
-    mat2 = [[1, 2, 3, 4],
-            [5, 6, 7, 8]]
-    result = mat_mul(mat1, mat2)
-    print(result)
 """
 
 

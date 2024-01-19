@@ -7,14 +7,6 @@ for performing element-wise
 addition, subtraction, multiplication, and division
 on two matrices.
 
-Example:
-    mat1 = [[1, 2], [3, 4]]
-    mat2 = [[5, 6], [7, 8]]
-    add, sub, mul, div = np_elementwise(mat1, mat2)
-    print("Addition:", add)
-    print("Subtraction:", sub)
-    print("Multiplication:", mul)
-    print("Division:", div)
 """
 
 
@@ -34,9 +26,5 @@ def np_elementwise(mat1, mat2):
         mat1 = [[1, 2], [3, 4]]
         mat2 = [[5, 6], [7, 8]]
         add, sub, mul, div = np_elementwise(mat1, mat2)
-        print("Addition:", add)
-        print("Subtraction:", sub)
-        print("Multiplication:", mul)
-        print("Division:", div)
     """
     return (mat1 + mat2, mat1 - mat2, mat1 * mat2, mat1 / mat2)
