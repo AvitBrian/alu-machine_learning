@@ -17,7 +17,8 @@ def matrix_shape(matrix):
     Calculate the shape of a nested list.
 
     Args:
-        matrix (list): The input nested list representing a multi-dimensional matrix.
+        matrix (list): The input nested list
+        representing a multi-dimensional matrix.
 
     Returns:
         list: The shape of the matrix.

@@ -1,38 +1,39 @@
 #!/usr/bin/env python3
 """
-Module for transposing matrices using NumPy.
+Module for transposing matrices.
 
-This module provides a function, np_transpose, for transposing a matrix using
-the NumPy library.
+This module provides a function, matrix_transpose,
+for transposing a matrix.
 
 Example:
-    matrix = np.array([[1, 2, 3], [4, 5, 6]])
-    transposed_matrix = np_transpose(matrix)
+    matrix = [[1, 2, 3], [4, 5, 6]]
+    transposed_matrix = matrix_transpose(matrix)
     print("Original Matrix:")
     print(matrix)
     print("Transposed Matrix:")
     print(transposed_matrix)
 """
 
-import numpy as np
 
-
-def np_transpose(matrix):
+def matrix_transpose(matrix):
     """
-    Transpose a matrix using NumPy.
+    Transpose a matrix.
 
     Args:
-        matrix (numpy.ndarray): The matrix to be transposed.
+        matrix (list): The matrix to be transposed.
 
     Returns:
-        numpy.ndarray: The transposed matrix.
+        list: The transposed matrix.
 
     Example:
-        matrix = np.array([[1, 2, 3], [4, 5, 6]])
-        transposed_matrix = np_transpose(matrix)
+        matrix = [[1, 2, 3], [4, 5, 6]]
+        transposed_matrix = matrix_transpose(matrix)
         print("Original Matrix:")
         print(matrix)
         print("Transposed Matrix:")
         print(transposed_matrix)
     """
-    return matrix.T
+    transposed_matrix = []
+    for row in zip(*matrix):
+        transposed_matrix.append(list(row))
+    return transposed_matrix

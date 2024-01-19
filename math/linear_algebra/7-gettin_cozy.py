@@ -2,7 +2,8 @@
 """
 Module for concatenating 2D matrices along a specific axis.
 
-This module provides a function to concatenate two matrices along a specified axis.
+This module provides a function 
+to concatenate two matrices along a specified axis.
 The matrices must have compatible dimensions for concatenation.
 
 Example:
@@ -22,10 +23,12 @@ def cat_matrices2D(mat1, mat2, axis=0):
     Args:
         mat1 (list): The first matrix.
         mat2 (list): The second matrix.
-        axis (int, optional): The axis along which to concatenate. Defaults to 0.
+        axis (int, optional): The axis along which to concatenate. 
+        Defaults to 0.
 
     Returns:
-        list or None: The concatenated matrix or None if matrices are incompatible.
+        list or None: The concatenated matrix 
+        or None if matrices are incompatible.
     """
     if axis == 0:
         if len(mat1[0]) != len(mat2[0]):
