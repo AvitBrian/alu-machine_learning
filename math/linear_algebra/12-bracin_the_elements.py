@@ -2,7 +2,7 @@
 """
 Module for element-wise matrix operations.
 
-This module provides a function, np_elementwise, 
+This module provides a function, np_elementwise,
 for performing element-wise
 addition, subtraction, multiplication, and division
 on two matrices.
@@ -27,7 +27,7 @@ def np_elementwise(mat1, mat2):
         mat2 (list): The second matrix.
 
     Returns:
-        tuple: A tuple containing the element-wise sum, 
+        tuple: A tuple containing the element-wise sum,
         difference, product, and quotient, respectively.
 
     Example:
