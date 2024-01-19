@@ -39,16 +39,4 @@ def np_elementwise(mat1, mat2):
         print("Multiplication:", mul)
         print("Division:", div)
     """
-    def safe_map(func, *iterables):
-        return list(map(lambda args: func(*args), zip(*iterables)))
-
-    addition = safe_map(lambda x, y: safe_map(
-        lambda a, b: a + b, x, y), mat1, mat2)
-    subtraction = safe_map(lambda x, y: safe_map(
-        lambda a, b: a - b, x, y), mat1, mat2)
-    multiplication = safe_map(lambda x, y: safe_map(
-        lambda a, b: a * b, x, y), mat1, mat2)
-    division = safe_map(lambda x, y: safe_map(
-        lambda a, b: a / b, x, y), mat1, mat2)
-
-    return addition, subtraction, multiplication, division
+    return (mat1 + mat2, mat1 - mat2, mat1 * mat2, mat1 / mat2)
