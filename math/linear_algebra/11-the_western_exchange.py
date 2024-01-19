@@ -33,7 +33,4 @@ def matrix_transpose(matrix):
         print("Transposed Matrix:")
         print(transposed_matrix)
     """
-    transposed_matrix = []
-    for row in zip(*matrix):
-        transposed_matrix.append(list(row))
-    return transposed_matrix
+    return list(map(list, zip(*matrix)))
