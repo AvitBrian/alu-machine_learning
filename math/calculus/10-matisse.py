@@ -17,8 +17,8 @@ def poly_derivative(poly):
     derivative = []
     for power, coef in enumerate(poly[1:], start=1):
         derivative.append(coef * power)
-    
+
     if not derivative:
         return None
 
-    return derivative 
+    return derivative
