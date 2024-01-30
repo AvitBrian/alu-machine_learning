@@ -1,5 +1,26 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
+"""
+Module for performing matrix multiplication.
+
+This module provides a function to perform matrix multiplication
+on two matrices.
+The matrices must be 2D and have compatible dimensions for multiplication.
+
+"""
+
+
 def mat_mul(mat1, mat2):
+    """
+    Perform matrix multiplication on two matrices.
+
+    Args:
+        mat1 (list): The first matrix.
+        mat2 (list): The second matrix.
+
+    Returns:
+        list or None: The result of matrix multiplication
+        or None if matrices are incompatible.
+    """
     if len(mat1[0]) != len(mat2):
         return None
 
