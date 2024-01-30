@@ -8,8 +8,7 @@ def poly_derivative(poly):
     '''
     Returns the derivative of a polynomial
     '''
-    if not isinstance(poly, list)  or not all(
-        isinstance(x, (int, float)) for x in poly):
+    if not isinstance(poly, list):
         return None
 
     if len(poly) == 1:
