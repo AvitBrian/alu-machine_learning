@@ -8,11 +8,12 @@ def poly_derivative(poly):
     '''
     Returns the derivative of a polynomial
     '''
-    if not isinstance(poly, list):
+    if not isinstance(poly, list)  or not all(
+        isinstance(x, (int, float)) for x in poly):
         return None
 
     if len(poly) == 1:
-        return None
+        return [0]
 
     derivative = []
     for power, coef in enumerate(poly[1:], start=1):
