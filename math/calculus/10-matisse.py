@@ -12,7 +12,7 @@ def poly_derivative(poly):
         return None
 
     if len(poly) == 1:
-        return [0]
+        return None
 
     derivative = []
     for power, coef in enumerate(poly[1:], start=1):
