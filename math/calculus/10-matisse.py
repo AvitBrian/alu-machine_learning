@@ -9,11 +9,11 @@ def poly_derivative(poly):
     Returns the derivative of a polynomial
     '''
     if type(poly) is not list or not\
-        all(isinstance(coef, (int, float)) for coef in poly):
+          all(isinstance(coef, (int, float)) for coef in poly):
         return None
 
     if len(poly) == 1:
-        return None
+        return [0]
 
     derivative = []
     for power, coef in enumerate(poly[1:], start=1):
