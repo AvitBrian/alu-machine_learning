@@ -19,8 +19,8 @@ def poly_integral(poly, C=0):
         if type(poly[i]) is not int and type(poly[i]) is not float:
             return None
 
-        if i == 0:  # Handle the constant term separately
-            integral.append(poly[i])
+        if i == 0:
+          integral.append(poly[i])
         else:
             result = poly[i] / (i + 1)
             new_coefficient = result if result % 1 != 0 else int(result)
