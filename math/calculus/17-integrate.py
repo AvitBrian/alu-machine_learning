@@ -30,7 +30,7 @@ def poly_integral(poly, C=0):
         return None
 
     if len(poly) == 1:
-        return [C]
+        return [C, 5]
 
     integral = [C]
 
