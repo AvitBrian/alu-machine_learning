@@ -31,6 +31,9 @@ def poly_integral(poly, C=0):
 
     if len(poly) == 1:
         return [C, 5]
+    
+    if poly == [0]:
+        return [C]
 
     integral = [C]
 
