@@ -4,30 +4,30 @@ class Binomial:
     A class representing the Binomial distribution.
 
     Attributes:
-        trials (int): The number of trials.
-        success_prob (float): The probability of success.
+        n (int): The number of trials.
+        p (float): The probability of success.
 
     Methods:
-        __init__(self, data=None, trials=1, success_prob=0.5): Initializes a Binomial instance.
+        __init__(self, data=None, n=1, p=0.5): Initializes a Binomial instance.
         calculate_parameters(self, data): Calculates the parameters of the Binomial distribution.
         pmf(self, k): Calculates the probability mass function (PMF) for a given value of k.
         cdf(self, k): Calculates the cumulative distribution function (CDF) for a given value of k.
     """
 
-    def __init__(self, data=None, trials=1, success_prob=0.5):
+    def __init__(self, data=None, n=1, p=0.5):
         if data is None:
-            if trials < 1:
-                raise ValueError("trials must be a positive value")
-            if not 0 < success_prob < 1:
-                raise ValueError("success_prob must be greater than 0 and less than 1")
-            self.trials = trials
-            self.success_prob = success_prob
+            if n < 1:
+                raise ValueError("n must be a positive value")
+            if not 0 < p < 1:
+                raise ValueError("p must be greater than 0 and less than 1")
+            self.n = n
+            self.p = p
         else:
             if not isinstance(data, list):
                 raise TypeError('data must be a list')
             if len(data) < 2:
                 raise ValueError('data must contain multiple values')
-            self.trials, self.success_prob = self.calculate_parameters(data)
+            self.n, self.p = self.calculate_parameters(data)
 
     def calculate_parameters(self, data):
         mean = sum(data) / len(data)
@@ -42,12 +42,12 @@ class Binomial:
         k = int(k)
         if k < 0:
             return 0
-        p = self.success_prob
+        p = self.p
         q = 1 - p
         binomial_co = 1
         for i in range(1, k + 1):
-            binomial_co *= (self.trials - i + 1) / i
-        pmf = binomial_co * (p ** k) * (q ** (self.trials - k))
+            binomial_co *= (self.n - i + 1) / i
+        pmf = binomial_co * (p ** k) * (q ** (self.n - k))
         return pmf
 
     def cdf(self, k):
