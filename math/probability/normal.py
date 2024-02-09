@@ -15,9 +15,12 @@ class Normal:
         Class constructor
 
         Parameters:
-        - data (list): List of data points to calculate mean and standard deviation from
-        - mean (float): Mean value of the normal distribution (default: 0.0)
-        - stddev (float): Standard deviation value of the normal distribution (default: 1.0)
+        - data (list): List of data points to calculate
+        mean and standard deviation from
+        - mean (float): Mean value of the
+        normal distribution (default: 0.0)
+        - stddev (float): Standard deviation value of
+        the normal distribution (default: 1.0)
 
         Raises:
         - ValueError: If stddev is a negative value
@@ -26,7 +29,7 @@ class Normal:
         '''
         if data is None:
             if stddev < 0:
-                raise ValueError("stddev must be a non-negative value")
+                raise ValueError("stddev must be a positive value")
             self.stddev = float(stddev)
             self.mean = float(mean)
         else:
