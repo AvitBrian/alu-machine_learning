@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 class Binomial:
     """
     A class representing the Binomial distribution.
@@ -49,7 +50,7 @@ class Binomial:
 
     def calculate_parameters(self, data):
         """
-        Calculates the parameters for a binomial distribution 
+        Calculates the parameters for abinomial distribution 
         based on the given data.
 
         Parameters:
@@ -77,7 +78,7 @@ class Binomial:
         - k (int): The number of successes in the binomial distribution.
 
         Returns:
-        - pmf (float): The probability mass function value for 
+        - pmf (float): The probability mass function value for
         the given value of k.
         """
         k = int(k)
@@ -100,7 +101,7 @@ class Binomial:
         - k (int): The number of successes.
 
         Returns:
-        - cdf (float): The cumulative probability 
+        - cdf (float): The cumulative probability
         of getting k or fewer successes.
         """
         k = int(k)
