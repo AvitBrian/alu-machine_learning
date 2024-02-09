@@ -35,7 +35,6 @@ class Binomial:
         for a given value of k.
         cdf(self, k): Calculates the cumulative distribution function (CDF)
         for a given value of k.
-    
     """
 
     def __init__(self, data=None, n=1, p=0.5):
