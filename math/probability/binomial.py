@@ -9,9 +9,9 @@ class Binomial:
         p (float): The probability of success.
 
     Methods:
-        __init__(self, data=None, n=1, p=0.5): 
+        __init__(self, data=None, n=1, p=0.5):
         Initializes a Binomial instance.
-        calculate_parameters(self, data): 
+        calculate_parameters(self, data):
         Calculates the parameters of the Binomial distribution.
         pmf(self, k): Calculates the probability mass function (PMF)
         for a given value of k.
@@ -70,7 +70,7 @@ class Binomial:
 
     def pmf(self, k):
         """
-        Calculates the probability mass function (PMF) 
+        Calculates the probability mass function (PMF)
         of the binomial distribution for a given value of k.
 
         Parameters:
@@ -93,7 +93,7 @@ class Binomial:
 
     def cdf(self, k):
         """
-        Calculates the cumulative distribution function (CDF) 
+        Calculates the cumulative distribution function (CDF)
         of the binomial distribution.
 
         Parameters:
