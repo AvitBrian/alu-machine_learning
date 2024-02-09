@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class Binomial:
     """
     A class representing the Binomial distribution.
