@@ -50,7 +50,7 @@ class Binomial:
 
     def calculate_parameters(self, data):
         """
-        Calculates the parameters for abinomial distribution 
+        Calculates the parameters for abinomial distribution
         based on the given data.
 
         Parameters:
