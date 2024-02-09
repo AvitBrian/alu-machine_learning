@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 class Binomial:
     """
     A class representing the Binomial distribution.
@@ -8,10 +9,14 @@ class Binomial:
         p (float): The probability of success.
 
     Methods:
-        __init__(self, data=None, n=1, p=0.5): Initializes a Binomial instance.
-        calculate_parameters(self, data): Calculates the parameters of the Binomial distribution.
-        pmf(self, k): Calculates the probability mass function (PMF) for a given value of k.
-        cdf(self, k): Calculates the cumulative distribution function (CDF) for a given value of k.
+        __init__(self, data=None, n=1, p=0.5): 
+        Initializes a Binomial instance.
+        calculate_parameters(self, data): 
+        Calculates the parameters of the Binomial distribution.
+        pmf(self, k): Calculates the probability mass function (PMF)
+        for a given value of k.
+        cdf(self, k): Calculates the cumulative distribution function (CDF)
+        for a given value of k.
     """
 
     def __init__(self, data=None, n=1, p=0.5):
@@ -44,13 +49,14 @@ class Binomial:
 
     def calculate_parameters(self, data):
         """
-        Calculates the parameters for a binomial distribution based on the given data.
+        Calculates the parameters for a binomial distribution 
+        based on the given data.
 
         Parameters:
-        data (list): A list of numerical values representing the data.
+        - data (list): A list of numerical values representing the data.
 
         Returns:
-        tuple: A tuple containing the calculated parameters (n, p), where:
+        - tuple: A tuple containing the calculated parameters (n, p), where:
             - n (int): The number of trials.
             - p (float): The probability of success in each trial.
         """
@@ -64,13 +70,15 @@ class Binomial:
 
     def pmf(self, k):
         """
-        Calculates the probability mass function (PMF) of the binomial distribution for a given value of k.
+        Calculates the probability mass function (PMF) 
+        of the binomial distribution for a given value of k.
 
         Parameters:
         - k (int): The number of successes in the binomial distribution.
 
         Returns:
-        - pmf (float): The probability mass function value for the given value of k.
+        - pmf (float): The probability mass function value for 
+        the given value of k.
         """
         k = int(k)
         if k < 0:
@@ -85,14 +93,15 @@ class Binomial:
 
     def cdf(self, k):
         """
-        Calculates the cumulative distribution function (CDF) of the binomial distribution.
+        Calculates the cumulative distribution function (CDF) 
+        of the binomial distribution.
 
         Parameters:
         - k (int): The number of successes.
 
         Returns:
-        - cdf (float): The cumulative probability of getting k or fewer successes.
-
+        - cdf (float): The cumulative probability 
+        of getting k or fewer successes.
         """
         k = int(k)
         if k < 0:
