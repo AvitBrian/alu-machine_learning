@@ -61,4 +61,17 @@ class Normal:
         '''
         return (z * self.stddev) + self.mean
 
-    
+    def pdf(self, x):
+        '''
+        Calculates the value of the PDF for a given x-value
+
+        Parameters:
+        - x (float): The value to calculate the PDF for
+
+        Returns:
+        - float: The value of the PDF for the given x-value
+        '''
+        coefficient = 1 / (self.stddev * (2 * 3.14159) ** 0.5)
+        power = -0.5 * (self.z_score(x) ** 2)
+        pdf = coefficient * 2.71828 ** power
+        return pdf
