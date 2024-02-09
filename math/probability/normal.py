@@ -75,3 +75,19 @@ class Normal:
         power = -0.5 * (self.z_score(x) ** 2)
         pdf = coefficient * 2.71828 ** power
         return pdf
+
+    def cdf(self, x):
+        '''
+        Calculates the value of the CDF for a given x-value
+
+        Parameters:
+        - x (float): The value to calculate the CDF for
+
+        Returns:
+        - float: The value of the CDF for the given x-value
+        '''
+        value = self.z_score(x) / (2 ** 0.5)
+        val = value - ((value ** 3) / 3) + ((value ** 5) / 10)
+        val = val - ((value ** 7) / 42) + ((value ** 9) / 216)
+        cdf = 0.5 * (1 + val) * (2 / (3.14159 ** 0.5))
+        return cdf
