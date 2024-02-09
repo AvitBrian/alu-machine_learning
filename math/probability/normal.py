@@ -28,8 +28,7 @@ class Normal:
         - ValueError: If data contains less than 2 values
         '''
         if data is None:
-            if stddev < 0:
-                print("stddev must be a positive value")
+            if stddev < 1:
                 raise ValueError("stddev must be a positive value")
             self.stddev = float(stddev)
             self.mean = float(mean)
