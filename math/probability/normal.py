@@ -29,6 +29,7 @@ class Normal:
         '''
         if data is None:
             if stddev < 0:
+                print("stddev must be a positive value")
                 raise ValueError("stddev must be a positive value")
             self.stddev = float(stddev)
             self.mean = float(mean)
@@ -38,7 +39,8 @@ class Normal:
             elif len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.mean = sum(data) / len(data)
-            self.stddev = (sum((x - self.mean) ** 2 for x in data) / len(data)) ** 0.5
+            self.stddev = ((sum((x - self.mean) ** 2 for x in data)/len(data))
+                           ** 0.5)
 
     def z_score(self, x):
         '''
