@@ -19,6 +19,24 @@ Methods:
 
 
 class Binomial:
+    """
+    A class representing the Binomial distribution.
+
+    Attributes:
+        n (int): The number of trials.
+        p (float): The probability of success.
+
+    Methods:
+        __init__(self, data=None, n=1, p=0.5):
+        Initializes a Binomial instance.
+        calculate_parameters(self, data):
+        Calculates the parameters of the Binomial distribution.
+        pmf(self, k): Calculates the probability mass function (PMF)
+        for a given value of k.
+        cdf(self, k): Calculates the cumulative distribution function (CDF)
+        for a given value of k.
+    
+    """
 
     def __init__(self, data=None, n=1, p=0.5):
         """
