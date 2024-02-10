@@ -44,11 +44,10 @@ class Exponential:
             
             self.lambtha = float(lambtha)
         else:
+            if not isinstance(data, list):
+                raise TypeError('data must be a list')
             if len(data) < 2:
                 raise ValueError('data must contain multiple values')
-            if type(data) is not list:
-                raise TypeError('data must be a list')
-            
             self.lambtha = float(1 / (sum(data) / len(data)))
 
     def pdf(self, x):
