@@ -76,9 +76,10 @@ class Normal:
         - float: The value of the PDF for the given x-value
         '''
         coefficient = 1 / (self.stddev * (2 * 3.14159) ** 0.5)
-        power = -0.5 * (self.z_score(x) ** 2)
+        power = -0.5 * ((x - self.mean) / self.stddev) ** 2
         pdf = coefficient * 2.71828 ** power
         return pdf
+
 
     def cdf(self, x):
         '''
