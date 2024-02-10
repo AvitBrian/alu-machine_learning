@@ -15,8 +15,10 @@ class Poisson:
     Methods:
         factorial(k): Calculates the factorial of a given number.
         __init__(data, lambtha): Class constructor.
-        pmf(k): Calculates the value of the Probability Mass Function (PMF) for a given number of successes.
-        cdf(k): Calculates the value of the Cumulative Distribution Function (CDF) for a given number of successes.
+        pmf(k): Calculates the value of the Probability Mass Function (PMF)
+        for a given number of successes.
+        cdf(k): Calculates the value of the Cumulative Distribution Function
+        (CDF) for a given number of successes.
     '''
 
     def factorial(self, k):
@@ -40,8 +42,11 @@ class Poisson:
         Class constructor.
 
         Args:
-            data (list, optional): List of data points. If provided, the average (lambtha) will be calculated based on the data points. Defaults to None.
-            lambtha (float, optional): The average number of events in a given time period. Defaults to 1.
+            data (list, optional): List of data points. If provided,
+            the average (lambtha) will be calculated based on 
+            the data points. Defaults to None.
+            lambtha (float, optional): The average number of events
+            in a given time period. Defaults to 1.
 
         Raises:
             ValueError: If lambtha is not a positive value.
@@ -61,7 +66,8 @@ class Poisson:
 
     def pmf(self, k):
         '''
-        Calculates the value of the Probability Mass Function (PMF) for a given number of successes.
+        Calculates the value of the Probability Mass Function (PMF)
+        for a given number of successes.
 
         Args:
             k (int): The number of successes.
@@ -78,7 +84,8 @@ class Poisson:
 
     def cdf(self, k):
         '''
-        Calculates the value of the Cumulative Distribution Function (CDF) for a given number of successes.
+        Calculates the value of the Cumulative Distribution Function (CDF)
+        for a given number of successes.
 
         Args:
             k (int): The number of successes.
