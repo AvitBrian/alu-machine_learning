@@ -93,5 +93,5 @@ class Normal:
         value = self.z_score(x) / (2 ** 0.5)
         val = value - ((value ** 3) / 3) + ((value ** 5) / 10)
         val = val - ((value ** 7) / 42) + ((value ** 9) / 216)
-        cdf = 0.5 * (1 + val) * (2 / (3.14159 ** 0.5))
+        cdf = 0.5 * (1 + val) * (2 / (3.1415926536 ** 0.5))
         return cdf
