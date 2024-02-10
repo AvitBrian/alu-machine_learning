@@ -43,7 +43,7 @@ class Poisson:
 
         Args:
             data (list, optional): List of data points. If provided,
-            the average (lambtha) will be calculated based on 
+            the average (lambtha) will be calculated based on
             the data points. Defaults to None.
             lambtha (float, optional): The average number of events
             in a given time period. Defaults to 1.
