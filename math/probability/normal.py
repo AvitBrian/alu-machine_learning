@@ -90,8 +90,12 @@ class Normal:
         Returns:
         - float: The value of the CDF for the given x-value
         '''
-        value = self.z_score(x) / (2 ** 0.5)
+        mean = self.mean
+        stddev = self.stddev
+        pi = 3.1415926536
+        value = (x - mean) / (stddev * (2 ** (1 / 2)))
         val = value - ((value ** 3) / 3) + ((value ** 5) / 10)
         val = val - ((value ** 7) / 42) + ((value ** 9) / 216)
-        cdf = 0.5 * (1 + val) * (2 / (3.1415926536 ** 0.5))
+        val *= (2 / (pi ** (1 / 2)))
+        cdf = (1 / 2) * (1 + val)
         return cdf
