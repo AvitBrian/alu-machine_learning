@@ -78,8 +78,7 @@ class Normal:
         coefficient = 1 / (self.stddev * (2 * 3.14159) ** 0.5)
         power = -0.5 * ((x - self.mean) / self.stddev) ** 2
         pdf = coefficient * 2.71828 ** power
-        return pdf
-
+        return round(pdf, 10)
 
     def cdf(self, x):
         '''
