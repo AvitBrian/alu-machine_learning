@@ -16,7 +16,7 @@ class Exponential:
     of the exponential distribution
 
     Methods:
-    - __init__(self, data=None, lambtha=1.): 
+    - __init__(self, data=None, lambtha=1.):
     Initializes the Exponential object
     - pdf(self, x): Calculates the value of the PDF
     for a given time period
@@ -41,7 +41,6 @@ class Exponential:
         if data is None:
             if lambtha <= 0:
                 raise ValueError('lambtha must be a positive value')
-            
             self.lambtha = float(lambtha)
         else:
             if not isinstance(data, list):
@@ -62,7 +61,7 @@ class Exponential:
         '''
         if x < 0:
             return 0
-        
+
         pdf = self.lambtha * (2.7182818285 ** (-self.lambtha * x))
         return pdf
 
