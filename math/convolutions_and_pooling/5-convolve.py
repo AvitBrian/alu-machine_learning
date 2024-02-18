@@ -6,13 +6,15 @@ kernels and various options.
 
 import numpy as np
 
+
 def convolve(images, kernels, padding='same', stride=(1, 1)):
     """
     Performs convolution on images using multiple kernels.
 
     Args:
         images (numpy.ndarray): Input images with shape (m, h, w, c).
-        kernels (numpy.ndarray): Convolution kernels with shape (kh, kw, c, nc).
+        kernels (numpy.ndarray): Convolution kernels 
+        with shape (kh, kw, c, nc).
         padding (tuple or str): Padding option for the convolution.
         stride (tuple): Stride for the convolution operation.
 
