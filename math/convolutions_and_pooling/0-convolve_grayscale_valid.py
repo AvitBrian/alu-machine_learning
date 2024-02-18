@@ -5,6 +5,7 @@ this function performs convolutions on grayscale images.
 
 import numpy as np
 
+
 def convolve_grayscale_valid(images, kernel):
     """
     Performs convolutions on grayscale images.
