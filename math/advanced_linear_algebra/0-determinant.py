@@ -29,11 +29,11 @@ def determinant(matrix):
     if num_rows == 1:
         return matrix[0][0]
 
-    if num_rows == 2:
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
-    
     if num_rows != len(matrix[0]):
         raise ValueError("matrix must be a square matrix")
+
+    if num_rows == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
 
     det = 0
     for j in range(num_rows):
