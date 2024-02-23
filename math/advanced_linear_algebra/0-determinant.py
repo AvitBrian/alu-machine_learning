@@ -22,9 +22,11 @@ def determinant(matrix):
         raise TypeError("matrix must be a list of lists")
 
     num_rows = len(matrix)
+    num_cols = len(matrix[0]) if num_rows > 0 else 0
 
-    if num_rows != len(matrix[0]):
+    if num_rows != num_cols:
         raise ValueError("matrix must be a square matrix")
+        return None
 
     if num_rows == 0:
         return 1
