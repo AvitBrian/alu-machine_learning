@@ -23,11 +23,11 @@ def determinant(matrix):
 
     num_rows = len(matrix)
 
-    if matrix == []:
-        return 1
-
     if num_rows != len(matrix[0]):
         raise ValueError("matrix must be a square matrix")
+
+    if num_rows == 0:
+        return 1
 
     if num_rows == 1:
         return matrix[0][0]
