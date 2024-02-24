@@ -41,6 +41,13 @@ def cofactor(matrix):
 def determinant(matrix):
     """
     Calculates the determinant of a matrix.
+    Args:
+        matrix (list): A list of lists whose determinant should be calculated.
+    Returns:
+        int: The determinant of the matrix.
+    Raises:
+    TypeError: If matrix is not a list of lists.
+    ValueError: If matrix is not a square matrix.
     """
     if not isinstance(matrix, list) or not all(
             isinstance(row, list) for row in matrix):
