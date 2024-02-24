@@ -1,8 +1,7 @@
-import numpy as np
-
 """
     This function calculates the definiteness of a matrix.
 """
+import numpy as np
 
 
 def definiteness(matrix):
