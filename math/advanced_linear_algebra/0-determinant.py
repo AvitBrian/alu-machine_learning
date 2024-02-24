@@ -27,7 +27,7 @@ def determinant(matrix):
     if num_rows != num_cols:
         raise ValueError("matrix must be a square matrix")
 
-    if num_rows == 0:
+    if not matrix:
         return 1
 
     if num_rows == 1:
