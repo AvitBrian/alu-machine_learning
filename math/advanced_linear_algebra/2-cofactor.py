@@ -42,7 +42,8 @@ def determinant(matrix):
     """
     Calculates the determinant of a matrix.
     Args:
-        matrix (list): A list of lists whose determinant should be calculated.
+        matrix (list): A list of lists whose determinant
+         should be calculated.
     Returns:
         int: The determinant of the matrix.
     Raises:
