@@ -35,6 +35,3 @@ def minor(matrix):
         minor_matrix.append(minor_row)
 
     return minor_matrix
-
-
-print(minor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
