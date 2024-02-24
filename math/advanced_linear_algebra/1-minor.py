@@ -2,6 +2,7 @@
 """
     This function Calculates the minor matrix of a square matrix.
 """
+det = __import__('math/advanced_linear_algebra/0-determinant').determinant
 
 
 def minor(matrix):
@@ -28,10 +29,8 @@ def minor(matrix):
     for i in range(n):
         minor_row = []
         for j in range(n):
-            minor_row.append(matrix[(i + 1) % n][(j + 1) % n] *
-                             matrix[(i + 2) % n][(j + 2) % n] -
-                             matrix[(i + 1) % n][(j + 2) % n] *
-                             matrix[(i + 2) % n][(j + 1) % n])
+            sub_matrix = [row[:j] + row[j + 1:] for row in (matrix[:i] + matrix[i + 1:])]
+            minor_row.append(det(sub_matrix))
         minor_matrix.append(minor_row)
 
     return minor_matrix
