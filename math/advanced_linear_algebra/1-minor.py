@@ -2,7 +2,7 @@
 """
     This function Calculates the minor matrix of a square matrix.
 """
-det = __import__('math/advanced_linear_algebra/0-determinant').determinant
+det = __import__('0-determinant').determinant
 
 
 def minor(matrix):
