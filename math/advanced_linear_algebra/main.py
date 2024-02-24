@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 if __name__ == '__main__':
-    determinant = __import__('0-determinant').determinant
+    cofactor = __import__('2-cofactor').cofactor
 
-    mat0 = [[]]
     mat1 = [[5]]
     mat2 = [[1, 2], [3, 4]]
     mat3 = [[1, 1], [1, 1]]
@@ -11,16 +10,15 @@ if __name__ == '__main__':
     mat5 = []
     mat6 = [[1, 2, 3], [4, 5, 6]]
 
-    print(determinant(mat0))
-    print(determinant(mat1))
-    print(determinant(mat2))
-    print(determinant(mat3))
-    print(determinant(mat4))
+    print(cofactor(mat1))
+    print(cofactor(mat2))
+    print(cofactor(mat3))
+    print(cofactor(mat4))
     try:
-        determinant(mat5)
+        cofactor(mat5)
     except Exception as e:
         print(e)
     try:
-        determinant(mat6)
+        cofactor(mat6)
     except Exception as e:
         print(e)
