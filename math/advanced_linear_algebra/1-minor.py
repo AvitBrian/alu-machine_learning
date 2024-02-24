@@ -16,25 +16,17 @@ def minor(matrix):
         TypeError: If matrix is not a list of lists.
         ValueError: If matrix is not a square matrix or is empty.
     """
-    if not isinstance(matrix, list) or not all(
-            isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
 
     num_rows = len(matrix)
-    num_cols = len(matrix[0]) if num_rows > 0 else 0
-
-    if num_rows != num_cols or num_rows == 0:
+    if num_rows == 0 or any(len(row) != num_rows for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
-    if num_rows == 1:
-        return [[1]]
-
-    minor_matrix = []
+    minor_mat = []
     for i in range(num_rows):
         minor_row = []
-        for j in range(num_cols):
-            minor_row.append(determinant([row[:j] + row[j + 1:] for row in (
-                matrix[:i] + matrix[i + 1:])]))
-        minor_matrix.append(minor_row)
-
-    return minor_matrix
+        for j in range(num_rows):
+            minor_row.append(determinant([row[:j] + row[j + 1:] for row in (matrix[:i] + matrix[i + 1:])]))
+        minor_mat.append(minor_row)
+    return minor_mat
