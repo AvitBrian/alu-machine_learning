@@ -1,5 +1,9 @@
 import numpy as np
 
+"""
+This function calculates the definiteness of a matrix.
+"""
+
 
 def definiteness(matrix):
     """
@@ -23,11 +27,7 @@ def definiteness(matrix):
 
     if positives == matrix.shape[0]:
         return "Positive definite"
-    elif positives == matrix.shape[0] - 1:
-        return "Positive semi-definite"
     elif negatives == matrix.shape[0]:
         return "Negative definite"
-    elif negatives == matrix.shape[0] - 1:
-        return "Negative semi-definite"
     else:
         return "Indefinite"
