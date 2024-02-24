@@ -19,18 +19,20 @@ def definiteness(matrix):
         raise TypeError("matrix must be a numpy.ndarray")
     if matrix.size == 0 or matrix.shape[0] != matrix.shape[1]:
         return None
+    if not np.allclose(matrix, matrix.T):
+        return None
 
     eigenvalues, _ = np.linalg.eig(matrix)
     positives = sum(eigenvalues > 0)
     negatives = sum(eigenvalues < 0)
-
+    zeroes = sum(np.isclose(eigenvalues, 0))
     if positives == matrix.shape[0]:
         return "Positive definite"
-    elif positives == matrix.shape[0] - 1:
+    elif positives == matrix.shape[0] - zeroes:
         return "Positive semi-definite"
     elif negatives == matrix.shape[0]:
         return "Negative definite"
-    elif negatives == matrix.shape[0] - 1:
+    elif negatives == matrix.shape[0] - zeroes:
         return "Negative semi-definite"
     else:
         return "Indefinite"
