@@ -17,7 +17,8 @@ def adjugate(matrix):
         TypeError: If matrix is not a list of lists.
         ValueError: If matrix is not a square matrix or is empty.
     """
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list) or not all(
+            isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
 
     if not matrix or len(matrix) != len(matrix[0]):
@@ -30,11 +31,13 @@ def adjugate(matrix):
         adjugate_row = []
         for j in range(n):
             sign = (-1) ** (i + j)
-            sub_matrix = [row[:j] + row[j + 1:] for row in (matrix[:i] + matrix[i + 1:])]
+            sub_matrix = [row[:j] + row[j + 1:] for row in (
+                    matrix[:i] + matrix[i + 1:])]
             adjugate_row.append(sign * det(sub_matrix))
         adjugate_matrix.append(adjugate_row)
 
     # Transpose the adjugate matrix
-    adjugate_matrix = [[adjugate_matrix[j][i] for j in range(n)] for i in range(n)]
+    adjugate_matrix = [[adjugate_matrix[j][i] for j in range(n)]
+                       for i in range(n)]
 
     return adjugate_matrix
