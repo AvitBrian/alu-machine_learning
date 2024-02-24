@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2370af2-9a62-4e56-9d6f-7644fbfd5562" name="Changes" comment="Updates">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/alu-machine_learning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/alu-machine_learning.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/math/advanced_linear_algebra/1-minor.py" beforeDir="false" afterPath="$PROJECT_DIR$/math/advanced_linear_algebra/1-minor.py" afterDir="false" />
-    </list>
+    <list default="true" id="a2370af2-9a62-4e56-9d6f-7644fbfd5562" name="Changes" comment="updates!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +66,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708788857128</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708789433151</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708789433151</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,7 +83,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactor function to improve performance" />
     <MESSAGE value="Updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
+    <MESSAGE value="updates!" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates!" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>
