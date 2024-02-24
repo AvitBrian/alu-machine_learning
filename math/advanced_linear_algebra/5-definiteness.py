@@ -1,14 +1,13 @@
 import numpy as np
 
 """
-This function calculates the definiteness of a matrix.
+    This function calculates the definiteness of a matrix.
 """
 
 
 def definiteness(matrix):
     """
     Calculates the definiteness of a matrix.
-
     Args:
         matrix (numpy.ndarray): A numpy array.
     Returns:
