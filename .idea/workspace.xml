@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2370af2-9a62-4e56-9d6f-7644fbfd5562" name="Changes" comment="updates!" />
+    <list default="true" id="a2370af2-9a62-4e56-9d6f-7644fbfd5562" name="Changes" comment="updates!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/math/advanced_linear_algebra/5-definiteness.py" beforeDir="false" afterPath="$PROJECT_DIR$/math/advanced_linear_algebra/5-definiteness.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="true" />
@@ -16,13 +26,37 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "assignee": "AvitBrian"
+    }
+  ],
+  "lastFilter": {
+    "assignee": "AvitBrian"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="ec9e52e6-c11a-4839-8009-f7fb1fad9118" />
+        <option name="url" value="https://github.com/AvitBrian/alu-machine_learning.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2cmt1t5VqX95dECaOPEEGqML8WG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -74,11 +108,142 @@
       <option name="project" value="LOCAL" />
       <updated>1708789433151</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708789532618</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1708789532618</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708790030135</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1708790030135</updated>
+    </task>
+    <task id="LOCAL-00005" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708791442899</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1708791442899</updated>
+    </task>
+    <task id="LOCAL-00006" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708792349468</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1708792349468</updated>
+    </task>
+    <task id="LOCAL-00007" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708793718395</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1708793718395</updated>
+    </task>
+    <task id="LOCAL-00008" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708794977403</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1708794977403</updated>
+    </task>
+    <task id="LOCAL-00009" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708796165190</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1708796165190</updated>
+    </task>
+    <task id="LOCAL-00010" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708796278472</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1708796278472</updated>
+    </task>
+    <task id="LOCAL-00011" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708796354441</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1708796354441</updated>
+    </task>
+    <task id="LOCAL-00012" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708796397646</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1708796397646</updated>
+    </task>
+    <task id="LOCAL-00013" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708798562411</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1708798562411</updated>
+    </task>
+    <task id="LOCAL-00014" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708798642595</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1708798642595</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708799097181</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1708799097181</updated>
+    </task>
+    <task id="LOCAL-00016" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708800007715</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1708800007715</updated>
+    </task>
+    <task id="LOCAL-00017" summary="updates!">
+      <option name="closed" value="true" />
+      <created>1708800062268</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1708800062268</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactor function to improve performance" />
