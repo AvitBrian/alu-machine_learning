@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import numpy as np
 """
-    this functions Calculates the mean and covariance 
-    of a 2D numpy array.
+    this functions Calculates the mean and covariance
+    of a 2D numpy array. by using numpy library.
 """
 
 
