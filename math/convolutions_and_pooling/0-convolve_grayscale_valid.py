@@ -1,34 +1,35 @@
 import numpy as np
-
-#!/usr/bin/env python3
 """
-This function performs convolutions on grayscale images using the "valid" padding strategy.
+    this functions Calculates the mean and covariance 
+    of a 2D numpy array.
+    
 """
 
 
-
-def convolve_grayscale_valid(images, kernel):
+def mean_cov(X):
     """
-    Performs convolutions on grayscale images using the "valid" padding strategy.
+    Calculate the mean and covariance of a 2D numpy array.
 
-    Args:
-        images (numpy.ndarray): Input grayscale images with shape (m, h, w).
-        kernel (numpy.ndarray): Convolution kernel with shape (kh, kw).
+    Parameters:
+    X (numpy.ndarray): Input array of shape (n_samples, n_features).
 
     Returns:
-        numpy.ndarray: Convolved images with shape (m, output_h, output_w), where
-                       output_h = h - kh + 1 and output_w = w - kw + 1.
+    tuple: A tuple containing the mean and covariance of the input array.
+           - mean (numpy.ndarray): Mean of the input array, of shape (1, n_features).
+           - cov (numpy.ndarray): Covariance matrix of the input array, of shape (n_features, n_features).
+
+    Raises:
+    TypeError: If X is not a 2D numpy array.
+    ValueError: If X contains less than 2 data points.
     """
-    m, h, w = images.shape
-    kh, kw = kernel.shape
-    output_h = h - kh + 1 
-    output_w = w - kw + 1 
 
-    convolved_images = np.zeros((m, output_h, output_w)) 
+    if not isinstance(X, np.ndarray) or X.ndim != 2:
+        raise TypeError("X must be a 2D numpy.ndarray")
+    if X.shape[0] < 2:
+        raise ValueError("X must contain multiple data points")
 
-    for i in range(output_h):
-        for j in range(output_w):
-            convolved_images[:, i, j] = np.sum(images[:, i:i + kh, j:j + kw] * kernel, axis=(1, 2))
+    mean = np.mean(X, axis=0, keepdims=True)
+    centered_data = X - mean
+    cov = np.dot(centered_data.T, centered_data) / (X.shape[0] - 1)
 
-    return convolved_images
-
+    return mean, cov
