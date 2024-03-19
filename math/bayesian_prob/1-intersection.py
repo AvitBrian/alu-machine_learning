@@ -37,8 +37,18 @@ def intersection(x, n, P, Pr):
     if not np.isclose(np.sum(Pr), 1):
         raise ValueError("Pr must sum to 1")
 
-    likelihoods = likelihood(x, n, P)
+    for value in range(P.shape[0]):
+        if P[value] > 1 or P[value] < 0:
+            raise ValueError("All values in P must be in the range [0, 1]")
+        if Pr[value] > 1 or Pr[value] < 0:
+            raise ValueError("All values in Pr must be in the range [0, 1]")
+    if np.isclose([np.sum(Pr)], [1]) == [False]:
+        raise ValueError("Pr must sum to 1")
 
-    intersection = likelihoods * Pr
+    factorial = np.math.factorial
+    fact_coefficient = factorial(n) / (factorial(n - x) * factorial(x))
+    likelihood = fact_coefficient * (P ** x) * ((1 - P) ** (n - x))
+
+    intersection = likelihood * Pr
 
     return intersection
