@@ -33,29 +33,25 @@ class MultiNormal:
         centered_data = data - self.mean
         self.cov = np.dot(centered_data, centered_data.T) / (data.shape[1] - 1)
 
-    def pdf(self, x):
+def pdf(self, x):
         """
-        Calculates the probability density function (PDF)
-        at a given data point.
+        Calculates the probability density function (PDF) at a given data point.
 
         Parameters:
-            x (numpy.ndarray):
-            Data point of shape (d, 1) whose PDF should be calculated,
-            where d is the number of dimensions of the Multinomial instance.
+            x (numpy.ndarray): Data point of shape (d, 1) whose PDF should be calculated,
+                            where d is the number of dimensions of the Multinomial instance.
 
         Returns:
             float: The value of the PDF at the given data point.
 
         Raises:
             TypeError: If x is not a numpy.ndarray.
-            ValueError: If x is not of shape (d, 1),
-            where d is the number of dimensions.
+            ValueError: If x is not of shape (d, 1), where d is the number of dimensions.
         """
         if not isinstance(x, np.ndarray):
             raise TypeError("x must be a numpy.ndarray")
         if x.shape != (self.mean.shape[0], 1):
-            raise ValueError("x must have the shape ({}, 1)".format(
-                self.mean.shape[0]))
+            raise ValueError("x must have the shape ({}, 1)".format(self.mean.shape[0]))
 
         d = self.mean.shape[0]
         det_cov = np.linalg.det(self.cov)
@@ -65,4 +61,4 @@ class MultiNormal:
         coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
         pdf_value = coef * np.exp(exponent)
 
-        return round(pdf_value.item(), 20)
+        return pdf_value.item()
