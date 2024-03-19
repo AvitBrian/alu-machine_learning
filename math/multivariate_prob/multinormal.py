@@ -1,56 +1,62 @@
 #!/usr/bin/env python3
-
+"""
+Represents a Multivariate Normal distribution.
+"""
 import numpy as np
 
-
 class MultiNormal:
-  """
-  Represents a Multivariate Normal distribution.
-  """
-
-  def __init__(self, data):
     """
-    Initializes the MultiNormal class.
-
-    Args:
-        data: A 2D numpy.ndarray of shape (d, n) containing the data set.
+    Represents a Multivariate Normal distribution.
     """
 
-    if not isinstance(data, np.ndarray) or data.ndim != 2:
-      raise TypeError("data must be a 2D numpy.ndarray")
+    def __init__(self, data):
+        """
+        Initializes a MultiNormal instance.
 
-    if data.shape[1] < 2:
-      raise ValueError("data must contain multiple data points")
+        Parameters:
+            data (numpy.ndarray): Input array of shape (d, n) containing the data set,
+                                  where n is the number of data points and d is the number
+                                  of dimensions in each data point.
 
-    self.mean = np.mean(data, axis=1, keepdims=True)
-    centered_data = data - self.mean
-    self.cov = np.dot(centered_data, centered_data.T) / (data.shape[1] - 1)
+        Raises:
+            TypeError: If data is not a 2D numpy.ndarray.
+            ValueError: If data contains less than 2 data points.
+        """
+        if not isinstance(data, np.ndarray) or data.ndim != 2:
+            raise TypeError("data must be a 2D numpy.ndarray")
+        if data.shape[1] < 2:
+            raise ValueError("data must contain multiple data points")
 
-  def pdf(self, x):
-    """
-    Calculates the probability density function (PDF) at a data point.
+        self.mean = np.mean(data, axis=1, keepdims=True)
+        centered_data = data - self.mean
+        self.cov = np.dot(centered_data, centered_data.T) / (data.shape[1] - 1)
 
-    Args:
-        x: A numpy.ndarray of shape (d, 1) containing the data point.
+    def pdf(self, x):
+        """
+        Calculates the probability density function (PDF) at a given data point.
 
-    Returns:
-        The value of the PDF at the data point.
+        Parameters:
+            x (numpy.ndarray): Data point of shape (d, 1) whose PDF should be calculated,
+                               where d is the number of dimensions of the Multinomial instance.
 
-    Raises:
-        TypeError: If x is not a numpy.ndarray.
-        ValueError: If x is not of shape (d, 1).
-    """
+        Returns:
+            float: The value of the PDF at the given data point.
 
-    if not isinstance(x, np.ndarray):
-      raise TypeError("x must be a numpy.ndarray")
+        Raises:
+            TypeError: If x is not a numpy.ndarray.
+            ValueError: If x is not of shape (d, 1), where d is the number of dimensions.
+        """
+        if not isinstance(x, np.ndarray):
+            raise TypeError("x must be a numpy.ndarray")
+        if x.shape != (self.mean.shape[0], 1):
+            raise ValueError(f"x must have the shape ({self.mean.shape[0]}, 1)")
 
-    if x.shape != (self.cov.shape[0], 1):
-      raise ValueError(f"x must have the shape ({self.cov.shape[0]}, 1)")
+        d = self.mean.shape[0]
+        det_cov = np.linalg.det(self.cov)
+        inv_cov = np.linalg.inv(self.cov)
+        diff = x - self.mean
+        exponent = -0.5 * np.dot(diff.T, np.dot(inv_cov, diff))
+        coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
+        pdf_value = coef * np.exp(exponent)
 
-    centered_x = x - self.mean
-    quadratic_term = np.dot(centered_x.T, np.dot(self.cov, centered_x))
-
-    d = self.cov.shape[0]
-    constant_term = (2 * np.pi) ** (-d / 2) * np.linalg.det(self.cov) ** (1 / 2)
-
-    return constant_term * np.exp(-0.5 * quadratic_term)
+        return pdf_value
