@@ -33,7 +33,7 @@ class MultiNormal:
         centered_data = data - self.mean
         self.cov = np.dot(centered_data, centered_data.T) / (data.shape[1] - 1)
 
-def pdf(self, x):
+    def pdf(self, x):
         """
         Calculates the probability density function (PDF) at a given data point.
 
