@@ -2,6 +2,7 @@
 """
 Calculates the marginal probability of obtaining the data.
 """
+import numpy as np
 
 
 def marginal(x, n, P, Pr):
