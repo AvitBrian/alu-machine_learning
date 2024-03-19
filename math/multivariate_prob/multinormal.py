@@ -57,11 +57,10 @@ class MultiNormal:
                 self.mean.shape[0]))
 
         d = self.mean.shape[0]
-        det_cov = np.linalg.det(self.cov)
-        inv_cov = np.linalg.inv(self.cov)
-        diff = x - self.mean
-        exponent = -0.5 * np.dot(diff.T, np.dot(inv_cov, diff))
-        coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
-        pdf_value = coef * np.exp(exponent)
-
-        return  "{:.16f}".format(pdf_value.item())
+        det = np.linalg.det(self.cov)
+        inv = np.linalg.inv(self.cov)
+        pdf = 1.0 / np.sqrt(((2 * np.pi) ** d) * det)
+        mult = np.matmul(np.matmul((x - self.mean).T, inv), (x - self.mean))
+        pdf *= np.exp(-0.5 * mult)
+        pdf_value = pdf[0][0]
+        return pdf_value
