@@ -3,6 +3,7 @@
 this function Calculates the intersection of obtaining this data
 with the various hypothetical probabilities.
 """
+import numpy as np
 
 
 def intersection(x, n, P, Pr):
