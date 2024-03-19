@@ -4,6 +4,7 @@ Represents a Multivariate Normal distribution.
 """
 import numpy as np
 
+
 class MultiNormal:
     """
     Represents a Multivariate Normal distribution.
@@ -14,7 +15,7 @@ class MultiNormal:
         Initializes a MultiNormal instance.
 
         Parameters:
-            data (numpy.ndarray): 
+            data (numpy.ndarray):
             Input array of shape (d, n) containing the data set,
             where n is the number of data points and d is the number
             of dimensions in each data point.
@@ -34,10 +35,11 @@ class MultiNormal:
 
     def pdf(self, x):
         """
-        Calculates the probability density function (PDF) at a given data point.
+        Calculates the probability density function (PDF)
+        at a given data point.
 
         Parameters:
-            x (numpy.ndarray): 
+            x (numpy.ndarray):
             Data point of shape (d, 1) whose PDF should be calculated,
             where d is the number of dimensions of the Multinomial instance.
 
@@ -52,8 +54,8 @@ class MultiNormal:
         if not isinstance(x, np.ndarray):
             raise TypeError("x must be a numpy.ndarray")
         if x.shape != (self.mean.shape[0], 1):
-           raise ValueError("x must have the shape ({}, 1)"
-                            .format(self.mean.shape[0]))
+           raise ValueError("x must have the shape ({}, 1)".format(
+                self.mean.shape[0]))
 
         d = self.mean.shape[0]
         det_cov = np.linalg.det(self.cov)
@@ -63,4 +65,4 @@ class MultiNormal:
         coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
         pdf_value = coef * np.exp(exponent)
 
-        return pdf_value.item()
+        return round(pdf_value.item(), 16) 
