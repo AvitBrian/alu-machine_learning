@@ -41,7 +41,6 @@ def intersection(x, n, P, Pr):
     for value in range(P.shape[0]):
         if P[value] > 1 or P[value] < 0:
             raise ValueError("All values in P must be in the range [0, 1]")
-    for value in range(Pr.shape[0]):
         if Pr[value] > 1 or Pr[value] < 0:
             raise ValueError("All values in Pr must be in the range [0, 1]")
     if np.isclose([np.sum(Pr)], [1]) == [False]:
