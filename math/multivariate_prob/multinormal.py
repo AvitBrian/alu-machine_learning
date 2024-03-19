@@ -54,7 +54,7 @@ class MultiNormal:
         if not isinstance(x, np.ndarray):
             raise TypeError("x must be a numpy.ndarray")
         if x.shape != (self.mean.shape[0], 1):
-           raise ValueError("x must have the shape ({}, 1)".format(
+            raise ValueError("x must have the shape ({}, 1)".format(
                 self.mean.shape[0]))
 
         d = self.mean.shape[0]
@@ -65,4 +65,4 @@ class MultiNormal:
         coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
         pdf_value = coef * np.exp(exponent)
 
-        return round(pdf_value.item(), 16) 
+        return round(pdf_value.item()) 
