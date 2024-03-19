@@ -3,7 +3,6 @@ import numpy as np
 """
     this functions Calculates the mean and covariance 
     of a 2D numpy array.
-    
 """
 
 
@@ -16,8 +15,10 @@ def mean_cov(X):
 
     Returns:
     tuple: A tuple containing the mean and covariance of the input array.
-           - mean (numpy.ndarray): Mean of the input array, of shape (1, n_features).
-           - cov (numpy.ndarray): Covariance matrix of the input array, of shape (n_features, n_features).
+           - mean (numpy.ndarray): Mean of the input array,
+           of shape (1, n_features).
+           - cov (numpy.ndarray): Covariance matrix of the input array,
+           of shape (n_features, n_features).
 
     Raises:
     TypeError: If X is not a 2D numpy array.
