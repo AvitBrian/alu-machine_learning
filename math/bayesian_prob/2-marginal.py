@@ -11,7 +11,8 @@ def marginal(x, n, P, Pr):
     Parameters:
         x (int): Number of patients that develop severe side effects.
         n (int): Total number of patients observed.
-        P (numpy.ndarray): 1D array containing the various hypothetical probabilities of patients developing severe side effects.
+        P (numpy.ndarray): 1D array containing the various hypothetical probabilities
+        of patients developing severe side effects.
         Pr (numpy.ndarray): 1D array containing the prior beliefs about P.
 
     Returns:
