@@ -4,6 +4,7 @@
     for the various hypothetical probabilities of developing
     severe side effects given the data.
 """
+import numpy as np
 
 
 def posterior(x, n, P, Pr):
