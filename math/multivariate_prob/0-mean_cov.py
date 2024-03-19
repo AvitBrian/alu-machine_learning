@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import numpy as np
 """
 Calculate the mean and covariance of a 2D numpy array.
 
@@ -17,6 +16,7 @@ Calculate the mean and covariance of a 2D numpy array.
         TypeError: If X is not a 2D numpy array.
         ValueError: If X contains less than 2 data points.
 """
+import numpy as np
 
 
 def mean_cov(X):
