@@ -5,6 +5,7 @@
 """
 import numpy as np
 
+
 def correlation(C):
     """
     Calculates a correlation matrix from a covariance matrix.
@@ -27,5 +28,4 @@ def correlation(C):
 
     diagonal = np.sqrt(np.diag(C))
     correlation_matrix = C / np.outer(diagonal, diagonal)
-    
     return correlation_matrix
