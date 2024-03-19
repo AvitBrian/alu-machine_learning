@@ -17,7 +17,7 @@ def marginal(x, n, P, Pr):
     Returns:
         float: The marginal probability of obtaining x and n.
     """
-    intersect = intersection(x, n, P, Pr)
-    marginal = np.sum(intersect)
+    intersection = intersection(x, n, P, Pr)
+    marginal_prob = np.sum(intersect)
 
-    return marginal
+    return marginal_prob
