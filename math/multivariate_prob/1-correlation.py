@@ -25,9 +25,7 @@ def correlation(C):
     if C.ndim != 2 or C.shape[0] != C.shape[1]:
         raise ValueError("C must be a 2D square matrix")
 
-    diagonal = np.diag(np.ones(C.shape[0]))
-    std_dev = np.sqrt(np.add(C, diagonal))
-    correlation_matrix = C / std_dev[:, np.newaxis] / std_dev[np.newaxis, :]
-    correlation_matrix[np.isnan(correlation_matrix)] = 0
-
+    diagonal = np.sqrt(np.diag(C))
+    correlation_matrix = C / np.outer(diagonal, diagonal)
+    
     return correlation_matrix
