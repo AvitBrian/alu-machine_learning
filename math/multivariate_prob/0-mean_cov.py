@@ -1,31 +1,35 @@
-#!/usr/bin/env python3
 import numpy as np
+"""
+    this functions Calculates the mean and covariance 
+    of a 2D numpy array.
+    
+"""
+
 
 def mean_cov(X):
-  """
-  Calculates the mean and covariance of a data set.
+    """
+    Calculate the mean and covariance of a 2D numpy array.
 
-  Args:
-      X: A 2D numpy.ndarray of shape (n, d) containing the data set.
+    Parameters:
+    X (numpy.ndarray): Input array of shape (n_samples, n_features).
 
-  Returns:
-      A tuple containing two numpy.ndarrays:
-          mean: A 1D array of shape (1, d) containing the mean of the data set.
-          cov: A 2D array of shape (d, d) containing the covariance matrix.
+    Returns:
+    tuple: A tuple containing the mean and covariance of the input array.
+           - mean (numpy.ndarray): Mean of the input array, of shape (1, n_features).
+           - cov (numpy.ndarray): Covariance matrix of the input array, of shape (n_features, n_features).
 
-  Raises:
-      TypeError: If X is not a 2D numpy.ndarray.
-      ValueError: If X contains less than 2 data points.
-  """
+    Raises:
+    TypeError: If X is not a 2D numpy array.
+    ValueError: If X contains less than 2 data points.
+    """
 
-  if not isinstance(X, np.ndarray) or X.ndim != 2:
-    raise TypeError("X must be a 2D numpy.ndarray")
+    if not isinstance(X, np.ndarray) or X.ndim != 2:
+        raise TypeError("X must be a 2D numpy.ndarray")
+    if X.shape[0] < 2:
+        raise ValueError("X must contain multiple data points")
 
-  if X.shape[0] < 2:
-    raise ValueError("X must contain multiple data points")
+    mean = np.mean(X, axis=0, keepdims=True)
+    centered_data = X - mean
+    cov = np.dot(centered_data.T, centered_data) / (X.shape[0] - 1)
 
-  mean = np.mean(X, axis=0)
-  centered_X = X - mean
-  cov = np.dot(centered_X.T, centered_X) / (X.shape[0] - 1)
-
-  return mean, cov
+    return mean, cov

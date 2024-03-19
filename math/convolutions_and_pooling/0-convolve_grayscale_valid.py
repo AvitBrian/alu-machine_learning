@@ -1,35 +1,35 @@
 import numpy as np
+
+#!/usr/bin/env python3
 """
-    this functions Calculates the mean and covariance 
-    of a 2D numpy array.
-    
+This function performs convolutions on grayscale images using the "valid" padding strategy.
 """
 
 
-def mean_cov(X):
+
+def convolve_grayscale_valid(images, kernel):
     """
-    Calculate the mean and covariance of a 2D numpy array.
+    Performs convolutions on grayscale images using the "valid" padding strategy.
 
-    Parameters:
-    X (numpy.ndarray): Input array of shape (n_samples, n_features).
+    Args:
+        images (numpy.ndarray): Input grayscale images with shape (m, h, w).
+        kernel (numpy.ndarray): Convolution kernel with shape (kh, kw).
 
     Returns:
-    tuple: A tuple containing the mean and covariance of the input array.
-           - mean (numpy.ndarray): Mean of the input array, of shape (1, n_features).
-           - cov (numpy.ndarray): Covariance matrix of the input array, of shape (n_features, n_features).
-
-    Raises:
-    TypeError: If X is not a 2D numpy array.
-    ValueError: If X contains less than 2 data points.
+        numpy.ndarray: Convolved images with shape (m, output_h, output_w), where
+                       output_h = h - kh + 1 and output_w = w - kw + 1.
     """
+    m, h, w = images.shape
+    kh, kw = kernel.shape
+    output_h = h - kh + 1  # Valid padding: output height = input height - kernel height + 1
+    output_w = w - kw + 1  # Valid padding: output width = input width - kernel width + 1
 
-    if not isinstance(X, np.ndarray) or X.ndim != 2:
-        raise TypeError("X must be a 2D numpy.ndarray")
-    if X.shape[0] < 2:
-        raise ValueError("X must contain multiple data points")
+    convolved_images = np.zeros((m, output_h, output_w))  # Pre-allocate output with correct shape
 
-    mean = np.mean(X, axis=0, keepdims=True)
-    centered_data = X - mean
-    cov = np.dot(centered_data.T, centered_data) / (X.shape[0] - 1)
+    for i in range(output_h):
+        for j in range(output_w):
+            # Element-wise multiplication and summation within the valid region
+            convolved_images[:, i, j] = np.sum(images[:, i:i + kh, j:j + kw] * kernel, axis=(1, 2))
 
-    return mean, cov
+    return convolved_images
+
