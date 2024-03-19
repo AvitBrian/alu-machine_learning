@@ -33,17 +33,11 @@ def intersection(x, n, P, Pr):
         raise TypeError("P must be a 1D numpy.ndarray")
     if not isinstance(Pr, np.ndarray) or Pr.ndim != 1 or Pr.shape != P.shape:
         raise TypeError("Pr must be a numpy.ndarray with the same shape as P")
-    if not all(0 <= p <= 1 for p in P) or not all(0 <= pr <= 1 for pr in Pr):
+    if not all(0 <= p <= 1 for p in P):
         raise ValueError("All values in P must be in the range [0, 1]")
+    if not all(0 <= pr <= 1 for pr in Pr):
+        raise ValueError("All values in Pr must be in the range [0, 1]")
     if not np.isclose(np.sum(Pr), 1):
-        raise ValueError("Pr must sum to 1")
-
-    for value in range(P.shape[0]):
-        if P[value] > 1 or P[value] < 0:
-            raise ValueError("All values in P must be in the range [0, 1]")
-        if Pr[value] > 1 or Pr[value] < 0:
-            raise ValueError("All values in Pr must be in the range [0, 1]")
-    if np.isclose([np.sum(Pr)], [1]) == [False]:
         raise ValueError("Pr must sum to 1")
 
     factorial = np.math.factorial
