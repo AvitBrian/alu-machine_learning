@@ -12,19 +12,23 @@ def likelihood(x, n, P):
     hypothetical probabilities.
 
     Parameters:
-        x (int): Number of patients that develop severe side effects.
+        x (int): Number of patients that develop severe side
+        effects.
         n (int): Total number of patients observed.
-        P (numpy.ndarray): 1D array containing the various hypothetical probabilities
+        P (numpy.ndarray): 1D array containing the various
+        hypothetical probabilities
         of developing severe side effects.
 
     Returns:
-        numpy.ndarray: Likelihood of obtaining the data for each probability in P.
+        numpy.ndarray: Likelihood of obtaining
+        the data for each probability in P.
     """
 
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
     if not isinstance(x, int) or x < 0:
-        raise ValueError("x must be an integer that is greater than or equal to 0")
+        raise ValueError("x must be an integer that is greater\
+than or equal to 0")
     if x > n:
         raise ValueError("x cannot be greater than n")
     if not isinstance(P, np.ndarray) or P.ndim != 1:
@@ -34,4 +38,5 @@ def likelihood(x, n, P):
     factorial = np.math.factorial
     fact_coefficient = factorial(n) / (factorial(n - x) * factorial(x))
     likelihood = fact_coefficient * (P ** x) * ((1 - P) ** (n - x))
+
     return likelihood
