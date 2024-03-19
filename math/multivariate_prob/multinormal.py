@@ -63,4 +63,4 @@ class MultiNormal:
         coef = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det_cov))
         pdf_value = coef * np.exp(exponent)
 
-        return pdf_value
+        return pdf_value.item()
