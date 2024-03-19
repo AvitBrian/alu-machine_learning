@@ -14,9 +14,10 @@ class MultiNormal:
         Initializes a MultiNormal instance.
 
         Parameters:
-            data (numpy.ndarray): Input array of shape (d, n) containing the data set,
-                                  where n is the number of data points and d is the number
-                                  of dimensions in each data point.
+            data (numpy.ndarray): 
+            Input array of shape (d, n) containing the data set,
+            where n is the number of data points and d is the number
+            of dimensions in each data point.
 
         Raises:
             TypeError: If data is not a 2D numpy.ndarray.
@@ -36,20 +37,23 @@ class MultiNormal:
         Calculates the probability density function (PDF) at a given data point.
 
         Parameters:
-            x (numpy.ndarray): Data point of shape (d, 1) whose PDF should be calculated,
-                               where d is the number of dimensions of the Multinomial instance.
+            x (numpy.ndarray): 
+            Data point of shape (d, 1) whose PDF should be calculated,
+            where d is the number of dimensions of the Multinomial instance.
 
         Returns:
             float: The value of the PDF at the given data point.
 
         Raises:
             TypeError: If x is not a numpy.ndarray.
-            ValueError: If x is not of shape (d, 1), where d is the number of dimensions.
+            ValueError: If x is not of shape (d, 1),
+            where d is the number of dimensions.
         """
         if not isinstance(x, np.ndarray):
             raise TypeError("x must be a numpy.ndarray")
         if x.shape != (self.mean.shape[0], 1):
-            raise ValueError(f"x must have the shape ({self.mean.shape[0]}, 1)")
+           raise ValueError("x must have the shape ({}, 1)"
+                            .format(self.mean.shape[0]))
 
         d = self.mean.shape[0]
         det_cov = np.linalg.det(self.cov)
