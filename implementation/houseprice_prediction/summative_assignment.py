@@ -460,28 +460,39 @@ print(f"Predictions of sales using Gradient Descent:\n{Y_pred_gd}")
 # Commented out IPython magic to ensure Python compatibility.
 #What imports do we need for Fast api
 # %pip install fastapi pydantic uvicorn
-from fastapi import FastAPI, Request, Response
+from fastapi import  FastAPI, Depends, HTTPException, status, Path
 from pydantic import BaseModel
 import uvicorn
+import requests
 
 app = FastAPI()
-
+model = lr_sklearn
 class TVSalesPrediction(BaseModel):
   predicted_sales:float
 
-def predict_tv_sales(Model, tv):
+def predict_tv_sales( tv, Model = model):
   X_pred = np.array([tv]).reshape(-1, 1)
   Y_pred_sklearn = Model.predict(X_pred)
   return Y_pred_sklearn[0]
 
-@app.post("/predict/", response_model=TVSalesPrediction)
-def predict_fast_api(Model, tv):
-  #Make a call to our best model
-  tv_sales = predict_tv_sales(Model, tv)
-  return tv_sales
+@app.post('/predict', status_code=status.HTTP_200_OK)
+async def make_prediction(prediction: TVSalesPrediction):
+  try:
+    tv_sales = predict_tv_sales(prediction.predicted_sales, model)
+    return {"predicted_sales": tv_sales[0]}
+  except:
 
-uvicorn.run(app, host="host", port = port)
+    raise HTTPException(status_code=500, detail="ouch!")
 
+
+uvicorn.run(app, host="127.0.0.1", port = 8080)
+
+
+# if __name__ == "__main__":
+#     config = uvicorn.Config(app)
+#     server = uvicorn.Server(config)
+#     await server.serve()
+    
 """You should have gotten similar results as in the previous sections.
 
 Well done! Now you know how gradient descent algorithm can be applied to train a real model. Re-producing results manually for a simple case should give you extra confidence that you understand what happends under the hood of commonly used functions.
