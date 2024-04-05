@@ -1,8 +1,10 @@
 from fastapi import FastAPI, HTTPException, status
+from dotenv import load_dotenv
 from pydantic import BaseModel
 import uvicorn
 import pickle as pk
 import numpy as np
+import os
 
 app = FastAPI()
 
@@ -26,7 +28,11 @@ async def make_prediction(prediction: TVSalesPrediction):
         raise HTTPException(status_code=500, detail="ouch! something went wrong :(")
 
 async def run_server():
-    config = uvicorn.Config(app)
+    load_dotenv()  
+    port = int(os.getenv("PORT", 8080)) 
+    host = str(os.getenv("HOST", "127.0.0.1"))
+    
+    config = uvicorn.Config(app, host="127.0.0.1", port=port)
     server = uvicorn.Server(config)
     await server.serve()
 
