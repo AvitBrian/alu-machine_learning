@@ -488,12 +488,13 @@ async def make_prediction(prediction: TVSalesPrediction):
 uvicorn.run(app, host="127.0.0.1", port = 8080)
 
 
-# if __name__ == "__main__":
-#     config = uvicorn.Config(app)
-#     server = uvicorn.Server(config)
-#     await server.serve()
+if __name__ == "__main__":
+    config = uvicorn.Config(app)
+    server = uvicorn.Server(config)
+    await server.serve()
     
-"""You should have gotten similar results as in the previous sections.
+"""You should have go
+tten similar results as in the previous sections.
 
 Well done! Now you know how gradient descent algorithm can be applied to train a real model. Re-producing results manually for a simple case should give you extra confidence that you understand what happends under the hood of commonly used functions.
 """
