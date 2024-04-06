@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please enter TV Marketing Sales value"),
         backgroundColor: Colors.red,
       ));
@@ -85,8 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Predictoratum",
+        title: const Text(
+          "Predictarium",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -94,55 +94,143 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/faq.png"),
-                        fit: BoxFit.contain,
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                  image: AssetImage("assets/faq.png"),
+                                  fit: BoxFit.contain,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(20),
+                            ),
+                            if (prediction != null)
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                child: BackdropFilter(
+                                  filter:
+                                      ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            "\$ $prediction",
+                                            style: TextStyle(
+                                              fontSize: 56,
+                                              fontWeight: FontWeight.bold,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = .3
+                                                ..color = Colors
+                                                    .black, // Outline color
+                                              shadows: const [
+                                                Shadow(
+                                                  blurRadius: 1,
+                                                  offset: Offset(
+                                                      .5, .5), // Shadow offset
+                                                  color: Colors.blue,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: EdgeInsets.all(20),
-                  ),
-                  if (prediction != null)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: EdgeInsets.all(20),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      const SizedBox(height: 20),
+                      Expanded(
+                        flex: 1,
                         child: Container(
-                          color: Colors.transparent,
+                          
+                          decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.all(20),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Center(
+                              const Text(
+                                """\"TV marketing expenses greatly affect sales by boosting brand visibility,engaging consumers, and driving purchases. Strategic allocation of marketing funds to TV campaigns expands audience reach,enhances brand recognition, and ultimately drives sales growth.\"""",
+                                style: TextStyle(fontSize: 12),
+                                textAlign: TextAlign.justify,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                height: 60,
+                                width:
+                                    MediaQuery.of(context).size.width / 2.7,
+                                child: TextFormField(
+                                  controller: _textController,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    ThousandsFormatter(), // Custom formatter
+                                  ],
+                                  decoration: InputDecoration(
+                                    prefix: const Text("\$"),
+                                    hintText: "0.00",
+                                    filled: true,
+                                    fillColor: Color.fromARGB(13, 186, 185, 185).withOpacity(0.2),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      tvMarketingSales = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              ElevatedButton(
+                                onPressed: handlePredictButtonPress,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 20),
+                                ),
                                 child: Text(
-                                  "\$ $prediction",
+                                  "Predict Sales",
                                   style: TextStyle(
-                                    fontSize: 56,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    foreground: Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = .3
-                                      ..color = Colors.black, // Outline color
-                                    shadows: const [
-                                      Shadow(
-                                        blurRadius: 1,
-                                        offset: Offset(.5, .5), // Shadow offset
-                                        color: Colors.blue,
-                                      )
-                                    ],
+                                    color: Colors.white.withOpacity(0.7),
                                   ),
                                 ),
                               ),
@@ -150,84 +238,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: IntrinsicWidth(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text(
-                        """\"TV marketing expenses greatly affect sales by boosting brand visibility,engaging consumers, and driving purchases. Through compelling TV ads,businesses create narratives that resonate with viewers,influencing their buying decisions. Strategic allocation of marketing funds to TV campaigns expands audience reach,enhances brand recognition, and ultimately drives sales growth.\"""",
-                        style: TextStyle(fontSize: 12),
-                        textAlign: TextAlign.justify,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: TextFormField(
-                          controller: _textController,
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly,
-                            ThousandsFormatter(), // Custom formatter
-                          ],
-                          decoration: InputDecoration(
-                            prefix: Text("\$"),
-                            hintText: "",
-                            filled: true,
-                            fillColor: Colors.black12,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              tvMarketingSales = value;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      ElevatedButton(
-                        onPressed: handlePredictButtonPress,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 20),
-                        ),
-                        child: const Text(
-                          "Predict Sales",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
+              ))
+        ],
       ),
     );
   }
