@@ -73,40 +73,37 @@ class DeepNeuralNetwork:
         return self.__cache["A{}".format(self.__L)], self.__cache
 
     def cost(self, Y, A):
-        '''
-            Calculates the cost of the model
-        '''
+        ''' Cost calculation for softmax activation '''
         m = Y.shape[1]
-        cost = -np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A))) / m
+        cost = -1 / m * np.sum(Y * np.log(A))
         return cost
 
     def evaluate(self, X, Y):
-        '''
-            Evaluates the deep neural network
-        '''
-        A, _ = self.forward_prop(X)
-        cost = self.cost(Y, A)
-        A = np.where(A >= 0.5, 1, 0)
-        return A, cost
+        ''' Evaluation of the neural network '''
+        self.forward_prop(X)
+        cost = self.cost(Y, self.__A[-1])
+        prediction = np.argmax(self.__A[-1], axis=0)
+        return prediction, cost
+
+    def softmax(self, Z):
+        ''' Softmax activation function '''
+        expZ = np.exp(Z - np.max(Z))
+        return expZ / expZ.sum(axis=0, keepdims=True)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        '''
-            Calculates one pass of gradient descent on the deep neural network
-        '''
+        ''' Gradient descent method '''
         m = Y.shape[1]
-        A = cache["A{}".format(self.__L)]
-        dZ = A - Y
+        dZ = cache["A{}".format(self.__L)] - Y
         for i in reversed(range(self.__L)):
-            A = cache["A{}".format(i + 1)]
             A_prev = cache["A{}".format(i)]
             W = self.__weights["W{}".format(i + 1)]
-            b = self.__weights["b{}".format(i + 1)]
             dW = np.matmul(dZ, A_prev.T) / m
             db = np.sum(dZ, axis=1, keepdims=True) / m
-            dZ = np.matmul(W.T, dZ) * A_prev * (1 - A_prev)
+            if i > 0: 
+                A = cache["A{}".format(i)]
+                dZ = np.matmul(W.T, dZ) * A * (1 - A)
             self.__weights["W{}".format(i + 1)] -= alpha * dW
             self.__weights["b{}".format(i + 1)] -= alpha * db
-            self.__cache["A{}".format(i)] = A
         return self.__weights, self.__cache
 
     def train(
