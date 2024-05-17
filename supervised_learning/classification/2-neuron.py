@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env python3
 '''
     This class represents a single neuron performing
