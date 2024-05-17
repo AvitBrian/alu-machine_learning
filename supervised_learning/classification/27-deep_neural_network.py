@@ -58,13 +58,10 @@ class DeepNeuralNetwork:
         return self.__weights
 
     def forward_prop(self, X):
-        ''' Forward propagation method '''
+        ''' Forward propagation of the neural network '''
         self.__cache["A0"] = X
         for i in range(self.__L):
-            A_prev = self.__cache["A{}".format(i)]
-            W = self.__weights["W{}".format(i + 1)]
-            b = self.__weights["b{}".format(i + 1)]
-            Z = np.matmul(W, A_prev) + b
+            Z = np.matmul(self.__weights["W{}".format(i + 1)], self.__cache["A{}".format(i)]) + self.__weights["b{}".format(i + 1)]
             if i == self.__L - 1:
                 self.__cache["A{}".format(i + 1)] = self.softmax(Z)
             else:
@@ -72,9 +69,9 @@ class DeepNeuralNetwork:
         return self.__cache["A{}".format(self.__L)], self.__cache
 
     def cost(self, Y, A):
-        ''' Cost calculation using cross-entropy loss '''
+        ''' Cost calculation for softmax '''
         m = Y.shape[1]
-        cost = -1/m * np.sum(Y * np.log(A))
+        cost = -1 / m * np.sum(Y * np.log(A))
         return cost
 
     def evaluate(self, X, Y):
