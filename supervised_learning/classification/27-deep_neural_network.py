@@ -57,20 +57,21 @@ class DeepNeuralNetwork:
         ''' return the weights attribute'''
         return self.__weights
 
-    def forward_prop(self, X):
-        '''
-            Calculates the forward propagation of
-            the deep neural network
-        '''
-        self.__cache["A0"] = X
-        for i in range(self.__L):
-            W = self.__weights["W{}".format(i + 1)]
-            b = self.__weights["b{}".format(i + 1)]
-            A = self.__cache["A{}".format(i)]
-            Z = np.matmul(W, A) + b
-            self.__cache["A{}".format(i + 1)] = 1 / (1 + np.exp(-Z))
+def forward_prop(self, X):
+    '''
+        Calculates the forward propagation of
+        the deep neural network
+    '''
+    self.__cache["A0"] = X
+    for i in range(self.__L):
+        W = self.__weights["W{}".format(i + 1)]
+        b = self.__weights["b{}".format(i + 1)]
+        A = self.__cache["A{}".format(i)]
+        Z = np.matmul(W, A) + b
+        self.__cache["A{}".format(i + 1)] = 1 / (1 + np.exp(-Z))
 
-        return self.__cache["A{}".format(self.__L)], self.__cache
+    self.__A = self.__cache["A{}".format(self.__L)]
+    return self.__A, self.__cache
 
     def cost(self, Y, A):
         ''' Cost calculation for softmax activation '''
