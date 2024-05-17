@@ -11,7 +11,8 @@ class Neuron:
     Class that represents a single neuron performing binary classification.
 
     Attributes:
-        W (numpy.ndarray): The weights vector for the neuron. It has shape (1, nx).
+        W (numpy.ndarray): The weights vector for the neuron.
+        It has shape (1, nx).
         b (int): The bias for the neuron.
         A (int): The activated output of the neuron (prediction).
     '''
