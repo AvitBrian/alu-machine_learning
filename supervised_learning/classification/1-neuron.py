@@ -1,9 +1,8 @@
+#!/usr/bin/env python3
 '''
     This class represents a single neuron performing
     binary classification.
 '''
-
-#!/usr/bin/env python3
 import numpy as np
 
 
