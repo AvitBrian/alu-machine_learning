@@ -82,16 +82,18 @@ class DeepNeuralNetwork:
         return prediction, cost
 
     def softmax(self, Z):
-        ''' Softmax activation function '''
+        '''
+            Softmax activation function
+        '''
         expZ = np.exp(Z - np.max(Z))
         return expZ / expZ.sum(axis=0, keepdims=True)
 
     def relu(self, x):
-        ''' Relu activation function '''
+        '''Relu activation function'''
         return np.maximum(0, x)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        ''' Gradient descent method '''
+        '''Gradient descent method'''
         m = Y.shape[1]
         dZ = cache["A{}".format(self.__L)] - Y
         for i in reversed(range(self.__L)):
@@ -102,10 +104,6 @@ class DeepNeuralNetwork:
             if i > 0:
                 A = cache["A{}".format(i)]
                 dZ = np.matmul(W.T, dZ) * (1 - A)
-            self.__weights["W{}".format(i + 1)] -= alpha * dW
-            self.__weights["b{}".format(i + 1)] -= alpha * db
-        return self.__weights, self.__cache
-
     def train(
         self, X, Y, iterations=5000,
         alpha=0.05, verbose=True, graph=True, step=100
