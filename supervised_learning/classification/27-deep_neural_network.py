@@ -100,9 +100,9 @@ class DeepNeuralNetwork:
             W = self.__weights["W{}".format(i + 1)]
             dW = np.matmul(dZ, A_prev.T) / m
             db = np.sum(dZ, axis=1, keepdims=True) / m
-            if i > 0: 
+            if i > 0:
                 A = cache["A{}".format(i)]
-                dZ = np.matmul(W.T, dZ) * A * (1 - A)
+                dZ = np.matmul(W.T, dZ) * (1 - A)
             self.__weights["W{}".format(i + 1)] -= alpha * dW
             self.__weights["b{}".format(i + 1)] -= alpha * db
         return self.__weights, self.__cache
