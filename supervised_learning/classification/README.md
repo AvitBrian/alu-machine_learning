@@ -1,1 +1,1 @@
-# Deep Neuro Network/Classification
+# Deep Neuro Network: Classification
