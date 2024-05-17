@@ -89,6 +89,10 @@ class DeepNeuralNetwork:
         expZ = np.exp(Z - np.max(Z))
         return expZ / expZ.sum(axis=0, keepdims=True)
 
+    def relu(self, x):
+        ''' Relu activation function '''
+        return np.maximum(0, x)
+
     def gradient_descent(self, Y, cache, alpha=0.05):
         ''' Gradient descent method '''
         m = Y.shape[1]
