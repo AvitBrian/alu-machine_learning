@@ -167,18 +167,14 @@ class NeuralNetwork:
         iteration_list = []
 
         for i in range(iterations+1):
-            # Forward propagation
             A1, A2 = self.forward_prop(X)
 
-            # compute the cost
             cost = self.cost(Y, A2)
             costs.append(cost)
             iteration_list.append(i)
 
             if verbose and i % step == 0:
                 print("Cost after iteration {}: {}".format(i, cost))
-
-            # gradient descent for the
             self.gradient_descent(X, Y, A1, A2)
 
         # Evaluation after training
