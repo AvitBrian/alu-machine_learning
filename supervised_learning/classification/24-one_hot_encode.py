@@ -8,7 +8,7 @@ import numpy as np
 
 def one_hot_encode(Y, classes):
     """
-        function: one hot encode 
+        function: one hot encode
         Args: Y, classes
         Returns:
             one-hot encoding of Y with shape (classes, m)
