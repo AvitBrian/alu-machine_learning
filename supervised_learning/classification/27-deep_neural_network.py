@@ -13,35 +13,41 @@ class DeepNeuralNetwork:
         class: DeepNeuralNetwork
     """
 
-    def __init__(self, nx, layers):
-        ''' DeepNeuralNetwork class constructor'''
+    """
+        class: DeepNeuralNetwork
+    """
+    def __init__(self, nx, layers, activation='sig'):
+
+        if activation not in ['sig', 'tanh']:
+            raise ValueError("activation must be 'sig' or 'tanh'")
         if not isinstance(nx, int):
-            raise TypeError("nx must be an integer")
+            raise TypeError('nx must be an integer')
         if nx < 1:
-            raise ValueError("nx must be a positive integer")
-        if not isinstance(layers, list) or len(layers) == 0:
-            raise TypeError("layers must be a list of positive integers")
+            raise ValueError('nx must be a positive integer')
+
+        if not isinstance(layers, list):
+            raise TypeError('layers must be a list of positive integers')
+        if len(layers) < 1:
+            raise TypeError('layers must be a list of positive integers')
 
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
-        self.nx = nx
-        self.layers = layers
+        self.__activation = activation
 
-        # Initialize weights and biases and validate layers in one loop
         for i in range(self.__L):
             if not isinstance(layers[i], int) or layers[i] < 1:
-                raise TypeError("layers must be a list of positive integers")
-            if i == 0:
-                self.__weights["W1"] = (
-                    np.random.randn(layers[i], nx) * np.sqrt(2 / nx))
-            else:
-                self.__weights["W" + str(i + 1)] = np.random.randn(
-                    layers[i], layers[i - 1]
-                ) * np.sqrt(2 / layers[i - 1])
-            self.__weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
+                raise TypeError('layers must be a list of positive integers')
 
-    # create the getter functions of the deep network
+            if i == 0:
+                self.__weights['W' + str(i + 1)] = np.random.randn(
+                    layers[i], nx) * np.sqrt(2 / nx)
+            else:
+
+                self.__weights['W' + str(i + 1)] = np.random.randn(
+                    layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+            self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
+
     @property
     def L(self):
         ''' return the L attribute'''
