@@ -13,7 +13,6 @@ class Neuron:
     def __init__(self, nx):
         '''
             Constructor for Neuron class.
-
             Args:
                 nx (int): Number of input features.
 
@@ -33,7 +32,6 @@ class Neuron:
     def W(self):
         '''
             Getter for the weights.
-
             Returns:
                 numpy.ndarray: The weights of the neuron.
         '''
@@ -43,7 +41,6 @@ class Neuron:
     def b(self):
         '''
             Getter for the bias.
-
             Returns:
                 float: The bias of the neuron.
         '''
@@ -53,7 +50,6 @@ class Neuron:
     def A(self):
         '''
             Getter for the activated output.
-
             Returns:
                 float: The activated output of the neuron.
         '''
@@ -62,10 +58,8 @@ class Neuron:
     def forward_prop(self, X):
         '''
             Calculates the forward propagation of the neuron.
-
             Args:
                 X (numpy.ndarray): Input data.
-
             Returns:
                 float: The activated output of the neuron.
         '''
