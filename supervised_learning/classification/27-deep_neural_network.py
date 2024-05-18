@@ -104,6 +104,7 @@ class DeepNeuralNetwork:
             if i > 0:
                 A = cache["A{}".format(i)]
                 dZ = np.matmul(W.T, dZ) * (1 - A)
+
     def train(
         self, X, Y, iterations=5000,
         alpha=0.05, verbose=True, graph=True, step=100

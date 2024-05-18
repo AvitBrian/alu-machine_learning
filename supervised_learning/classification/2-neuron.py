@@ -5,6 +5,7 @@
 '''
 import numpy as np
 
+
 class Neuron:
     '''
         Class: Neuron
