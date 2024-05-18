@@ -58,115 +58,106 @@ class DeepNeuralNetwork:
         return self.__weights
 
     def forward_prop(self, X):
-        ''' Forward propagation of the neural network '''
-        self.__cache["A0"] = X
-        for i in range(self.__L):
-            Z = np.matmul(self.__weights["W{}".format(i + 1)], self.__cache["A{}".format(i)]) + self.__weights["b{}".format(i + 1)]
-            if i == self.__L - 1:
-                self.__cache["A{}".format(i + 1)] = self.softmax(Z)
+        """ Forward propagation"""
+        self.cache["A0"] = X
+        for i in range(1, self.L+1):
+            # extract values
+            W = self.weights['W'+str(i)]
+            b = self.weights['b'+str(i)]
+            A = self.cache['A'+str(i - 1)]
+            # do forward propagation
+            z = np.matmul(W, A) + b
+            if i != self.L:
+                A = 1 / (1 + np.exp(-z))  # sigmoid function
             else:
-                self.__cache["A{}".format(i + 1)] = self.relu(Z)
-        return self.__cache["A{}".format(self.__L)], self.__cache
+                A = np.exp(z) / np.sum(np.exp(z), axis=0)  # softmax function
+            # store output to the cache
+            self.cache["A"+str(i)] = A
+        return self.cache["A"+str(i)], self.cache
 
     def cost(self, Y, A):
-        ''' Cost calculation for softmax '''
-        m = Y.shape[1]
-        cost = -1 / m * np.sum(Y * np.log(A))
+        """ Calculate the cost of the Neural Network \
+        """
+        cost = -np.sum(Y * np.log(A)) / Y.shape[1]
         return cost
 
     def evaluate(self, X, Y):
-        ''' Evaluation of the neural network '''
-        A, _ = self.forward_prop(X)
+        """ Evaluate the neural network
+        """
+        self.forward_prop(X)
+        # get output of the neural network from the cache
+        A = self.cache.get("A" + str(self.L))
+        # get the class with the highest probability
+        prediction = np.eye(A.shape[0])[np.argmax(A, axis=0)].T
         cost = self.cost(Y, A)
-        prediction = np.argmax(A, axis=0)
         return prediction, cost
 
-    def softmax(self, Z):
-        '''
-            Softmax activation function
-        '''
-        expZ = np.exp(Z - np.max(Z))
-        return expZ / expZ.sum(axis=0, keepdims=True)
-
-    def relu(self, x):
-        '''Relu activation function'''
-        return np.maximum(0, x)
-
     def gradient_descent(self, Y, cache, alpha=0.05):
-        '''Gradient descent method'''
+        """ Calculate one pass of gradient descent on the neural network
+        """
         m = Y.shape[1]
-        dZ = cache["A{}".format(self.__L)] - Y
-        for i in reversed(range(self.__L)):
-            A_prev = cache["A{}".format(i)]
-            W = self.__weights["W{}".format(i + 1)]
-            dW = np.matmul(dZ, A_prev.T) / m
-            db = np.sum(dZ, axis=1, keepdims=True) / m
-            if i > 0:
-                A = cache["A{}".format(i)]
-                dZ = np.matmul(W.T, dZ) * (1 - A)
 
-    def train(
-        self, X, Y, iterations=5000,
-        alpha=0.05, verbose=True, graph=True, step=100
-    ):
-        '''
-            Trains the deep neural network
-        '''
-        if type(iterations) is not int:
+        for i in range(self.L, 0, -1):
+
+            A_prev = cache["A" + str(i - 1)]
+            A = cache["A" + str(i)]
+            W = self.__weights["W" + str(i)]
+
+            if i == self.__L:
+                dz = A - Y
+            else:
+                dz = da * (A * (1 - A))
+            db = dz.mean(axis=1, keepdims=True)
+            dw = np.matmul(dz, A_prev.T) / m
+            da = np.matmul(W.T, dz)
+            self.__weights['W' + str(i)] -= (alpha * dw)
+            self.__weights['b' + str(i)] -= (alpha * db)
+
+    def train(self, X, Y, iterations=5000,
+            alpha=0.05, verbose=True, graph=True, step=100):
+        """ Train the deep neural network
+        """
+
+        if not isinstance(iterations, int):
             raise TypeError('iterations must be an integer')
         if iterations < 1:
             raise ValueError('iterations must be a positive integer')
-        if type(alpha) is not float:
+        if not isinstance(alpha, float):
             raise TypeError('alpha must be a float')
         if alpha < 0:
             raise ValueError('alpha must be positive')
-        if graph or verbose:
-            if type(step) is not int:
-                raise TypeError('step must be an integer')
 
-            if step < 1 or step > iterations:
-                raise ValueError('step must be positive and <= iterations')
-        cost_list = []
-
+        costs = []
         for i in range(iterations):
-            # Forward propagation
-            A, cache = self.forward_prop(X)
-            cost = self.cost(Y, A)
-            cost_list.append(cost)
-
-            # Gradient descent
-            self.gradient_descent(Y, cache, alpha)
+            self.forward_prop(X)
+            self.gradient_descent(Y, self.cache, alpha)
             if verbose and i % step == 0:
-                print("Cost after {} iterations: {}".format(i, cost))
 
+                cost = self.cost(Y, self.cache["A"+str(self.L)])
+                costs.append(cost)
+                print('Cost after {} iterations: {}'.format(i, cost))
         if graph:
-            plt.plot(np.arange(0, iterations + 1, step), cost_list)
-            plt.title("Training Cost")
-            plt.xlabel("iteration")
-            plt.ylabel("cost")
+            plt.plot(np.arange(0, iterations, step), costs)
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title('Training Cost')
             plt.show()
         return self.evaluate(X, Y)
 
     def save(self, filename):
-        '''
-            Saves the instance object to a file
-        '''
-        if type(filename) is not str:
-            return
-        if filename[-4:] != ".pkl":
+        """ Save the instance object to a file in pickle format
+        """
+        if not filename.endswith(".pkl"):
             filename += ".pkl"
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
-            f.close()
 
     @staticmethod
     def load(filename):
-        '''
-            Loads the file with the model
-        '''
+        """ Load a pickled DeepNeuralNetwork object
+        """
         try:
             with open(filename, 'rb') as f:
-                obj = pickle.load(f)
-                return obj
+                return pickle.load(f)
         except FileNotFoundError:
             return None
