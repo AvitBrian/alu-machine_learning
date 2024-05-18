@@ -40,20 +40,20 @@ class DeepNeuralNetwork:
                 ) * np.sqrt(2 / layers[i - 1])
             self.weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
 
-            @property
-            def L(self):
-                """Getter method for the L attribute."""
-                return self.__L
+        @property
+        def L(self):
+            """Getter method for the L attribute."""
+            return self.__L
 
-            @property
-            def cache(self):
-                """Getter method for the cache attribute."""
-                return self.__cache
+        @property
+        def cache(self):
+            """Getter method for the cache attribute."""
+            return self.__cache
 
-            @property
-            def weights(self):
-                """Getter method for the weights attribute."""
-                return self.__weights
+        @property
+        def weights(self):
+            """Getter method for the weights attribute."""
+            return self.__weights
 
     def forward_prop(self, X):
         '''Calculates the forward propagation'''
