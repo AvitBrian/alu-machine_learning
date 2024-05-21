@@ -2,6 +2,7 @@
 """
     This module trains the neural network.
 """
+import os
 import tensorflow as tf
 create_placeholders = __import__('0-create_placeholders').create_placeholders
 forward_prop = __import__('2-forward_prop').forward_prop
@@ -36,4 +37,12 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes,
                 print("\tValidation Accuracy: {}".format(accuracy_valid))
             if i < iterations:
                 sess.run(train_op, feed_dict={x: X_train, y: Y_train})
-        return saver.save(sess, save_path)
+
+        save_dir = os.path.dirname(save_path)
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
+        save_path = saver.save(sess, save_path)
+        print("Model saved in path: %s" % save_path)
+        
+        return save_path
