@@ -4,7 +4,6 @@
     without importing any modules.
 """
 import tensorflow as tf
-create_layer = __import__('1-create_layer').create_layer
 
 
 def forward_prop(x, layer_sizes=[], activations=[]):
@@ -14,6 +13,8 @@ def forward_prop(x, layer_sizes=[], activations=[]):
     activations is a list containing the activation functions for each layer of the network
     Returns: the prediction of the network in tensor form
     """
+    create_layer = __import__('1-create_layer').create_layer
+
     for i in range(len(layer_sizes)):
         if i == 0:
             layer = x
