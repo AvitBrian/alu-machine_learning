@@ -28,12 +28,12 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes,
             accuracy_train = sess.run(accuracy, feed_dict={x: X_train, y: Y_train})
             loss_valid = sess.run(loss, feed_dict={x: X_valid, y: Y_valid})
             accuracy_valid = sess.run(accuracy, feed_dict={x: X_valid, y: Y_valid})
-            if i % 100 == 0 or i == iterations:
-                print(f"After {i} iterations:")
-                print(f"\tTraining Cost: {loss_train}")
-                print(f"\tTraining Accuracy: {accuracy_train}")
-                print(f"\tValidation Cost: {loss_valid}")
-                print(f"\tValidation Accuracy: {accuracy_valid}")
+            if i % 100 == 0 or i == iterations or i == 0:
+                print("After {} iterations:".format(i))
+                print("\tTraining Cost: {}".format(loss_train))
+                print("\tTraining Accuracy: {}".format(accuracy_train))
+                print("\tValidation Cost: {}".format(loss_valid))
+                print("\tValidation Accuracy: {}".format(accuracy_valid))
             if i < iterations:
                 sess.run(train_op, feed_dict={x: X_train, y: Y_train})
 
