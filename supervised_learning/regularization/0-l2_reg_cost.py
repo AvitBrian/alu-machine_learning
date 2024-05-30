@@ -2,6 +2,7 @@
 """
     This module performs l2 regularization.
 """
+import numpy as np
 
 
 def l2_reg_cost(cost, lambtha, weights, L, m):
