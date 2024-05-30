@@ -9,10 +9,11 @@ import tensorflow as tf
 create_layer = __import__('1-create_layer').create_layer
 
 
-def forward_prop(x, layer_sizes=[], activations=[]):
-    """creates the forward propagation"""
-    L = x
-    for i in range(len(layer_sizes)):
-        L = create_layer(L, layer_sizes[i],
-                         activations[i])
-    return L
+def forward_prop(x, layer_sizes, activations):
+    '''
+        calculates the forward propagation.
+    '''
+    op = x
+    for size, activation in zip(layer_sizes, activations):
+        op = create_layer(op, size, activation)
+    return op
