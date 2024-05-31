@@ -6,5 +6,6 @@ import tensorflow as tf
 
 def dropout_create_layer(prev, n, activation, keep_prob):
     """Creates a layer of a neural network using dropout."""
-    dropout = tf.layers.Dropout(rate=1 - keep_prob)
-    return dropout(activation(tf.layers.dense(prev, units=n)))
+    dense_layer = tf.layers.dense(prev, units=n, activation=activation)
+    dropout_layer = tf.layers.dropout(dense_layer, rate=1 - keep_prob)
+    return dropout_layer
