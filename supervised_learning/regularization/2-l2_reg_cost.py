@@ -6,6 +6,7 @@ import tensorflow as tf
 
 
 def l2_reg_cost(cost):
+    """ Calculates reg losses. """
     reg_losses = tf.get_collection(
         tf.GraphKeys.REGULARIZATION_LOSSES)
     return cost + sum(reg_losses)
