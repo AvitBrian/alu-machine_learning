@@ -3,6 +3,7 @@
     This module deals with Adam Optimization.
 """
 
+
 def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
     """Updates variables with Adam optimization algorithm"""
     v = beta1 * v + (1 - beta1) * grad
