@@ -20,8 +20,9 @@ def specificity(confusion):
         true_positives = confusion[i, i]
         false_positives = np.sum(confusion[:, i]) - true_positives
         false_negatives = np.sum(confusion[i, :]) - true_positives
+
         sensitivity = true_positives / (true_positives + false_negatives)
         precision[i] = true_positives / (true_positives + false_positives)
         specificity[i] = precision[i] * sensitivity / (precision[i] + sensitivity)
 
-    return np.stack([sensitivity, precision], axis=0)
+    return sensitivity, precision
