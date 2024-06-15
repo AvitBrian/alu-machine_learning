@@ -7,6 +7,6 @@ import numpy as np
 
 def normalize(X, m, s):
     """
-
+    Normalizes.
     """
     return (X - m) / s
