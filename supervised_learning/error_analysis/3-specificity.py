@@ -3,8 +3,6 @@
     This module calculates specificity
     for each class in a confusion matrix.
 """
-
-
 import numpy as np
 
 
@@ -23,6 +21,7 @@ def specificity(confusion):
 
         sensitivity = true_positives / (true_positives + false_negatives)
         precision[i] = true_positives / (true_positives + false_positives)
-        specificity[i] = precision[i] * sensitivity / (precision[i] + sensitivity)
+        specificity[i] = precision[i] * sensitivity \
+            / (precision[i] + sensitivity)
 
     return sensitivity, precision
