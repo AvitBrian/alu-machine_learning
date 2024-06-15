@@ -16,12 +16,11 @@ def specificity(confusion):
 
     for i in range(classes):
         true_positives = confusion[i, i]
+        true_negatives = np.sum(confusion) - np.sum(confusion[i, :]) \
+            - np.sum(confusion[:, i]) + true_positives
         false_positives = np.sum(confusion[:, i]) - true_positives
         false_negatives = np.sum(confusion[i, :]) - true_positives
 
-        sensitivity = true_positives / (true_positives + false_negatives)
-        precision[i] = true_positives / (true_positives + false_positives)
-        specificity[i] = precision[i] * sensitivity \
-            / (precision[i] + sensitivity)
+        specificity[i] = true_negatives / (true_negatives + false_positives)
 
-    return sensitivity, precision
+    return specificity
