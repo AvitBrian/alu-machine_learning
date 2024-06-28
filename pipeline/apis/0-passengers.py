@@ -28,5 +28,3 @@ def availableShips(passengerCount):
 
     url = data["next"]
     return ships
-
-print(availableShips(2))
