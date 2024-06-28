@@ -5,6 +5,7 @@
 """
 import requests
 
+
 def availableShips(passengerCount):
     """
     Returns the list of ships.
@@ -14,7 +15,7 @@ def availableShips(passengerCount):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        for each_ship in data["results"]:            
+        for each_ship in data["results"]:
             if (each_ship['passengers'] == 'n/a' or 
                 int(each_ship['passengers']) >= passengerCount):
                 ships.append(each_ship['name'])
