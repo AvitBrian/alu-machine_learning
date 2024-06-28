@@ -23,7 +23,7 @@ def availableShips(passengerCount):
                 passengers != "none",
                 passengers != "0",
             ]):
-                if int(passengers) <= passengerCount:
+                if int(passengers) >= passengerCount:
                     ships.append(each_ship['name'])
 
     url = data["next"]
