@@ -14,15 +14,10 @@ def availableShips(passengerCount):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        for each_ship in data["results"]:
-            passengers = each_ship['passengers'].strip()
-            try:
-                passengers = passengers.replace(',', '')
-                passengers = int(passengers)
-            except ValueError:
-                ships = []
-            
-            if passengers == passengerCount:
-                print(passengers)
+        for each_ship in data["results"]:            
+            if (each_ship['passengers'] == 'n/a' or 
+                int(each_ship['passengers']) >= passengerCount):
                 ships.append(each_ship['name'])
+
+    url = data["next"]
     return ships
