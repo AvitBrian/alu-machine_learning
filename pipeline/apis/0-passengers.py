@@ -20,7 +20,7 @@ def availableShips(passengerCount):
                 passengers = passengers.replace(',', '')
                 passengers = int(passengers)
             except ValueError:
-                pass
+                ships = []
             
             if passengers == passengerCount:
                 print(passengers)
