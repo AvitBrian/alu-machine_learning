@@ -18,8 +18,10 @@ def availableShips(passengerCount):
         for each_ship in data["results"]:
             try:
                 passengers = int(each_ship['passengers'].replace(',', ''))
-                if passengers == passengerCount:
+                if passengers >= passengerCount:
                     ships.append(each_ship['name'])
+                else:
+                    pass
             except Exception as e:
                 pass
 
