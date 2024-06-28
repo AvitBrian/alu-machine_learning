@@ -20,7 +20,7 @@ def availableShips(passengerCount):
                 passengers = int(each_ship['passengers'].replace(',', ''))
                 if passengers == passengerCount:
                     ships.append(each_ship['name'])
-            except:
+            except Exception as e:
                 pass
 
     url = data["next"]
