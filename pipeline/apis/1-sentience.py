@@ -6,7 +6,7 @@ of the home planets of all sentient species.
 import requests
 
 
-def sentient_planets():
+def sentientPlanets():
     """
     Returns a list of planet names.
     """
