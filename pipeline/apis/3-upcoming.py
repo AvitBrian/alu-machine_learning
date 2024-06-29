@@ -19,18 +19,16 @@ def sentientPlanets():
             launch_name = next_launch['name']
             launch_date_utc = datetime.fromtimestamp(next_launch['date_unix'], timezone.utc)
             launch_date_local = launch_date_utc.astimezone().strftime('%Y-%m-%d %H:%M:%S')
-            
+            rocket_id = next_launch['rocket']
+
+            rocket_details = requests.get(f'https://api.spacexdata.com/v4/rockets/{rocket_id}')
+            rocket_name = rocket_details.json().get('name', 'Unknown rocket')
+
             launchpad_id = next_launch['launchpad']
             launchpad_details = requests.get(f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}')
             launchpad_data = launchpad_details.json()
             launchpad_name = launchpad_data.get('name', 'Unknown launchpad')
             launchpad_location = launchpad_data.get('locality', 'Unknown locality')
-
-            rocket_details = requests.get(f'https://api.spacexdata.com/v4/rockets/{rocket_id}')
-            rocket_name = rocket_details.json().get('name', 'Unknown rocket')
-            rocket_id = next_launch['rocket']
-
-
 
             print(f'{launch_name} ({launch_date_local}) {rocket_name} - {launchpad_name} ({launchpad_location})')
         else:
