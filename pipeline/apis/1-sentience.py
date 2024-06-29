@@ -16,15 +16,18 @@ def sentientPlanets():
         response = requests.get(url)
         data = response.json()
         if response.status_code == 200:
-            for each_species in data["results"]:
-                species_class = each_species["classification"].lower()
-                if all([species_class == "sentient",
-                    each_species["homeworld"] != None]):
-                    homeworld_url = each_species["homeworld"]
-                    homeworld_response = requests.get(homeworld_url)
-                    homeworld_data = homeworld_response.json()
-                    sentient_planets.append(homeworld_data["name"])
+            for each_species in data['results']:
+                classification = each_species['classification']
+                designation = each_species['designation']
+                homeworld = each_species['homeworld']
+                if((classification == 'sentient' or
+                    designation == 'sentient') and
+                    homeworld is not None):
+                    get_planet = requests.get(homeworld).json()
+                    sentient_planets.append(get_planet['name'])
 
-        url = data["next"]
+            url = data["next"]
 
     return sentient_planets
+
+print(sentientPlanets())
