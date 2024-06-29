@@ -6,14 +6,14 @@ import requests
 from datetime import datetime, timezone
 
 
-def sentientPlanets():
+def get_upcoming_launch():
     """
     Retrieves information about the upcoming SpaceX launch.
     """
     try:
-        species_response = requests.get('https://api.spacexdata.com/v4/launches/upcoming/')
-        if species_response.status_code == 200:
-            upcoming_launches = species_response.json()
+        launches_response = requests.get('https://api.spacexdata.com/v4/launches/upcoming/')
+        if launches_response.status_code == 200:
+            upcoming_launches = launches_response.json()
             next_launch = sorted(upcoming_launches, key=lambda x: x['date_unix'])[0]
 
             launch_name = next_launch['name']
@@ -36,5 +36,4 @@ def sentientPlanets():
     except requests.exceptions.RequestException as error:
         print(f'Request failed: {error}')
 
-if __name__ == '__main__':
-    sentientPlanets()
+get_upcoming_launch()
