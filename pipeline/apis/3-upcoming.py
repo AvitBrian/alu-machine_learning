@@ -11,7 +11,7 @@ def sentientPlanets():
     Retrieves information about the upcoming SpaceX launch.
     """
     try:
-        species_response = requests.get('https://api.spacexdata.com/v5/launches/upcoming')
+        species_response = requests.get('https://api.spacexdata.com/v4/launches/upcoming/')
         if species_response.status_code == 200:
             upcoming_launches = species_response.json()
             next_launch = sorted(upcoming_launches, key=lambda x: x['date_unix'])[0]
@@ -21,11 +21,11 @@ def sentientPlanets():
             launch_date_local = launch_date_utc.astimezone().strftime('%Y-%m-%d %H:%M:%S')
             rocket_id = next_launch['rocket']
 
-            rocket_response = requests.get(f'https://api.spacexdata.com/v5/rockets/{rocket_id}')
+            rocket_response = requests.get(f'https://api.spacexdata.com/v4/rockets/{rocket_id}/')
             rocket_name = rocket_response.json().get('name', 'Unknown rocket')
 
             launchpad_id = next_launch['launchpad']
-            launchpad_response = requests.get(f'https://api.spacexdata.com/v5/launchpads/{launchpad_id}')
+            launchpad_response = requests.get(f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}/')
             launchpad_data = launchpad_response.json()
             launchpad_name = launchpad_data.get('name', 'Unknown launchpad')
             launchpad_location = launchpad_data.get('locality', 'Unknown locality')
