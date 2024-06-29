@@ -29,5 +29,3 @@ def sentientPlanets():
             url = data["next"]
 
     return sentient_planets
-
-print(sentientPlanets())
