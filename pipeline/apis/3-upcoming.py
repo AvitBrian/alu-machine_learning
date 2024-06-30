@@ -52,5 +52,4 @@ def get_upcoming_launch():
     return formatted_output
 
 
-if __name__ == "__main__":
-    get_upcoming_launch()
+print(get_upcoming_launch())
