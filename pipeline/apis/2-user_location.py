@@ -28,4 +28,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Usage: ./2-user_location.py <API_URL>')
     else: 
-        get_user_location(sys.argv[1]")
+        get_user_location(sys.argv[1])
