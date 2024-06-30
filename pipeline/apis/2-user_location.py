@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''
     This module returns the location of a user
-    with a github api url. it's cool!
+    with a github api url.
 '''
 import requests
 import sys
