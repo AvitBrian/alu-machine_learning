@@ -20,7 +20,8 @@ if __name__ == '__main__':
             user_data = response.json()
             print(user_data.get('location', 'Location not specified'))
         elif response.status_code == 403:
-            reset_time = datetime.fromtimestamp(int(response.headers.get('X-RateLimit-Reset', 0)))
+            time_to_reset = int(response.headers.get('X-RateLimit-Reset', 0))
+            reset_time = datetime.fromtimestamp(time_to_reset)
             now = datetime.now()
             minutes_remaining = (reset_time - now).total_seconds() // 60
             print('Reset in {} min'.format(int(minutes_remaining)))
