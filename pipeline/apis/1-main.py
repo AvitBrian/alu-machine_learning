@@ -2,7 +2,6 @@
 """
 Test file
 """
-user_location = __import__('2-user_location').get_user_location
-location = user_location('https://api.github.com/users/holbertonschool')
+get_launch = __import__('3-upcoming').get_upcoming_launch
 
-print(location)
+print(get_launch())
