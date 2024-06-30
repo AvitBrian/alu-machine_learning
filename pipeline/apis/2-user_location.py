@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''
+    This module returns the location of a user
+    with a github api url.
+'''
 import requests
 import sys
 from datetime import datetime, time, timedelta
