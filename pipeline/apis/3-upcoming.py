@@ -19,7 +19,9 @@ def get_launch_details(launch_data):
     rocket_name = rocket_response.json().get('name', 'Unknown rocket')
 
     launchpad_id = launch_data['launchpad']
-    launchpad_url = 'https://api.spacexdata.com/v4/launchpads/{}'.format(launchpad_id)
+    launchpad_url = 'https://api.spacexdata.com/v4/launchpads/{}'.format(
+        launchpad_id
+    )
     launchpad_response = requests.get(launchpad_url)
     launchpad_data = launchpad_response.json()
     launchpad_name = launchpad_data.get('name', 'Unknown launchpad')
