@@ -5,7 +5,7 @@
 '''
 import requests
 import sys
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -20,9 +20,10 @@ if __name__ == '__main__':
             user_data = response.json()
             print(user_data.get('location', 'Location not specified'))
         elif response.status_code == 403:
-            reset_time = int(response.headers.get('X-RateLimit-Reset', 0))
-            reset_in = (reset_time - time.time()) / 60
-            print('Reset in {} min'.format(int(reset_in)))
+            reset_time = datetime.fromtimestamp(int(response.headers.get('X-RateLimit-Reset', 0)))
+            now = datetime.now()
+            minutes_remaining = (reset_time - now).total_seconds() // 60
+            print('Reset in {} min'.format(int(minutes_remaining)))
         elif response.status_code == 404:
             print('Not found')
         else:
