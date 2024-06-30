@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import requests
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -12,19 +12,13 @@ if __name__ == '__main__':
 
     try:
         response = requests.get(api_url)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        if response.status_code == 404:
-            print("Not found")
-        elif response.status_code == 403:
-            reset_time = datetime.fromtimestamp(int(response.headers['X-RateLimit-Reset']))
-            now = datetime.now()
-            minutes_remaining = (reset_time - now).total_seconds() // 60
-            print(f"Reset in {int(minutes_remaining)} min")
-        else:
-            print(e)
-        sys.exit(1)
+        if response.status_code == 200:
+            user_data = response.json()
+            print(user_data.get('location', 'Location not specified'))
+        elif response.status_code == 404:
+            print('Not found')
 
-    user_data = response.json()
-    location = user_data.get('location', 'Not available')
-    print(location)
+        else:
+            print('Error: {}'.format(response.status_code))
+    except requests.exceptions.RequestException as e:
+        print('Request failed: {}'.format(e))
