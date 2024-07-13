@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     logs_coll = client.logs.nginx
     doc_count = logs_coll.count_documents({})
-    print("{} logs".format(doc_count))ssss
+    print("{} logs".format(doc_count))
     print("Methods:")
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     
