@@ -1,6 +1,20 @@
 {
-    "editor.codeActionsOnSave": {},
-    "editor.formatOnSave": true,
-    "python.formatting.provider": "autopep8",
-
+  "editor.codeActionsOnSave": {},
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "autopep8",
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "mysql",
+      "database": "mysql",
+      "username": "root"
+    }
+  ]
 }
