@@ -1,4 +1,4 @@
--- Creates a stored procedure AddBonus that adds a new correction for a student
+-- Creates a new stored procedure that adds a bonus to a user
 DELIMITER // CREATE PROCEDURE AddBonus (
 	IN user_id INTEGER,
 	IN project_name VARCHAR(255),

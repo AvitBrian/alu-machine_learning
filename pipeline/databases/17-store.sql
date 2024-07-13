@@ -1,4 +1,4 @@
--- Creates a trigger that decreases the quantity of an item after adding a new order
+-- Creates a trigger that decreases the quantity of an item after an order is made
 DROP TRIGGER IF EXISTS decrease_quantity;
 DELIMITER // CREATE TRIGGER decrease_quantity
 AFTER
