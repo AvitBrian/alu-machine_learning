@@ -9,18 +9,18 @@ if __name__ == "__main__":
     """
     Returns stats about Nginx logs stored in MongoDB
     """
-    client = MongoClient('mongodb://127.0.0.1:27017')
+    client = MongoClient()
+    db = client['logs']
+    collection = db['nginx']
 
-    logs_coll = client.logs.nginx
-    doc_count = logs_coll.count_documents({})
-    print("{} logs".format(doc_count))
+    total_logs = collection.count_documents({})
+    print(f"{total_logs} logs")
+
     print("Methods:")
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    
     for method in methods:
-        method_count = logs_coll.count_documents({"method": method})
-        print("\tmethod {}: {}".format(method, method_count))
+        count = collection.count_documents({"method": method})
+        print(f"\tmethod {method}: {count}")
 
-    filter_path = {"method": "GET", "path": "/status"}
-    path_count = logs_coll.count_documents(filter_path)
-    print("{} status check".format(path_count))
+    count = collection.count_documents({"method": "GET", "path": "/status"})
+    print(f"{count} status check")
