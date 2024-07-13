@@ -1,10 +1,9 @@
 -- creates the function safediv
-DELIMITER // CREATE FUNCTION SafeDiv(a INT, b INT) RETURNS INT BEGIN
-DECLARE result INT;
-IF b = 0 THEN
+DELIMITER $$ CREATE FUNCTION SafeDiv(a INT, b INT) RETURNS FLOAT BEGIN
+DECLARE result FLOAT;
 SET result = 0;
-ELSE
+IF b <> 0 THEN
 SET result = a / b;
 END IF;
 RETURN result;
-END // DELIMITER;
+END $$ DELIMITER;
