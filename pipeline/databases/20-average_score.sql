@@ -1,5 +1,5 @@
 -- create a stored procedure
-DELIMITER ! ! CREATE PROCEDURE ComputeAverageScoreForUser (IN user_id_new INTEGER) BEGIN
+DELIMITER // CREATE PROCEDURE ComputeAverageScoreForUser (IN user_id_new INTEGER) BEGIN
 UPDATE users
 SET average_score =(
 		SELECT AVG(score)
@@ -8,4 +8,4 @@ SET average_score =(
 	)
 WHERE id = user_id_new;
 END;
-! ! DELIMITER;
+// DELIMITER;
