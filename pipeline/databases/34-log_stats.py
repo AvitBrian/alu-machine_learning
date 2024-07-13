@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Displays Nginx logs stored in MongoDB
+This script Displays Nginx logs stored in MongoDB
 """
 from pymongo import MongoClient
 
