@@ -2,5 +2,6 @@
 SELECT origin,
   SUM(fans) AS nb_fans
 FROM metal_bands
+WHERE NOT DISTINCT fans
 GROUP BY origin
-ORDER BY DISTINCT nb_fans DESC;
+ORDER BY nb_fans DESC;
