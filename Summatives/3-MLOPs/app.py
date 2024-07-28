@@ -32,7 +32,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -181,4 +181,4 @@ def evaluate():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='127.0.0.1', port=5000, debug=True)
