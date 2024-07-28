@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Evaluation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Model Evaluation Results</h1>
+    <div class="result">
+        <p>Accuracy: {{ accuracy | round(2) }}</p>
+        <p>Precision: {{ precision | round(2) }}</p>
+        <p>Recall: {{ recall | round(2) }}</p>
+        <p>F1 Score: {{ f1 | round(2) }}</p>
+    </div>
+    <button onclick="window.location.href='/'">Back to Prediction</button>
+</body>
+</html>
