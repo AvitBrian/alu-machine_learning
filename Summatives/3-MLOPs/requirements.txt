@@ -12,6 +12,8 @@ grpcio==1.65.1
 h5py==3.11.0
 idna==3.7
 itsdangerous==2.2.0
+imbalanced-learn==0.12.3
+imblearn==0.0
 Jinja2==3.1.4
 joblib==1.4.2
 keras==3.4.1
