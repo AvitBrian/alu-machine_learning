@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; 
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .form1 {
+            margin: auto;
+            max-width: 500px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+        }
+        label {
+            margin: 5px 0;
+            text-align: left;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            grid-column: span 2; 
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .prediction {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            grid-column: span 2;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+        .evaluate-button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .retrain-button{
+
+          padding: 10px 15px;
+            background-color: #f44900;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .retrain-button:hover, .evaluate-button:hover {
+            background-color: #00c8ff;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Failure Prediction</h1>
+    <p>Enter the following details to predict the risk of heart failure:</p>
+    {% if error %}
+    <div class="error">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+    <form action="{{ url_for('predict') }}" method="post" class="form1">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="creatinine_phosphokinase">Creatinine Phosphokinase:</label>
+        <input type="number" id="creatinine_phosphokinase" name="creatinine_phosphokinase" required>
+
+        <label for="diabetes">Diabetes (0 or 1):</label>
+        <input type="number" id="diabetes" name="diabetes" min="0" max="1" required>
+
+        <label for="ejection_fraction">Ejection Fraction:</label>
+        <input type="number" id="ejection_fraction" name="ejection_fraction" required>
+
+        <label for="high_blood_pressure">High Blood Pressure (0 or 1):</label>
+        <input type="number" id="high_blood_pressure" name="high_blood_pressure" min="0" max="1" required>
+
+        <label for="platelets">Platelets:</label>
+        <input type="number" id="platelets" name="platelets" required>
+
+        <label for="serum_creatinine">Serum Creatinine:</label>
+        <input type="number" id="serum_creatinine" name="serum_creatinine" required>
+
+        <label for="time">Time:</label>
+        <input type="number" id="time" name="time" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <div class="button-container">
+        <form action="{{ url_for('evaluate') }}" method="post" enctype="multipart/form-data">
+            <label for="datafile">Upload Dataset for Evaluation:</label>
+            <input type="file" id="datafile" name="datafile" accept=".csv" required>
+            <button type="submit" class="evaluate-button">Evaluate Model</button>
+        </form>
+        <form action="{{ url_for('retrain') }}" method="get">
+          <button type="submit" class="retrain-button">Retrain Model</button>
+        </form>
+    </div>
+</body>
+</html>
