@@ -13,7 +13,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh; 
             box-sizing: border-box;
         }
@@ -32,19 +32,31 @@
             border-radius: 5px;
             background-color: white;
             display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
             gap: 10px;
         }
         label {
             margin: 5px 0;
             text-align: left;
         }
-        input {
-            padding: 8px;
+        .slider {
             width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .slider-value {
+            width: 40px; 
+            margin-left: 10px;
+        }
+        .option-button {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+        .option-button input[type="radio"] {
+            margin: 0 5px;
         }
         button {
             padding: 10px 15px;
@@ -70,9 +82,19 @@
         .button-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: space-between;
             margin-top: 20px;
             max-width: 500px;
+            gap: 10px;
+            width: 100%;
+        }
+        .upload-data-container{
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            max-width: 500px;
+            width: 100%;
+
         }
         .evaluate-button {
             padding: 10px 15px;
@@ -81,19 +103,17 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
+            width: 100%; 
         }
-        .retrain-button{
-
-          padding: 10px 15px;
+        .retrain-button {
+            padding: 10px 15px;
             background-color: #f44900;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
+            width: 25%;
+            margin: auto;
         }
         .retrain-button:hover, .evaluate-button:hover {
             background-color: #00c8ff;
@@ -102,6 +122,17 @@
             margin-top: 10px;
             margin-bottom: 10px;
             width: 100%;
+        }
+        .input-number {
+    
+            width: 50%;
+            margin-left: auto;
+        }
+        .retrain-button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -114,41 +145,58 @@
     </div>
     {% endif %}
     <form action="{{ url_for('predict') }}" method="post" class="form1">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required>
-
-        <label for="creatinine_phosphokinase">Creatinine Phosphokinase:</label>
-        <input type="number" id="creatinine_phosphokinase" name="creatinine_phosphokinase" required>
-
-        <label for="diabetes">Diabetes (0 or 1):</label>
-        <input type="number" id="diabetes" name="diabetes" min="0" max="1" required>
-
-        <label for="ejection_fraction">Ejection Fraction:</label>
-        <input type="number" id="ejection_fraction" name="ejection_fraction" required>
-
-        <label for="high_blood_pressure">High Blood Pressure (0 or 1):</label>
-        <input type="number" id="high_blood_pressure" name="high_blood_pressure" min="0" max="1" required>
-
         <label for="platelets">Platelets:</label>
-        <input type="number" id="platelets" name="platelets" required>
-
+        <input type="number" id="platelets" name="platelets" class="input-number" required>
+        
         <label for="serum_creatinine">Serum Creatinine:</label>
-        <input type="number" id="serum_creatinine" name="serum_creatinine" required>
+        <input type="number" id="serum_creatinine" name="serum_creatinine" class="input-number" required>
+        <label for="creatinine_phosphokinase">Creatinine Phosphokinase:</label>
+        <input type="number" id="creatinine_phosphokinase" name="creatinine_phosphokinase" class="input-number"required>
 
-        <label for="time">Time:</label>
-        <input type="number" id="time" name="time" required>
+        <label for="time">Time(days):</label>
+        <input type="number" id="time" name="time" class="input-number" required>
+        <label for="age">Age:</label>
+        <div class="slider-container">
+            <input type="range" id="age" name="age" min="1" max="120" value="40" class="slider" required oninput="document.getElementById('age_input').value = this.value;">
+            <input type="number" id="age_input" name="age_input" value="40" class="slider-value" oninput="document.getElementById('age').value = this.value;" required>
+        </div>
+        <label for="ejection_fraction">Ejection Fraction:</label>
+        <div class="slider-container">
+            <input type="range" id="ejection_fraction" name="ejection_fraction" min="0" max="100" value="55" class="slider" required oninput="document.getElementById('ejection_fraction_input').value = this.value;">
+            <input type="number" id="ejection_fraction_input" name="ejection_fraction_input" value="55" class="slider-value" oninput="document.getElementById('ejection_fraction').value = this.value;" required>
+        </div>
+        
+        <label for="diabetes">Diabetes:</label>
+        <div class="option-button">
+            <input type="radio" id="diabetes_no" name="diabetes" value="0" checked>
+            <label for="diabetes_no">No</label>
+            <input type="radio" id="diabetes_yes" name="diabetes" value="1">
+            <label for="diabetes_yes">Yes</label>
+        </div>
+        
 
+        <label for="high_blood_pressure">High Blood Pressure:</label>
+        <div class="option-button">
+            <input type="radio" id="high_blood_pressure_no" name="high_blood_pressure" value="0" checked>
+            <label for="high_blood_pressure_no">No</label>
+            <input type="radio" id="high_blood_pressure_yes" name="high_blood_pressure" value="1">
+            <label for="high_blood_pressure_yes">Yes</label>
+        </div>
+        
         <button type="submit">Predict</button>
     </form>
-
+    <div class="upload-data-container">
+        <label for="datafile">Upload Dataset for Evaluation:</label>
+    </div>
     <div class="button-container">
-        <form action="{{ url_for('evaluate') }}" method="post" enctype="multipart/form-data">
-            <label for="datafile">Upload Dataset for Evaluation:</label>
+        <form  id="evaluate-form" action="{{ url_for('evaluate') }}" method="post" enctype="multipart/form-data">
             <input type="file" id="datafile" name="datafile" accept=".csv" required>
             <button type="submit" class="evaluate-button">Evaluate Model</button>
         </form>
         <form action="{{ url_for('retrain') }}" method="get">
-          <button type="submit" class="retrain-button">Retrain Model</button>
+            <div class="retrain-button-container">
+                <button type="submit" class="retrain-button">Retrain Model</button>
+            </div>
         </form>
     </div>
 </body>

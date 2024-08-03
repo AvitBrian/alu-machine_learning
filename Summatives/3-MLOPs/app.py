@@ -32,7 +32,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -129,7 +129,7 @@ def retrain():
             model.save('models/model.h5')
             joblib.dump(preprocessor, 'pipeline/preprocessor.pkl')
 
-            return "Model retrained successfully!", 200
+            return render_template('index.html'), 200
         except Exception as e:
             logging.error(f"Error during retraining: {e}")
             return "An error occurred during retraining.", 500
