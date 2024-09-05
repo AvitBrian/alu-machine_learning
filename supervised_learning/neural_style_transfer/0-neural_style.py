@@ -5,6 +5,7 @@ This module performs Neural Style Transfer on two images
 import numpy as np
 import tensorflow as tf
 
+
 class NST:
     """Neural Style Transfer class"""
 
@@ -22,11 +23,11 @@ class NST:
         tf.enable_eager_execution()
 
         if not isinstance(style_image, np.ndarray) or\
-          style_image.ndim != 3 or style_image.shape[2] != 3:
+           style_image.ndim != 3 or style_image.shape[2] != 3:
             raise TypeError(
                 "style_image must be a numpy.ndarray with shape (h, w, 3)")
         if not isinstance(content_image, np.ndarray) or\
-          content_image.ndim != 3 or style_image.shape[2] != 3:
+           content_image.ndim != 3 or style_image.shape[2] != 3:
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)")
         if (type(alpha) is not float and type(alpha) is not int) or alpha < 0:
@@ -52,7 +53,7 @@ class NST:
     @staticmethod
     def scale_image(image):
         """
-        Rescales an image such that its pixels values are between 0 and 1 
+        Rescales an image such that its pixels values are between 0 and 1
         and its largest side is 512 pixels
         """
         if type(image) is not np.ndarray or len(image.shape) != 3:
