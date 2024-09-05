@@ -24,19 +24,19 @@ class NST:
         style_h, style_w, style_c = style_image.shape
         content_h, content_w, content_c = content_image.shape
 
-        if style_h <= 0 or style_w <= 0 or style_c != 3:
-            raise TypeError(
-                "style_image must be a numpy.ndarray with shape (h, w, 3)")
-        if content_h <= 0 or content_w <= 0 or content_c != 3:
-            raise TypeError(
-                "content_image must be a numpy.ndarray with shape (h, w, 3)")
-            
         if type(style_image) is not np.ndarray or \
            len(style_image.shape) != 3:
             raise TypeError(
                 "style_image must be a numpy.ndarray with shape (h, w, 3)")
         if type(content_image) is not np.ndarray or \
            len(content_image.shape) != 3:
+            raise TypeError(
+                "content_image must be a numpy.ndarray with shape (h, w, 3)")
+
+        if style_h <= 0 or style_w <= 0 or style_c != 3:
+            raise TypeError(
+                "style_image must be a numpy.ndarray with shape (h, w, 3)")
+        if content_h <= 0 or content_w <= 0 or content_c != 3:
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)")
 
