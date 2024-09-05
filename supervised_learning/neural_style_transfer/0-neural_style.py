@@ -37,19 +37,20 @@ class NST:
         if not isinstance(image, np.ndarray) or image.ndim != 3 or image.shape[2] != 3:
             raise TypeError("image must be a numpy.ndarray with shape (h, w, 3)")
         
-        # Convert to float and normalize to [0, 1]
-        image = tf.cast(image, tf.float32) / 255.0
-        
         h, w, _ = image.shape
-        if h > w:
-            h_new, w_new = 512, int(w * 512 / h)
-        else:
-            h_new, w_new = int(h * 512 / w), 512
+        max_dim = max(h, w)
+        scale = 512 / max_dim
+        new_h = int(h * scale)
+        new_w = int(w * scale)
         
-        # Resize the image using bicubic interpolation
-        image = tf.image.resize(image, (h_new, w_new), method='bicubic')
+        # Convert to float32 and normalize to [0, 1]
+        image = image.astype(np.float32) / 255.0
         
-        # Add batch dimension
-        image = tf.expand_dims(image, 0)
+        # Resize the image
+        image = tf.image.resize(image[tf.newaxis, :], (new_h, new_w), 
+                                method='bicubic', preserve_aspect_ratio=True)
+        
+        # Ensure the image is clipped between 0 and 1
+        image = tf.clip_by_value(image, 0.0, 1.0)
         
         return image
