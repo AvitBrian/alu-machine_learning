@@ -55,7 +55,6 @@ class NST:
         self.alpha = alpha
         self.beta = beta
 
-        # Load the model
         self.load_model()
 
     @staticmethod
@@ -112,7 +111,7 @@ class NST:
 
         model = tf.keras.models.Model(vgg.input, outputs)
         self.model = model
-        
+
     @staticmethod
     def gram_matrix(input_layer):
         """
