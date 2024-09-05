@@ -39,7 +39,7 @@ class NST:
         if (type(beta) is not float and type(beta) is not int) or beta < 0:
             raise TypeError("beta must be a non-negative number")
 
-        # Ensure correct dimensions 
+        # Ensure correct dimensions
         style_h, style_w, style_c = style_image.shape
         content_h, content_w, content_c = content_image.shape
 
@@ -85,15 +85,18 @@ class NST:
         return rescaled
 
     def load_model(self):
-        """
+        '''
         Creates the model used to calculate the style and content costs.
         The model is based on the VGG19 Keras model.
-        """
-        # Load VGG19
-        vgg = tf.keras.applications.VGG19(include_top=False,
-                                          weights='imagenet')
+        '''
+        VGG19_model = tf.keras.applications.VGG19(include_top=False,
+                                                  weights='imagenet')
+        VGG19_model.save("VGG19_base_model")
+        custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
 
-        # Extract the layers
+        vgg = tf.keras.models.load_model("VGG19_base_model",
+                                         custom_objects=custom_objects)
+
         style_outputs = []
         content_output = None
 
@@ -109,4 +112,3 @@ class NST:
 
         model = tf.keras.models.Model(vgg.input, outputs)
         self.model = model
-
