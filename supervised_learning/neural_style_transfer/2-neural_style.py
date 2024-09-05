@@ -119,7 +119,8 @@ class NST:
         Calculates the gram matrix of a layer
         """
         if not (isinstance(input_layer, tf.Tensor) or
-                isinstance(input_layer, tf.Variable)) or len(input_layer.shape) != 4:
+                isinstance(input_layer, tf.Variable)) or\
+                len(input_layer.shape) != 4:
             raise TypeError("input_layer must be a tensor of rank 4")
 
         _, h, w, c = input_layer.shape
@@ -127,4 +128,3 @@ class NST:
         n = tf.shape(F)[0]
         gram = tf.matmul(F, F, transpose_a=True)
         return gram / tf.cast(n, tf.float32)
-
