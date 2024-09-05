@@ -7,7 +7,7 @@ import tensorflow as tf
 
 class NST:
     """Neural Style Transfer class"""
-    
+
     style_layers = [
       'block1_conv1',
       'block2_conv1',
@@ -16,7 +16,7 @@ class NST:
       'block5_conv1'
       ]
     content_layer = 'block5_conv2'
-    
+
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
 
         tf.enable_eager_execution()
