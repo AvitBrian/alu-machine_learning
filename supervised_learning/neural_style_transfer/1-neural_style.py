@@ -50,7 +50,6 @@ class NST:
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)")
 
-        # Process images and set attributes
         self.style_image = self.scale_image(style_image)
         self.content_image = self.scale_image(content_image)
         self.alpha = alpha
@@ -101,12 +100,13 @@ class NST:
         for layer in vgg.layers:
             if layer.name in self.style_layers:
                 style_outputs.append(layer.output)
-            if layer.name == self.content_layer:
+            if layer.name in self.content_layer:
                 content_output = layer.output
 
             layer.trainable = False
 
-        # Create the model
         outputs = style_outputs + [content_output]
-        self.model = tf.keras.models.Model(vgg.input, outputs)
+
+        model = tf.keras.models.Model(vgg.input, outputs)
+        self.model = model
 
