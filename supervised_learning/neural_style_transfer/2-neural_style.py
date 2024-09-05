@@ -112,18 +112,19 @@ class NST:
 
         model = tf.keras.models.Model(vgg.input, outputs)
         self.model = model
+        
+    @staticmethod
+    def gram_matrix(input_layer):
+        """
+        Calculates the gram matrix of a layer
+        """
+        if not (isinstance(input_layer, tf.Tensor) or
+                isinstance(input_layer, tf.Variable)) or len(input_layer.shape) != 4:
+            raise TypeError("input_layer must be a tensor of rank 4")
 
-@staticmethod
-def gram_matrix(input_layer):
-    """
-    Calculates the gram matrix of a layer
-    """
-    if not (isinstance(input_layer, tf.Tensor) or
-            isinstance(input_layer, tf.Variable)) or len(input_layer.shape) != 4:
-        raise TypeError("input_layer must be a tensor of rank 4")
+        _, h, w, c = input_layer.shape
+        F = tf.reshape(input_layer, (h * w, c))
+        n = tf.shape(F)[0]
+        gram = tf.matmul(F, F, transpose_a=True)
+        return gram / tf.cast(n, tf.float32)
 
-    _, h, w, c = input_layer.shape
-    F = tf.reshape(input_layer, (h * w, c))
-    n = tf.shape(F)[0]
-    gram = tf.matmul(F, F, transpose_a=True)
-    return gram / tf.cast(n, tf.float32)
