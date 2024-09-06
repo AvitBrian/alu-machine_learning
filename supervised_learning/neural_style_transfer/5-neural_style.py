@@ -124,11 +124,11 @@ class NST:
             raise TypeError("input_layer must be a tensor of rank 4")
 
         _, h, w, c = input_layer.shape
-        F = tf.reshape(input_layer, (h * w, c))
-        n = tf.shape(F)[0]
+        F = tf.reshape(input_layer, (int(h * w), c))
         gram = tf.matmul(F, F, transpose_a=True)
         gram = tf.expand_dims(gram, axis=0)
-        return gram / tf.cast(n, tf.float32)
+        gram /= tf.cast(int(h * w), tf.float32)
+        return gram
 
     def generate_features(self):
         """
@@ -166,8 +166,7 @@ class NST:
                 "gram_target must be a tensor of shape [1, {}, {}]".format(
                     c, c))
         gram_style = self.gram_matrix(style_output)
-        gram = tf.reduce_mean(tf.square(gram_style - gram_target))
-        return gram
+        return tf.reduce_mean(tf.square(gram_style - gram_target))
 
     def style_cost(self, style_outputs):
         """
