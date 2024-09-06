@@ -168,3 +168,20 @@ class NST:
 
         gram_style = self.gram_matrix(style_output)
         return tf.reduce_mean(tf.square(gram_style - gram_target))
+
+    def style_cost(self, style_outputs):
+        """
+        Calculates the style cost for generated image
+        """
+        len_style_layers = len(self.style_layers)
+        if type(style_outputs) is not list or\
+            len(style_outputs) != len_style_layers:
+            raise TypeError(f"style_outputs must be a list with a length of \
+                {len_style_layers}"
+            )
+
+        style_cost = 0
+        for target, output in zip(self.gram_style_features, style_outputs):
+            style_cost += self.layer_style_cost(output, target)
+
+        return style_cost
