@@ -260,17 +260,52 @@ class NST:
         '''
             Generates the neural style image
         '''
-        if not isinstance(iterations, int) or iterations <= 0:
-            raise TypeError("iterations must be a positive integer")
-        if not isinstance(lr, (int, float)) or lr <= 0:
-            raise TypeError("lr must be a positive number")
-        if step is not None and (not isinstance(step, int) or step <= 0):
-            raise TypeError("step must be a positive integer")
-        if not isinstance(beta1, (int, float)) or beta1 < 0 or beta1 >= 1:
-            raise TypeError("beta1 must be a float in the [0, 1] range")
-        if not isinstance(beta2, (int, float)) or beta2 < 0 or beta2 >= 1:
-            raise TypeError("beta2 must be a float in the [0, 1] range")
+        if not isinstance(iterations, int):
+            raise TypeError("iterations must be an integer")
+        if iterations <= 0:
+            raise ValueError("iterations must be positive")
+        
+        if step is not None:
+            if not isinstance(step, int):
+                raise TypeError("step must be an integer")
+            if step <= 0 or step >= iterations:
+                raise ValueError("step must be positive and less than iterations")
+        
+        if not isinstance(lr, (float, int)):
+            raise TypeError("lr must be a number")
+        if lr <= 0:
+            raise ValueError("lr must be positive")
+        
+        if not isinstance(beta1, float):
+            raise TypeError("beta1 must be a float")
+        if not 0 <= beta1 <= 1:
+            raise ValueError("beta1 must be in the range [0, 1]")
+        
+        if not isinstance(beta2, float):
+            raise TypeError("beta2 must be a float")
+        if not 0 <= beta2 <= 1:
+            raise ValueError("beta2 must be in the range [0, 1]")
 
-        generated_image = None
-        cost = None
-        return generated_image, cost
+        generated_image = tf.Variable(self.content_image, dtype=tf.float32)
+        
+        optimizer = tf.optimizers.Adam(learning_rate=lr, beta_1=beta1, beta_2=beta2)
+        
+        best_cost = float('inf')
+        best_image = None
+        
+        for i in range(iterations):
+            with tf.GradientTape() as tape:
+                gradients, J_total, J_content, J_style = self.compute_grads(generated_image)
+            
+            optimizer.apply_gradients([(gradients, generated_image)])
+            
+            generated_image.assign(tf.clip_by_value(generated_image, clip_value_min=0.0, clip_value_max=1.0))
+            
+            if J_total < best_cost:
+                best_cost = J_total
+                best_image = generated_image.numpy()
+            
+            if step is not None and i % step == 0:
+                print(f"Cost at iteration {i}: {J_total.numpy()}, content {J_content.numpy()}, style {J_style.numpy()}")
+        
+        return best_image, best_cost
