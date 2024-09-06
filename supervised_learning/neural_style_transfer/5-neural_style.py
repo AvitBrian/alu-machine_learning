@@ -173,9 +173,11 @@ class NST:
         Calculates the style cost for generated image
         """
         len_style_layers = len(self.style_layers)
-        if not isinstance(style_outputs, list) or len(style_outputs) != len_style_layers:
-            raise TypeError(
-                "style_outputs must be a list with a len_style_layers of {}".format(
+        if not isinstance(style_outputs, list) or\
+            len(style_outputs) != len_style_layers:
+                raise TypeError(
+                    "style_outputs must be a list with"
+                    " a len_style_layers of {}".format(
                     len_style_layers
                 )
             )
