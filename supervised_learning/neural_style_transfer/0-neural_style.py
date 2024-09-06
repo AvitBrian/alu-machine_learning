@@ -19,11 +19,9 @@ class NST:
     content_layer = 'block5_conv2'
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
+
         tf.enable_eager_execution()
-        """
-        Initializes the NST class with style and content images,
-        and the respective weights for content and style cost
-        """
+
         if not isinstance(style_image, np.ndarray) or\
            style_image.ndim != 3 or style_image.shape[2] != 3:
             raise TypeError(
@@ -72,9 +70,8 @@ class NST:
             w_new = 512
             h_new = int(h * (512 / w))
 
-        resized = tf.image.resize(np.expand_dims(image, axis=0),
-                                          size=(h_new, w_new),
-                                          method='bicubic')
+        resized = tf.image.resize_bicubic(np.expand_dims(image, axis=0),
+                                          size=(h_new, w_new))
         rescaled = resized / 255
         rescaled = tf.clip_by_value(rescaled, 0, 1)
         return (rescaled)
