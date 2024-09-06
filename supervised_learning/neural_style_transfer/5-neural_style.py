@@ -180,12 +180,15 @@ class NST:
                     length
                 )
             )
-
-        weight = 1 / length
-        style_cost = 0
+        weight = 1 / length  # << Evens weighting for each layer
+        style_cost = 0.0
         for i in range(length):
-            style_cost += weight * self.layer_style_cost(
-                style_outputs[i], self.gram_style_features[i]
-            )
+            gram_generated = self.gram_matrix(style_outputs[i])
+            gram_style = self.gram_style_features[i]
+            layer_style_cost = tf.reduce_mean(tf.square(
+                gram_generated - gram_style
+            ))
+            
+            style_cost += weight * layer_style_cost
 
         return style_cost
