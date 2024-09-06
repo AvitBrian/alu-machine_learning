@@ -166,7 +166,8 @@ class NST:
                 "gram_target must be a tensor of shape [1, {}, {}]".format(
                     c, c))
         gram_style = self.gram_matrix(style_output)
-        return tf.reduce_mean(tf.square(gram_style - gram_target))
+        gram = tf.reduce_mean(tf.square(gram_style - gram_target))
+        return gram
 
     def style_cost(self, style_outputs):
         """
@@ -181,7 +182,7 @@ class NST:
             )
 
         weight = 1 / length
-        style_cost = 0.0
+        style_cost = 0
         for i in range(length):
             style_cost += weight * self.layer_style_cost(
                 style_outputs[i], self.gram_style_features[i]
