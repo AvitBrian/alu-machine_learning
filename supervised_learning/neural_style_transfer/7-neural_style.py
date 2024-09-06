@@ -225,8 +225,8 @@ class NST:
 
         J_content = self.content_cost(generated_image)
         J_style = self.style_cost(self.model(generated_image)[:-1]) 
-        alpha = 1e3
-        beta = 1e-2
-        J = alpha * J_content + beta * J_style
+        self.alpha = 1e3
+        self.beta = 1e-2
+        J = self.alpha * J_content + self.beta * J_style
 
         return J, J_content, J_style
