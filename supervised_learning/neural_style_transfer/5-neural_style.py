@@ -119,16 +119,18 @@ class NST:
         Calculates the gram matrix of a layer
         """
         if not (isinstance(input_layer, tf.Tensor) or
-                isinstance(input_layer, tf.Variable)) or\
-                len(input_layer.shape) != 4:
+                isinstance(input_layer, tf.Variable)) or len(
+                    input_layer.shape
+                ) != 4:
             raise TypeError("input_layer must be a tensor of rank 4")
 
         _, h, w, c = input_layer.shape
-        F = tf.reshape(input_layer, (int(h * w), c))
-        gram = tf.matmul(F, F, transpose_a=True)
+        product = int(h * w)
+        features = tf.reshape(input_layer, (product, c))
+        gram = tf.matmul(features, features, transpose_a=True)
         gram = tf.expand_dims(gram, axis=0)
-        gram /= tf.cast(int(h * w), tf.float32)
-        return gram
+        gram /= tf.cast(product, tf.float32)
+        return (gram)
 
     def generate_features(self):
         """
