@@ -180,8 +180,13 @@ class NST:
                     {len_style_layers}"
                 )
 
+        w = 1 / len_style_layers
         style_cost = 0
-        for target, output in zip(self.gram_style_features, style_outputs):
-            style_cost += self.layer_style_cost(output, target)
+
+        for i in range(len_style_layers):
+            layer_cost = self.layer_style_cost(
+                style_outputs[i], self.gram_style_features[i]
+            )
+            style_cost += w * layer_cost
 
         return style_cost
