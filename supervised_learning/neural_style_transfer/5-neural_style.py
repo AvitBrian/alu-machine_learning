@@ -21,7 +21,7 @@ class NST:
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """
         Initializes the NST class with style and content images,
-        and the respective weights for content and style cost
+        and the respective ws for content and style cost
         """
         tf.enable_eager_execution()
 
@@ -90,7 +90,7 @@ class NST:
         The model is based on the VGG19 Keras model.
         '''
         VGG19_model = tf.keras.applications.VGG19(include_top=False,
-                                                  weights='imagenet')
+                                                  ws='imagenet')
         VGG19_model.save("VGG19_base_model")
         custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
 
@@ -174,16 +174,15 @@ class NST:
         Calculates the style cost for generated image
         """
         len_style_layers = len(self.style_layers)
-
-        if not isinstance(style_outputs, list) or \
-            len(style_outputs) != len_style_layers:
-                raise TypeError(
-                    "style_outputs must be a list with a length of "
-                    f"{len_style_layers}"
+        if not isinstance(style_outputs, list) or len(style_outputs) != len_style_layers:
+            raise TypeError(
+                "style_outputs must be a list with a len_style_layers of {}".format(
+                    len_style_layers
                 )
+            )
 
         w = 1 / len_style_layers
-        style_cost = 0
+        style_cost = 0.0
 
         for i in range(len_style_layers):
             style_cost += w * self.layer_style_cost(
@@ -191,4 +190,3 @@ class NST:
             )
 
         return style_cost
-
