@@ -214,10 +214,19 @@ class NST:
         """
         Calculates the total cost for generated image
         """
-        if not isinstance(generated_image, tf.Tensor) or len(
-                generated_image.shape) != 4:
+        expected_shape = self.content_image.shape
+        if not isinstance(generated_image, (tf.Tensor, tf.Variable)) or \
+                generated_image.shape != expected_shape:
             raise TypeError(
-                "content_output must be a tensor of shape {}".format(
-                    generated_image.shape
+                "generated_image must be a tensor of shape {}".format(
+                    expected_shape
                 )
             )
+
+        J_content = self.content_cost(generated_image)
+        J_style = self.style_cost(self.model(generated_image)[:-1]) 
+        alpha = 1e3
+        beta = 1e-2
+        J = alpha * J_content + beta * J_style
+
+        return J, J_content, J_style
