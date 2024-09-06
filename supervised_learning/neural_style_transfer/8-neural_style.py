@@ -241,7 +241,7 @@ class NST:
             generated_image.shape != self.content_image.shape:
                 raise TypeError(
                     "generated_image must be a tensor of shape"
-                    f"{self.content_image.shape}"
+                    "{}".format(self.content_image.shape)
                 )
 
         with tf.GradientTape() as tape:
