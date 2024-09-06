@@ -203,8 +203,9 @@ class NST:
                 )
             )
 
-        content_cost = tf.reduce_mean(
-            tf.square(content_output - self.content_feature)
-        )
-        
+        content_output = tf.cast(content_output, tf.float64)
+        content_feature = tf.cast(self.content_feature, tf.float64)
+
+        content_cost = tf.reduce_mean(tf.square(content_output - content_feature))
+
         return content_cost
