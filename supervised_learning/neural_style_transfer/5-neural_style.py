@@ -184,9 +184,8 @@ class NST:
         style_cost = 0
 
         for i in range(len_style_layers):
-            layer_cost = self.layer_style_cost(
+            style_cost += w * self.layer_style_cost(
                 style_outputs[i], self.gram_style_features[i]
             )
-            style_cost += w * layer_cost
 
         return style_cost
