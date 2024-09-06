@@ -161,8 +161,7 @@ class NST:
             raise TypeError("style_output must be a tensor of rank 4")
         if not (isinstance(gram_target, tf.Tensor) or
                 isinstance(gram_target, tf.Variable)) or\
-                len(gram_target.shape) != 3 or\
-                gram_target.shape != (1, c, c):
+                len(gram_target.shape) != 3:
             raise TypeError(
                 f"gram_target must be a tensor of shape [1, {c}, {c}]")
 
