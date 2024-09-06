@@ -175,11 +175,14 @@ class NST:
         length = len(self.style_layers)
         if not isinstance(style_outputs, list) or len(style_outputs) != length:
             raise TypeError(
-                f"style_outputs must be a list with a length of {length}"
+                "style_outputs must be a list with a length of {}".format(
+                    length
+                )
             )
 
         weight = 1 / length
         style_cost = 0
+
         for i in range(length):
             style_cost += weight * self.layer_style_cost(
                 style_outputs[i], self.gram_style_features[i]
