@@ -154,7 +154,7 @@ class NST:
         """
         Calculates the style cost for a single layer
         """
-        _, _, _, c = style_output.shape
+        c = style_output.shape[-1]
         if not (isinstance(style_output, tf.Tensor) or
                 isinstance(style_output, tf.Variable)) or\
                 len(style_output.shape) != 4:
