@@ -5,8 +5,6 @@ This module performs Neural Style Transfer on two images
 
 import numpy as np
 import tensorflow as tf
-import matplotlib.image as mpimg
-
 
 class NST:
     """Neural Style Transfer class"""
