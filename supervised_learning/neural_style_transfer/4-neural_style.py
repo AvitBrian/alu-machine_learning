@@ -163,7 +163,7 @@ class NST:
                 isinstance(gram_target, tf.Variable)) or\
                 len(gram_target.shape) != 3 or\
                 gram_target.shape != (1, c, c):
-            raise TypeError(\
+            raise TypeError(
                 f"gram_target must be a tensor of shape [1, {c}, {c}]")
 
         gram_style = self.gram_matrix(style_output)
