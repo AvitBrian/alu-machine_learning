@@ -21,7 +21,7 @@ class NST:
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """
         Initializes the NST class with style and content images,
-        and the respective ws for content and style cost
+        and the respective weights for content and style cost
         """
         tf.enable_eager_execution()
 
@@ -90,7 +90,7 @@ class NST:
         The model is based on the VGG19 Keras model.
         '''
         VGG19_model = tf.keras.applications.VGG19(include_top=False,
-                                                  ws='imagenet')
+                                                  weights='imagenet')
         VGG19_model.save("VGG19_base_model")
         custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
 
