@@ -206,7 +206,9 @@ class NST:
         content_output = tf.cast(content_output, tf.float64)
         content_feature = tf.cast(self.content_feature, tf.float64)
 
-        content_cost = tf.reduce_mean(tf.square(content_output - content_feature))
+        content_cost = tf.reduce_mean(tf.square(
+            content_output - content_feature
+        ))
 
         return content_cost
 
@@ -224,7 +226,7 @@ class NST:
             )
 
         J_content = self.content_cost(generated_image)
-        J_style = self.style_cost(self.model(generated_image)[:-1]) 
+        J_style = self.style_cost(self.model(generated_image)[:-1])
         self.alpha = 1e3
         self.beta = 1e-2
         J = self.alpha * J_content + self.beta * J_style
