@@ -210,3 +210,14 @@ class NST:
 
         return content_cost
 
+    def total_cost(self, generated_image):
+        """
+        Calculates the total cost for generated image
+        """
+        if not isinstance(generated_image, tf.Tensor) or len(
+                generated_image.shape) != 4:
+            raise TypeError(
+                "content_output must be a tensor of shape {}".format(
+                    generated_image.shape
+                )
+            )
