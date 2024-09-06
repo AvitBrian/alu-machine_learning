@@ -2,32 +2,38 @@
 """
 This module performs Neural Style Transfer on two images
 """
+
 import numpy as np
 import tensorflow as tf
+import matplotlib.image as mpimg
 
 
 class NST:
     """Neural Style Transfer class"""
 
     style_layers = [
-      'block1_conv1',
-      'block2_conv1',
-      'block3_conv1',
-      'block4_conv1',
-      'block5_conv1'
-      ]
+        'block1_conv1',
+        'block2_conv1',
+        'block3_conv1',
+        'block4_conv1',
+        'block5_conv1'
+    ]
     content_layer = 'block5_conv2'
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
+        """
+        Initializes the NST class with style and content images,
+        and the respective weights for content and style cost
+        """
+        # tf.enable_eager_execution()
 
-        tf.enable_eager_execution()
-
-        if not isinstance(style_image, np.ndarray) or\
+        # Validate inputs
+        if not isinstance(style_image, np.ndarray) or \
            style_image.ndim != 3 or style_image.shape[2] != 3:
             raise TypeError(
                 "style_image must be a numpy.ndarray with shape (h, w, 3)")
-        if not isinstance(content_image, np.ndarray) or\
-           content_image.ndim != 3 or style_image.shape[2] != 3:
+        if not isinstance(content_image, np.ndarray) or \
+           content_image.ndim != 3 or content_image.shape[2] != 3:
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)")
         if (type(alpha) is not float and type(alpha) is not int) or alpha < 0:
@@ -35,6 +41,7 @@ class NST:
         if (type(beta) is not float and type(beta) is not int) or beta < 0:
             raise TypeError("beta must be a non-negative number")
 
+        # Ensure correct dimensions
         style_h, style_w, style_c = style_image.shape
         content_h, content_w, content_c = content_image.shape
 
@@ -49,6 +56,9 @@ class NST:
         self.content_image = self.scale_image(content_image)
         self.alpha = alpha
         self.beta = beta
+
+        self.load_model()
+        self.generate_features()
 
     @staticmethod
     def scale_image(image):
@@ -70,8 +80,8 @@ class NST:
             w_new = 512
             h_new = int(h * (512 / w))
 
-        resized = tf.image.resize_bicubic(np.expand_dims(image, axis=0),
+        resized = tf.image.resize(np.expand_dims(image, axis=0),
                                           size=(h_new, w_new))
         rescaled = resized / 255
         rescaled = tf.clip_by_value(rescaled, 0, 1)
-        return (rescaled)
+        return rescaled
