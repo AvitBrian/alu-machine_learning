@@ -23,7 +23,7 @@ class NST:
         Initializes the NST class with style and content images,
         and the respective weights for content and style cost
         """
-        tf.enable_eager_execution()
+        tf.compat.v1.enable_eager_execution()
 
         # Validate inputs
         if not isinstance(style_image, np.ndarray) or \
@@ -78,8 +78,10 @@ class NST:
             w_new = 512
             h_new = int(h * (512 / w))
 
-        resized = tf.image.resize_bicubic(np.expand_dims(image, axis=0),
-                                          size=(h_new, w_new))
+        resized = tf.image.resize(np.expand_dims(image, axis=0),
+                                          size=(h_new, w_new),
+                                          method="bicubic"
+                  )
         rescaled = resized / 255
         rescaled = tf.clip_by_value(rescaled, 0, 1)
         return rescaled
@@ -203,8 +205,7 @@ class NST:
                 )
             )
 
-        content_output = tf.cast(content_output, tf.float64)
-        content_feature = tf.cast(self.content_feature, tf.float64)
+        content_feature = self.content_feature
 
         content_cost = tf.reduce_mean(tf.square(
             content_output - content_feature
@@ -225,18 +226,17 @@ class NST:
                 )
             )
 
-        J_content = self.content_cost(generated_image)
+        J_content = self.content_cost(self.model(generated_image)[-1])
         J_style = self.style_cost(self.model(generated_image)[:-1])
-        self.alpha = 1e3
-        self.beta = 1e-2
         J = self.alpha * J_content + self.beta * J_style
 
         return J, J_content, J_style
 
-    def compute_grade(self, generated_image):
+    def compute_grads(self, generated_image):
         """
         Calculates the gradients for the tf.tensor generated_image
         """
+        generated_image = tf.convert_to_tensor(generated_image)
         if not isinstance(generated_image, tf.Tensor) or\
             generated_image.shape != self.content_image.shape:
                 raise TypeError(
@@ -255,4 +255,3 @@ class NST:
         gradients = tape.gradient(J_total, generated_image)
 
         return gradients, J_total, J_content, J_style
-        
