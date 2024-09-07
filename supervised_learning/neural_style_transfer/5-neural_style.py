@@ -126,7 +126,7 @@ class NST:
         f = tf.reshape(input_layer, [1, -1, c])
         n = tf.shape(f)[1]
         gram = tf.matmul(f, f, transpose_a=True)
-        # gram = tf.expand_dims(gram, axis=0)
+        gram = tf.expand_dims(gram, axis=0)
         return gram / tf.cast(n, tf.float32)
 
     def generate_features(self):
