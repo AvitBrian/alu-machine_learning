@@ -238,11 +238,12 @@ class NST:
         Calculates the gradients for the tf.tensor generated_image
         """
         generated_image = tf.convert_to_tensor(generated_image)
-        if not isinstance(generated_image, tf.Tensor) or\
-            generated_image.shape != self.content_image.shape:
+        if not isinstance(generated_image, tf.Tensor) or len(
+                generated_image.shape) != 4:
             raise TypeError(
-                "generated_image must be a tensor of shape"
-                "{}".format(self.content_image.shape)
+                "generated_image must be a tensor of shape {}".format(
+                    generated_image.shape
+                )
             )
 
         with tf.GradientTape() as tape:
