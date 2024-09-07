@@ -110,5 +110,6 @@ class NST:
 
         outputs = style_outputs + [content_output]
 
+        model.trainable = False
         model = tf.keras.models.Model(vgg.input, outputs)
         self.model = model
