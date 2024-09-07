@@ -23,7 +23,7 @@ class NST:
         Initializes the NST class with style and content images,
         and the respective weights for content and style cost
         """
-        tf.compat.v1.enable_eager_execution()
+        tf.enable_eager_execution()
 
         # Validate inputs
         if not isinstance(style_image, np.ndarray) or \
@@ -78,10 +78,10 @@ class NST:
             w_new = 512
             h_new = int(h * (512 / w))
 
-        resized = tf.image.resize(np.expand_dims(image, axis=0),
-                                          size=(h_new, w_new),
-                                          method="bicubic"
-                  )
+        resized = tf.image.resize_bicubic(
+            np.expand_dims(image, axis=0),
+            size=(h_new, w_new),
+        )
         rescaled = resized / 255
         rescaled = tf.clip_by_value(rescaled, 0, 1)
         return rescaled
