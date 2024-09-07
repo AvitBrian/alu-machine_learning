@@ -315,9 +315,13 @@ class NST:
                 J_style_np = J_style.numpy()
                 
                 print(
-                    f"Cost at iteration {i}: {J_total_np}, "
-                    f"content {J_content_np}, "
-                    f"style {J_style_np}"
+                    "Cost at iteration {i}: {J_total_np}, "
+                    "content {J_content_np}, "
+                    "style {J_style_np}".format(
+                        i=i, J_total_np=J_total_np,
+                        J_content_np=J_content_np,
+                        J_style_np=J_style_np
+                    )
                 )
         
         return best_image, best_cost
