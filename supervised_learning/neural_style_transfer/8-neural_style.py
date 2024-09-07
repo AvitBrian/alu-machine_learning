@@ -239,10 +239,10 @@ class NST:
         generated_image = tf.convert_to_tensor(generated_image)
         if not isinstance(generated_image, tf.Tensor) or\
             generated_image.shape != self.content_image.shape:
-                raise TypeError(
-                    "generated_image must be a tensor of shape"
-                    "{}".format(self.content_image.shape)
-                )
+            raise TypeError(
+                "generated_image must be a tensor of shape"
+                "{}".format(self.content_image.shape)
+            )
 
         with tf.GradientTape() as tape:
             tape.watch(generated_image)
