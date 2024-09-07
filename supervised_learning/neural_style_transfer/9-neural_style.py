@@ -87,33 +87,31 @@ class NST:
         return rescaled
 
     def load_model(self):
-        '''
-        Creates the model used to calculate the style and content costs.
-        The model is based on the VGG19 Keras model.
-        '''
-        VGG19_model = tf.keras.applications.VGG19(include_top=False,
-                                                  weights='imagenet')
-        VGG19_model.save("VGG19_base_model")
+        """
+        Loads the model for Neural Style Transfer
+        """
+
+        # load vgg model
+        vgg_model = tf.keras.applications.VGG19(
+            include_top=False, weights='imagenet')
+
+        # MaxPooling2D - AveragePooling 2D
+        vgg_model.save('base')
         custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
+        vgg = tf.keras.models.load_model(
+            'base', custom_objects=custom_objects)
 
-        vgg = tf.keras.models.load_model("VGG19_base_model",
-                                         custom_objects=custom_objects)
+        style_outputs = [
+            vgg.get_layer(name).output for name in self.style_layers]
+        content_outputs = [
+            vgg.get_layer(self.content_layer).output]
+        model_outputs = style_outputs + content_outputs
 
-        style_outputs = []
-        content_output = None
+        model = tf.keras.models.Model(
+            vgg.input, model_outputs, name="model")
 
-        for layer in vgg.layers:
-            if layer.name in self.style_layers:
-                style_outputs.append(layer.output)
-            if layer.name in self.content_layer:
-                content_output = layer.output
-
-            layer.trainable = False
-
-        outputs = style_outputs + [content_output]
-
-        model = tf.keras.models.Model(vgg.input, outputs)
         model.trainable = False
+
         self.model = model
 
     @staticmethod
