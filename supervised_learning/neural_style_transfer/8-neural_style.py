@@ -87,10 +87,10 @@ class NST:
         return rescaled
 
     def load_model(self):
-        '''
+        """
         Creates the model used to calculate the style and content costs.
         The model is based on the VGG19 Keras model.
-        '''
+        """
         VGG19_model = tf.keras.applications.VGG19(include_top=False,
                                                   weights='imagenet')
         VGG19_model.save("VGG19_base_model")
