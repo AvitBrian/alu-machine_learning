@@ -1,3 +1,4 @@
 data
 .ipynb_checkpoints
 models/*.h5
+.ipynb_checkpoints/*
