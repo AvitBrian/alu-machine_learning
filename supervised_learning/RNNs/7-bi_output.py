@@ -40,11 +40,12 @@ class BidirectionalCell:
         '''
         Method that calculates the output of the cell
         '''
-        m, h = H.shape
-        
-        Y = np.zeros((m, self.Wy.shape[1]))
+        t, m, h = H.shape
 
-        exp_Y = np.exp(np.dot(H, self.Wy) + self.by)
-        Y = exp_Y / np.sum(exp_Y, axis=1, keepdims=True)
+        Y = []
 
-        return Y
+        for step in range(t):
+            y = self.softmax(np.matmul(H[step], self.Wy) + self.by)
+            Y.append(y)
+
+        return np.array(Y)
