@@ -40,12 +40,10 @@ class BidirectionalCell:
         '''
         Method that calculates the output of the cell
         '''
-        m, h = H.shape 
+        m, h = H.shape
         
-        # Output shape: (m, output_dim)
         Y = np.zeros((m, self.Wy.shape[1]))
-        
-        # Compute output Y
+
         exp_Y = np.exp(np.dot(H, self.Wy) + self.by)
         Y = exp_Y / np.sum(exp_Y, axis=1, keepdims=True)
 
