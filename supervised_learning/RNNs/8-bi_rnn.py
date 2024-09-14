@@ -12,22 +12,19 @@ def bi_rnn(bi_cell, X, h_0, h_t):
     Function that performs forward propagation for a bidirectional RNN
     '''
     t, m, i = X.shape
-    h = h_0.shape[1]
-    
-    Hf = np.zeros((t, m, h))  
-    Hb = np.zeros((t, m, h))
-    Hf[0] = h_0 
-    Hb[-1] = h_t  
-
-    # Forward pass
-    for step in range(1, t):
-        Hf[step] = bi_cell.forward(Hf[step - 1], X[step])
-
-    # Backward pass
-    for step in range(t - 2, -1, -1):
-        Hb[step] = bi_cell.backward(Hb[step + 1], X[step])
-
-    H = np.concatenate((Hf, Hb), axis=-1)
-    Y = bi_cell.output(H)
-
-    return H, Y
+    l, m, h = h_0.shape
+    H = np.zeros((t + 1, 2, m, h))
+    H[0, 0] = h_0
+    H[0, 1] = h_T
+    for step in range(t):
+        h_prev, y = bi_cell.forward(H[step, 0], X[step])
+        H[step + 1, 0] = h_prev
+        h_next, y = bi_cell.forward(H[step, 1], y)
+        H[step + 1, 1] = h_next
+        if step == 0:
+            Y = y
+        else:
+            Y = np.concatenate((Y, y))
+    output_shape = Y.shape[-1]
+    Y = Y.reshape(t, 2, m, output_shape)
+    return (H, Y)
