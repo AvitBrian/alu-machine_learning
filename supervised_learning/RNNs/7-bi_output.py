@@ -2,8 +2,6 @@
 '''
 Bidirectional Cell Forward
 '''
-
-
 import numpy as np
 
 
@@ -48,8 +46,7 @@ class BidirectionalCell:
         Y = np.zeros((m, self.Wy.shape[1]))
         
         # Compute output Y
-        Y = np.dot(H, self.Wy) + self.by
-        exp_Y = np.exp(Y)
+        exp_Y = np.exp(np.dot(H, self.Wy) + self.by)
         Y = exp_Y / np.sum(exp_Y, axis=1, keepdims=True)
 
         return Y
