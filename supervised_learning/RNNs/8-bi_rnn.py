@@ -7,24 +7,31 @@ Bidirectional Cell Forward
 import numpy as np
 
 
-def bi_rnn(bi_cell, X, h_0, h_T):
-    '''
-    Function that performs forward propagation for a bidirectional RNN
-    '''
+
+def bi_rnn(bi_cell, X, h_0, h_t):
+    """
+    Perform forward propagation for a bidirectional RNN.
+    """
     t, m, i = X.shape
-    l, m, h = h_0.shape
-    H = np.zeros((t + 1, 2, m, h))
-    H[0, 0] = h_0
-    H[0, 1] = h_T
+    h = h_0.shape[1]
+
+    H_fwd = np.zeros((t, m, h))
+    H_bwd = np.zeros((t, m, h))
+
+    h_prev = h_0
     for step in range(t):
-        h_prev, y = bi_cell.forward(H[step, 0], X[step])
-        H[step + 1, 0] = h_prev
-        h_next, y = bi_cell.forward(H[step, 1], y)
-        H[step + 1, 1] = h_next
-        if step == 0:
-            Y = y
-        else:
-            Y = np.concatenate((Y, y))
-    output_shape = Y.shape[-1]
-    Y = Y.reshape(t, 2, m, output_shape)
-    return (H, Y)
+        h_prev = bi_cell.forward(h_prev, X[step])
+        H_fwd[step] = h_prev
+
+    h_prev = h_t
+    for step in reversed(range(t)):
+        h_prev = bi_cell.backward(h_prev, X[step])
+        H_bwd[step] = h_prev
+
+    H = np.concatenate((H_fwd, H_bwd), axis=-1)
+
+    Y = np.zeros((t, m, bi_cell.output_dim))
+    for step in range(t):
+        Y[step] = bi_cell.output(H[step])
+
+    return H, Y
