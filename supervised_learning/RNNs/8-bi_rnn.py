@@ -30,7 +30,7 @@ def bi_rnn(bi_cell, X, h_0, h_t):
 
     H = np.concatenate((H_fwd, H_bwd), axis=-1)
 
-    Y = np.zeros((t, m, bi_cell.output_dim))
+    Y = np.zeros((t, m, bi_cell.Wy.shape[1]))
     for step in range(t):
         Y[step] = bi_cell.output(H[step])
 
