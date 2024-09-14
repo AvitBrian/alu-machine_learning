@@ -42,12 +42,14 @@ class BidirectionalCell:
         '''
         Method that calculates the output of the cell
         '''
-        t, m, h = H.shape
-        Y = np.zeros((t, m, self.Wy.shape[1]))
-
-        for i in range(t):
-            Y[i] = np.dot(H[i], self.Wy) + self.by
-            exp_Y = np.exp(Y[i])
-            Y[i] = exp_Y / np.sum(exp_Y, axis=1, keepdims=True)
+        m, h = H.shape 
+        
+        # Output shape: (m, output_dim)
+        Y = np.zeros((m, self.Wy.shape[1]))
+        
+        # Compute output Y
+        Y = np.dot(H, self.Wy) + self.by
+        exp_Y = np.exp(Y)
+        Y = exp_Y / np.sum(exp_Y, axis=1, keepdims=True)
 
         return Y
