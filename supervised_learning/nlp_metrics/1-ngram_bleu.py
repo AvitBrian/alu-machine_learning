@@ -90,4 +90,3 @@ def ngram_bleu(references, sentence, n):
     BLEU_score = BLEU * precision
 
     return BLEU_score
-  
