@@ -11,12 +11,19 @@ def word2vec_model(sentences, size=100, min_count=5, window=5, negative=5,
     Creates and trains a gensim word2vec model
     """
     if cbow is True:
-        skip = 0
+        cbow_flag = 0
     else:
-        skip = 1
-    model = Word2Vec(size=size, window=window,
-                     min_count=min_count, workers=workers, sg=skip,
-                     negative=negative, seed=seed)
-    model.build_vocab(sentences)
-    model.train(sentences, total_examples=model.corpus_count, epochs=iterations)
+        cbow_flag = 1
+    model = Word2Vec(sentences=sentences,
+                     size=size,
+                     min_count=min_count,
+                     window=window,
+                     negative=negative,
+                     sg=cbow_flag,
+                     iter=iterations,
+                     seed=seed,
+                     workers=workers)
+    model.train(sentences,
+                total_examples=model.corpus_count,
+                epochs=model.epochs)
     return model
