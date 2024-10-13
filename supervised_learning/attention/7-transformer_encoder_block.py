@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 '''Transformer encoder block'''
-
 import tensorflow as tf
 MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
+
 
 class EncoderBlock(tf.keras.layers.Layer):
     '''Encoder block for transformer architecture'''
