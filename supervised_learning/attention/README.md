@@ -1,0 +1,2 @@
+# Attention Mechanism
+the attention mechanism is a concept in deep learning that allows a model to focus on specific parts of an input sequence when making predictions. It is particularly useful in tasks such as natural language processing (NLP), where the input is a sequence of words or phrases, and the model needs to understand the context and meaning of the input.
