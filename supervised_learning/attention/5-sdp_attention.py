@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 '''
-This module contains the sdp_attention function
+This module contains the sdp_attention function.
 '''
-
-
 import tensorflow as tf
 
 
 def sdp_attention(Q, K, V, mask=None):
-    """Calculates the scaled dot product attention"""
+    """
+    Calculates the scaled dot product attention.
+    """
     matmul_qk = tf.matmul(Q, K, transpose_b=True)
     dk = tf.cast(tf.shape(K)[-1], tf.float32)
     scaled_qk = matmul_qk / tf.math.sqrt(dk)
