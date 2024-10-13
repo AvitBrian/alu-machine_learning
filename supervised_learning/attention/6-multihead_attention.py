@@ -24,10 +24,17 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.linear = tf.keras.layers.Dense(dm)
 
     def split_heads(self, x, batch_size):
+        """
+        Splits the last dimension into (h, depth).
+        Transposes the result to move the head dimension forward.
+        """
         x = tf.reshape(x, (batch_size, -1, self.h, self.depth))
         return tf.transpose(x, perm=[0, 2, 1, 3])
 
     def call(self, Q, K, V, mask):
+        """
+        Calls the multi-headed attention mechanism.
+        """
         batch_size = tf.shape(Q)[0]
 
         Q = self.Wq(Q)
