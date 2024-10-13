@@ -1,43 +1,58 @@
 #!/usr/bin/env python3
-'''Transformer decoder block implementation'''
-
+'''This module defines a transformer encoder'''
 import tensorflow as tf
-MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
+positional_encoding = __import__('4-positional_encoding').positional_encoding
+EncoderBlock = __import__('7-transformer_encoder_block').EncoderBlock
 
-class DecoderBlock(tf.keras.layers.Layer):
-    '''DecoderBlock class for transformer architecture'''
 
-    def __init__(self, dm, h, hidden, drop_rate=0.1):
-        '''Initializes DecoderBlock with specified parameters'''
-        super(DecoderBlock, self).__init__()
+class Encoder(tf.keras.layers.Layer):
+    '''
+    Defines the Transformer encoder class.
+    '''
+    def __init__(self, N, dm, h, hidden, input_vocab, max_seq_len,
+                 drop_rate=0.1):
+        '''Initializes Encoder with specified parameters'''
+        if type(N) is not int:
+            raise TypeError(
+                "N must be int representing number of blocks in the encoder")
+        if type(dm) is not int:
+            raise TypeError(
+                "dm must be int representing dimensionality of model")
+        if type(h) is not int:
+            raise TypeError(
+                "h must be int representing number of heads")
+        if type(hidden) is not int:
+            raise TypeError(
+                "hidden must be int representing number of hidden units")
+        if type(input_vocab) is not int:
+            raise TypeError(
+                "input_vocab must be int representing size of input vocab")
+        if type(max_seq_len) is not int:
+            raise TypeError(
+                "max_seq_len must be int representing max sequence length")
+        if type(drop_rate) is not float:
+            raise TypeError(
+                "drop_rate must be float representing dropout rate")
+        super(Encoder, self).__init__()
+        self.N = N
+        self.dm = dm
+        self.embedding = tf.keras.layers.Embedding(input_dim=input_vocab,
+                                                   output_dim=dm)
+        self.positional_encoding = positional_encoding(max_seq_len, dm)
+        self.blocks = [EncoderBlock(dm, h, hidden, drop_rate)
+                       for block in range(N)]
+        self.dropout = tf.keras.layers.Dropout(drop_rate)
 
-        self.mha1 = MultiHeadAttention(dm, h)
-        self.mha2 = MultiHeadAttention(dm, h)
+    def call(self, x, training, mask):
+        '''Executes the encoder logic'''
+        seq_len = x.shape[1]
 
-        self.dense_hidden = tf.keras.layers.Dense(hidden, activation='relu')
-        self.dense_output = tf.keras.layers.Dense(dm)
+        x = self.embedding(x)
+        x *= tf.math.sqrt(tf.cast(self.dm, tf.float32))
+        x += self.positional_encoding[:seq_len, :]
+        x = self.dropout(x, training=training)
 
-        self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.layernorm3 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+        for i in range(self.N):
+            x = self.blocks[i](x, training, mask)
 
-        self.dropout1 = tf.keras.layers.Dropout(drop_rate)
-        self.dropout2 = tf.keras.layers.Dropout(drop_rate)
-        self.dropout3 = tf.keras.layers.Dropout(drop_rate)
-
-    def call(self, x, encoder_output, training, look_ahead_mask, padding_mask):
-        '''Executes the decoder block operations'''
-        attn1, _ = self.mha1(x, x, x, mask=look_ahead_mask)
-        attn1 = self.dropout1(attn1, training=training)
-        out1 = self.layernorm1(x + attn1)
-
-        attn2, _ = self.mha2(out1, encoder_output, encoder_output, mask=padding_mask)
-        attn2 = self.dropout2(attn2, training=training)
-        out2 = self.layernorm2(out1 + attn2)
-
-        hidden_output = self.dense_hidden(out2)
-        dense_output = self.dense_output(hidden_output)
-        dense_output = self.dropout3(dense_output, training=training)
-        out3 = self.layernorm3(out2 + dense_output)
-
-        return out3
+        return x
