@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""RNNDecoder class for machine translation"""
+'''This module defines the RNNDecoder class'''
 
 import tensorflow as tf
 SelfAttention = __import__('1-self_attention').SelfAttention
 
 class RNNDecoder(tf.keras.layers.Layer):
-    """Decodes for machine translation using RNN with attention"""
+    '''Decodes for machine translation using RNN with attention'''
 
     def __init__(self, vocab, embedding, units, batch):
-        """
-        Initialize the RNNDecoder
-        """
+        '''Initialize the RNNDecoder'''
         super(RNNDecoder, self).__init__()
         self.embedding = tf.keras.layers.Embedding(vocab, embedding)
         self.gru = tf.keras.layers.GRU(
@@ -22,9 +20,7 @@ class RNNDecoder(tf.keras.layers.Layer):
         self.F = tf.keras.layers.Dense(vocab)
 
     def call(self, x, s_prev, hidden_states):
-        """
-        Process a decoding step
-        """
+        '''Executes the decoder logic'''
         units = s_prev.shape[1]
         attention = SelfAttention(units)
         context, _ = attention(s_prev, hidden_states)
