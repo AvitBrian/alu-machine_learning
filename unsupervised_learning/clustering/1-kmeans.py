@@ -19,24 +19,28 @@ def kmeans(X, k, iterations=1000):
     n, d = X.shape
     C = np.zeros((k, d))
     
-    # K-means++ initialization
     C[0] = X[np.random.randint(n)]
-    for i in range(1, k):
-        D = np.sum([np.min(np.sum((X - c) ** 2, axis=1)) for c in C[:i]], axis=0)
-        probs = D / D.sum()
-        cumulative_probs = probs.cumsum()
-        r = np.random.rand()
-        C[i] = X[np.searchsorted(cumulative_probs, r)]
 
-    # K-means algorithm
-    for _ in range(iterations):
-        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-        clss = np.argmin(distances, axis=1)
-        new_C = np.array([X[clss == i].mean(axis=0) if np.sum(clss == i) > 0
-                          else X[np.random.choice(len(X))]
-                          for i in range(k)])
-        if np.allclose(C, new_C):
-            break
-        C = new_C
+    for i in range(1, iterations + k):
+        if i < k:
+            # K-means++ initialization
+            D = np.min(np.sum((X[:, np.newaxis] - C[:i])**2, axis=2), axis=1)
+            prob = D / D.sum()
+            cumprob = np.cumsum(prob)
+            r = np.random.rand()
+            C[i] = X[np.searchsorted(cumprob, r)]
+        else:
+            # K-means algorithm
+            distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+            clss = np.argmin(distances, axis=1)
+            new_C = np.array([X[clss == j].mean(axis=0) if np.sum(clss == j) > 0
+                              else X[np.random.choice(len(X))]
+                              for j in range(k)])
+            if np.allclose(C, new_C):
+                break
+            C = new_C
+
+    distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+    clss = np.argmin(distances, axis=1)
 
     return C, clss
