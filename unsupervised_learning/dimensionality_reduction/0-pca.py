@@ -1,35 +1,23 @@
 #!/usr/bin/env python3
 '''
-This module implements PCA to reduce
+This module implements PCA to reduce dimensionality
 '''
 import numpy as np
 
 
 def pca(X, var=0.95):
     """
-    This function implements PCA to reduce
-    the dimensionality of the input data,
-    while maintaining a specified fraction of the original variance.
+    Performs PCA on a dataset.
     """
-    # covariance matrix,eigenvalues and eigenvectors
-    cov_matrix = np.cov(X.T)
+    # Center the data
+    X_centered = X - np.mean(X, axis=0)
 
-    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+    U, S, Vt = np.linalg.svd(X_centered, full_matrices=False)
 
-    idx = eigenvalues.argsort()[::-1]
-    eigenvalues = eigenvalues[idx]
-    eigenvectors = eigenvectors[:, idx]
-
-    for i in range(eigenvectors.shape[1]):
-        max_abs_idx = np.argmax(np.abs(eigenvectors[:, i]))
-        if eigenvectors[max_abs_idx, i] < 0:
-            eigenvectors[:, i] *= -1
-
-    total_variance = np.sum(eigenvalues)
-    cumulative_variance_ratio = np.cumsum(eigenvalues) / total_variance
+    cumulative_variance_ratio = np.cumsum(S**2) / np.sum(S**2)
 
     n_components = np.argmax(cumulative_variance_ratio >= var) + 1
 
-    W = eigenvectors[:, :n_components]
+    W = Vt.T[:, :n_components]
 
     return W
