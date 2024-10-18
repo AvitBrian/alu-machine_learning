@@ -5,22 +5,23 @@ This module implements K-means clustering algorithm
 import numpy as np
 
 
-def initialize(X, k):
+def kmeans_plus_plus_init(X, k):
     '''
-    Initializes cluster centroids for K-means
+    Initializes cluster centroids for K-means using K-means++ method
     '''
-
-    if type(X) is not np.ndarray or len(X.shape) != 2:
-        return None
-    if type(k) is not int or k <= 0:
-        return None
-
     n, d = X.shape
-    minimum = np.min(X, axis=0)
-    maximum = np.max(X, axis=0)
-    centroid = np.random.uniform(minimum, maximum, size=(k, d))
+    centroids = np.zeros((k, d))
+    centroids[0] = X[np.random.randint(n)]
 
-    return centroid
+    for i in range(1, k):
+        dist_sq = np.array([min([np.inner(c-x, c-x) for c in centroids[:i]])
+                            for x in X])
+        probs = dist_sq / dist_sq.sum()
+        cumulative_probs = probs.cumsum()
+        r = np.random.rand()
+        centroids[i] = X[np.searchsorted(cumulative_probs, r)]
+
+    return centroids
 
 
 def kmeans(X, k, iterations=1000):
@@ -34,7 +35,7 @@ def kmeans(X, k, iterations=1000):
     if not isinstance(iterations, int) or iterations <= 0:
         return None, None
 
-    C = initialize(X, k)
+    C = kmeans_plus_plus_init(X, k)
 
     for _ in range(iterations):
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
