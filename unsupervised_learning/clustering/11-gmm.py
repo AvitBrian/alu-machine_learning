@@ -6,14 +6,16 @@ import sklearn.mixture
 
 def gmm(X, k):
     """Calculates a GMM from a dataset"""
-    if not isinstance(X, (list, sklearn.mixture.np.ndarray)) or len(X) == 0:
+    np = sklearn.mixture.GaussianMixture._estimate_gaussian_parameters.\
+        __globals__['np']
+    if not isinstance(X, (list, np.ndarray)) or len(X) == 0:
         return None, None, None, None, None
-    if not all(isinstance(row, (list, sklearn.mixture.np.ndarray)) for row in X):
+    if not all(isinstance(row, (list, np.ndarray)) for row in X):
         return None, None, None, None, None
     if not isinstance(k, int) or k <= 0:
         return None, None, None, None, None
 
-    X = sklearn.mixture.np.array(X)
+    X = np.array(X)
     if len(X.shape) != 2:
         return None, None, None, None, None
 
@@ -26,4 +28,4 @@ def gmm(X, k):
     clss = gmm.predict(X)
     bic = gmm.bic(X)
 
-    return pi, m, S, clss, sklearn.mixture.np.array([bic])
+    return pi, m, S, clss, np.array([bic])
