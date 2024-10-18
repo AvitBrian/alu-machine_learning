@@ -24,16 +24,17 @@ def kmeans(X, k, iterations=1000):
 
     for _ in range(iterations):
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-        clss = np.argmin(distances, axis=1)
         
-        for i in range(k):
-            cluster_points = X[clss == i]
-            if len(cluster_points) > 0:
-                C[i] = np.mean(cluster_points, axis=0)
-            else:
-                C[i] = np.random.uniform(min_vals, max_vals)
 
-        if np.allclose(C, C): 
+        clss = np.argmin(distances, axis=1)
+
+        new_C = np.array([X[clss == i].mean(axis=0) if np.sum(clss == i) > 0 
+                          else np.random.uniform(min_vals, max_vals) 
+                          for i in range(k)])
+        
+        if np.allclose(C, new_C):
             break
+
+        C = new_C
 
     return C, clss
