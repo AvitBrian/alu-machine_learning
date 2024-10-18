@@ -2,12 +2,12 @@
 """Module for calculating a GMM from a dataset"""
 
 import sklearn.mixture
-import numpy as np
 
 
 def gmm(X, k):
     """Calculates a GMM from a dataset"""
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
+    if (not isinstance(X, sklearn.mixture.np.ndarray) or
+            len(X.shape) != 2):
         return None, None, None, None, None
     if not isinstance(k, int) or k <= 0:
         return None, None, None, None, None
@@ -21,4 +21,4 @@ def gmm(X, k):
     clss = gmm.predict(X)
     bic = gmm.bic(X)
 
-    return pi, m, S, clss, np.array([bic])
+    return pi, m, S, clss, sklearn.mixture.np.array([bic])
