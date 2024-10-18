@@ -14,8 +14,8 @@ def kmeans_plus_plus_init(X, k):
     centroids[0] = X[np.random.randint(n)]
 
     for i in range(1, k):
-        dist_sq = np.array([min([np.inner(c-x, c-x) for c in centroids[:i]])
-                            for x in X])
+        dist_sq = np.min(np.sum((X[:, np.newaxis] - centroids[:i])**2, axis=2),
+                         axis=1)
         probs = dist_sq / dist_sq.sum()
         cumulative_probs = probs.cumsum()
         r = np.random.rand()
