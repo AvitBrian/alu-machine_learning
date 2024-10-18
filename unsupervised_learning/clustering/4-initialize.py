@@ -19,6 +19,6 @@ def initialize(X, k):
     pi = np.full(k, 1/k)
     kmeans = __import__('1-kmeans').kmeans
     m, _ = kmeans(X, k)
-    S = np.array([np.identity(d) for _ in range(k)])
+    S = np.tile(np.eye(d), (k, 1, 1))
 
     return pi, m, S

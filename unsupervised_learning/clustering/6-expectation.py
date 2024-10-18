@@ -18,7 +18,7 @@ def expectation(X, pi, m, S):
         return None, None
     if not isinstance(S, np.ndarray) or len(S.shape) != 3:
         return None, None
-    
+
     n, d = X.shape
     k = pi.shape[0]
 
@@ -38,6 +38,6 @@ def expectation(X, pi, m, S):
     g_sum = np.sum(g, axis=0)
     g /= g_sum
 
-    l = np.sum(np.log(g_sum))
+    log_likelihood = np.sum(np.log(g_sum))
 
-    return g, l
+    return g, log_likelihood

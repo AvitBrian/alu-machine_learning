@@ -20,17 +20,13 @@ def pdf(X, m, S):
         return None
 
     n, d = X.shape
-
     try:
-        x_minus_mean = X - m
-
-        inv_S = np.linalg.inv(S)
-        exponent = np.sum(np.matmul(x_minus_mean, inv_S) * x_minus_mean, axis=1)
-        coefficient = 1 / (np.sqrt((2 * np.pi) ** d * np.linalg.det(S)))
-
-        P = coefficient * np.exp(-0.5 * exponent)
-        P = np.maximum(P, 1e-300)
-
-        return P
-    except:
+        det = np.linalg.det(S)
+        inv = np.linalg.inv(S)
+        constant = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det))
+        diff = X - m
+        exponent = -0.5 * np.sum(np.matmul(diff, inv) * diff, axis=1)
+        P = constant * np.exp(exponent)
+        return np.maximum(P, 1e-300)
+    except Exception as e:
         return None
