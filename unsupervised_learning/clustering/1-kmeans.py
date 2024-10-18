@@ -4,6 +4,7 @@ This module implements K-means clustering algorithm
 '''
 import numpy as np
 
+
 def kmeans(X, k, iterations=1000):
     '''
     Performs K-means clustering on a dataset
