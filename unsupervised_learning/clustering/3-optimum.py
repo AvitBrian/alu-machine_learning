@@ -5,6 +5,7 @@ that tests for the optimum number of clusters by variance.
 '''
 import numpy as np
 
+
 def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     '''
     Tests for the optimum number of clusters by variance.
@@ -27,11 +28,11 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
 
     results = []
     d_vars = []
-    
+
     for k in range(kmin, kmax + 1):
         C, clss = kmeans(X, k, iterations)
         results.append((C, clss))
-        
+
         if k == kmin:
             base_variance = variance(X, C)
             d_vars.append(0)
