@@ -5,25 +5,6 @@ This module implements K-means clustering algorithm
 import numpy as np
 
 
-def kmeans_plus_plus_init(X, k):
-    '''
-    Initializes cluster centroids for K-means using K-means++ method
-    '''
-    n, d = X.shape
-    centroids = np.zeros((k, d))
-    centroids[0] = X[np.random.randint(n)]
-
-    for i in range(1, k):
-        dist_sq = np.min(np.sum((X[:, np.newaxis] - centroids[:i])**2, axis=2),
-                         axis=1)
-        probs = dist_sq / dist_sq.sum()
-        cumulative_probs = probs.cumsum()
-        r = np.random.rand()
-        centroids[i] = X[np.searchsorted(cumulative_probs, r)]
-
-    return centroids
-
-
 def kmeans(X, k, iterations=1000):
     '''
     Performs K-means clustering on a dataset
@@ -35,8 +16,19 @@ def kmeans(X, k, iterations=1000):
     if not isinstance(iterations, int) or iterations <= 0:
         return None, None
 
-    C = kmeans_plus_plus_init(X, k)
+    n, d = X.shape
+    C = np.zeros((k, d))
+    
+    # K-means++ initialization
+    C[0] = X[np.random.randint(n)]
+    for i in range(1, k):
+        D = np.sum([np.min(np.sum((X - c) ** 2, axis=1)) for c in C[:i]], axis=0)
+        probs = D / D.sum()
+        cumulative_probs = probs.cumsum()
+        r = np.random.rand()
+        C[i] = X[np.searchsorted(cumulative_probs, r)]
 
+    # K-means algorithm
     for _ in range(iterations):
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
         clss = np.argmin(distances, axis=1)
