@@ -4,6 +4,8 @@ This module implements K-means clustering algorithm
 '''
 import numpy as np
 
+initialize = __import__('0-initialize').initialize
+
 
 def kmeans(X, k, iterations=1000):
     '''
@@ -16,25 +18,18 @@ def kmeans(X, k, iterations=1000):
     if not isinstance(iterations, int) or iterations <= 0:
         return None, None
 
-    n, d = X.shape
-
-    min_vals = np.min(X, axis=0)
-    max_vals = np.max(X, axis=0)
-    C = np.random.uniform(min_vals, max_vals, size=(k, d))
+    C = initialize(X, k)
+    if C is None:
+        return None, None
 
     for _ in range(iterations):
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-        
-
         clss = np.argmin(distances, axis=1)
-
-        new_C = np.array([X[clss == i].mean(axis=0) if np.sum(clss == i) > 0 
-                          else np.random.uniform(min_vals, max_vals) 
+        new_C = np.array([X[clss == i].mean(axis=0) if np.sum(clss == i) > 0
+                          else X[np.random.choice(len(X))]
                           for i in range(k)])
-        
         if np.allclose(C, new_C):
             break
-
         C = new_C
 
     return C, clss
