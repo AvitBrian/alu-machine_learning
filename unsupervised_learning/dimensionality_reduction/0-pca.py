@@ -10,14 +10,11 @@ def pca(X, var=0.95):
     Performs PCA on a dataset.
     """
     # Center the data
-    X_centered = X - np.mean(X, axis=0)
+    u, s, v = np.linalg.svd(X)
+    y = list(x / np.sum(s) for x in s)
 
-    U, S, Vt = np.linalg.svd(X_centered, full_matrices=False)
+    vrce = np.cumsum(y)
+    nd = np.argwhere(vrce >= var)[0, 0]
 
-    cumulative_variance_ratio = np.cumsum(S**2) / np.sum(S**2)
-
-    n_components = np.argmax(cumulative_variance_ratio >= var) + 1
-
-    W = Vt.T[:, :n_components]
-
-    return W
+    W = v.T[:, :(nd + 1)]
+    return (W)
