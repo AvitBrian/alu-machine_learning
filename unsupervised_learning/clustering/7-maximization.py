@@ -20,8 +20,8 @@ def maximization(X, g):
     n, d = X.shape
     k = g.shape[0]
 
-    if (np.any(g < 0) or np.any(g > 1) or 
-        not np.allclose(np.sum(g, axis=0), 1)):
+    if (np.any(g < 0) or np.any(g > 1) or
+            not np.allclose(np.sum(g, axis=0), 1)):
         return None, None, None
 
     pi = np.sum(g, axis=1) / n
@@ -30,6 +30,6 @@ def maximization(X, g):
     for i in range(k):
         diff = X - m[i]
         weighted_diff = g[i][:, np.newaxis] * diff
-        S[i] = np.dot(weighted_diff.T, diff) / np.sum(g[i])
+        S[i] = np.dot(diff.T, weighted_diff) / np.sum(g[i])
 
     return pi, m, S
