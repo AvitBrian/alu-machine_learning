@@ -15,16 +15,15 @@ def pca(X, ndim):
     # Center the data
     X_centered = X - np.mean(X, axis=0)
 
-    # covariance matrix,eigenvalues and eigenvectors
     cov_matrix = np.cov(X_centered.T)
-    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+
+    eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
 
     idx = eigenvalues.argsort()[::-1]
     eigenvectors = eigenvectors[:, idx]
 
     W = eigenvectors[:, :ndim]
 
-    # Project data
-    T = np.dot(X_centered, W)
+    T = np.matmul(X_centered, W)
 
     return T

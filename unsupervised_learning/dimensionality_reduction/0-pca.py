@@ -19,8 +19,6 @@ def pca(X, var=0.95):
     idx = eigenvalues.argsort()[::-1]
     eigenvalues = eigenvalues[idx]
     eigenvectors = eigenvectors[:, idx]
-
-    #cumulative variance ratio
     total_variance = np.sum(eigenvalues)
     cumulative_variance_ratio = np.cumsum(eigenvalues) / total_variance
 
