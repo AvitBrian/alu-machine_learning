@@ -26,10 +26,10 @@ def maximization(X, g):
 
     pi = np.sum(g, axis=1) / n
     m = np.dot(g, X) / np.sum(g, axis=1)[:, np.newaxis]
-
     S = np.zeros((k, d, d))
     for i in range(k):
         diff = X - m[i]
-        S[i] = np.dot(g[i][:, np.newaxis] * diff.T, diff) / np.sum(g[i])
+        weighted_diff = g[i][:, np.newaxis] * diff
+        S[i] = np.dot(weighted_diff.T, diff) / np.sum(g[i])
 
     return pi, m, S
