@@ -10,7 +10,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     input_dims: integer, model input dimensions
     hidden_layers: list, number of nodes for each hidden layer in the encoder
     latent_dims: integer, dimensions of the latent space representation
-    lambtha: float, regularization parameter for L1 regularization 
+    lambtha: float, regularization parameter for L1 regularization
     on the encoded output
 
     Returns: encoder, decoder, auto
