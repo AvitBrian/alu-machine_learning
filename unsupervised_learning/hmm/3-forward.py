@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-'''This module Performing forward algorithm for a hidden markov model'''
+'''This module performs the forward algorithm for a hidden markov model'''
 
 import numpy as np
 
 
 def forward(Observation, Emission, Transition, Initial):
-    '''performs the forward algorithm for a hidden markov model
+    '''Performs the forward algorithm for a hidden markov model
 
-    Observation: numpy.ndarray of shape (T,) containing the index of the observation
-    Emission: numpy.ndarray of shape (N, M) containing the emission probability
-    Transition: 2D numpy.ndarray of shape (N, N) containing the transition probabilities
-    Initial: numpy.ndarray of shape (N, 1) containing the probability of starting in a hidden state
+    Parameters:
+    Observation (numpy.ndarray): Index of the observation
+    Emission (numpy.ndarray): Emission probability given a hidden state
+    Transition (numpy.ndarray): Transition probabilities
+    Initial (numpy.ndarray): Probability of starting in a hidden state
 
-    Returns: P, F, or None, None on failure
-    P: likelihood of the observations given the model
-    F: numpy.ndarray of shape (N, T) containing the forward path probabilities
+    Returns:
+    P (float): Likelihood of the observations given the model
+    F (numpy.ndarray): Forward path probabilities
     '''
 
     if not isinstance(Observation, np.ndarray) or len(Observation.shape) != 1:
