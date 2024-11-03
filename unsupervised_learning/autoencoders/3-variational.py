@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-'''this module creates variational autoencoder'''
-
+'''This module creates a variational autoencoder.'''
 
 import tensorflow.keras as keras
 
 
-
 def autoencoder(input_dims, hidden_layers, latent_dims):
-    '''creates the variational autoencoder'''
+    '''Creates the variational autoencoder.'''
     encoder_input = keras.Input(shape=(input_dims,))
     x = encoder_input
     for nodes in hidden_layers:
@@ -28,7 +26,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     encoder = keras.models.Model(
         encoder_input, [z, z_mean, z_log_var], name='encoder'
     )
-    
+
     decoder_input = keras.Input(shape=(latent_dims,))
     x = decoder_input
     for nodes in reversed(hidden_layers):
@@ -41,6 +39,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     autoencoder = keras.models.Model(
         autoencoder_input, reconstructed, name='autoencoder'
     )
+
     def vae_loss(y_true, y_pred):
         reconstruction_loss = keras.losses.binary_crossentropy(y_true, y_pred)
         reconstruction_loss *= input_dims
