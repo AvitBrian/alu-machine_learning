@@ -1,124 +1,178 @@
+#!/usr/bin/env python3
+"""Deep Q-Learning implementation for Atari's Breakout game"""
+
 import gym
 import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, Conv2D
-from tensorflow.keras.optimizers import Adam
+from PIL import Image
+from tensorflow.keras import layers, Model, optimizers
 from rl.agents.dqn import DQNAgent
-from rl.policy import EpsGreedyQPolicy
 from rl.memory import SequentialMemory
-from rl.core import Processor
-from gym.wrappers import AtariPreprocessing, FrameStack
-import cv2
+from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
+from rl.processors import Processor
+from rl.callbacks import Callback
+import time
+
 
 class AtariProcessor(Processor):
+    """Processor for Atari game frames"""
+    
+    def __init__(self, target_size=(84, 84)):
+        super(AtariProcessor, self).__init__()
+        self.target_size = target_size
+
     def process_observation(self, observation):
-        """Process observation for DQN input"""
-        # Convert LazyFrames to numpy array properly
-        observation = np.asarray(observation)
+        """Process raw game frames for neural network input"""
+        assert observation.ndim == 3, "Expected 3D array (height, width, channel)"
         
-        # Debug print
-        print(f"Original observation shape: {observation.shape}")
+        image = Image.fromarray(observation)
+        image = image.resize(self.target_size, Image.Resampling.LANCZOS).convert("L")
+        processed_observation = np.array(image)
         
-        # If observation is LazyFrames, it needs special handling
-        if len(observation.shape) == 1:
-            # Convert list of frames to proper numpy array
-            frames = [np.asarray(frame) for frame in observation]
-            observation = np.stack(frames, axis=-1)
-            
-        # Add batch dimension if needed
-        if len(observation.shape) == 3:
-            observation = np.expand_dims(observation, axis=0)
-            
-        # Debug print
-        print(f"Processed observation shape: {observation.shape}")
-        
-        return observation.astype('float32') / 255.
+        assert processed_observation.shape == self.target_size
+        return processed_observation.astype("uint8")
 
     def process_state_batch(self, batch):
-        """Process batch of states"""
-        return batch.astype('float32')
+        """Normalize state batch to [0, 1] range"""
+        return batch.astype("float32") / 255.0
 
     def process_reward(self, reward):
-        """Clip rewards"""
-        return np.clip(reward, -1., 1.)
+        """Clip rewards to [-1, 1] range"""
+        return np.clip(reward, -1.0, 1.0)
 
-def build_model(input_shape, nb_actions):
-    model = Sequential([
-        Conv2D(32, (8, 8), strides=4, activation='relu', input_shape=input_shape),
-        Conv2D(64, (4, 4), strides=2, activation='relu'),
-        Conv2D(64, (3, 3), strides=1, activation='relu'),
-        Flatten(),
-        Dense(512, activation='relu'),
-        Dense(nb_actions, activation='linear')
-    ])
-    return model
 
-def main():
-    # Create base environment with frame-skip disabled
-    env = gym.make(
-        'ALE/Breakout-v5',
-        render_mode=None,
-        frameskip=1,  # Disable frame-skip in base environment
-        repeat_action_probability=0.0,
-        full_action_space=False
+def create_CNN_model(number_actions, frames=4, input_shape=(84, 84)):
+    """Create CNN model for Deep Q-Learning following DeepMind's architecture"""
+    
+    conv_layers = [
+        {'filters': 32, 'kernel_size': 8, 'strides': 4, 'name': 'conv1'},
+        {'filters': 64, 'kernel_size': 4, 'strides': 2, 'name': 'conv2'},
+        {'filters': 64, 'kernel_size': 3, 'strides': 1, 'name': 'conv3'}
+    ]
+    
+    dense_layers = [
+        {'units': 512, 'name': 'dense1'},
+        {'units': number_actions, 'activation': 'linear', 'name': 'output'}
+    ]
+
+    inputs = layers.Input(shape=(frames,) + input_shape, name='input')
+    x = layers.Permute((2, 3, 1), name='permute')(inputs)
+
+    for conv in conv_layers:
+        x = layers.Conv2D(
+            filters=conv['filters'],
+            kernel_size=conv['kernel_size'],
+            strides=conv['strides'],
+            activation='relu',
+            name=conv['name']
+        )(x)
+
+    x = layers.Flatten(name='flatten')(x)
+
+    for dense in dense_layers:
+        x = layers.Dense(
+            units=dense['units'],
+            activation=dense.get('activation', 'relu'),
+            name=dense['name']
+        )(x)
+
+    return Model(inputs=inputs, outputs=x), frames
+
+
+def setup_dqn_agent(model, nb_actions, processor):
+    """Configure DQN agent with specified hyperparameters"""
+    memory = SequentialMemory(limit=1000000, window_length=4)
+    
+    policy = LinearAnnealedPolicy(
+        EpsGreedyQPolicy(),
+        attr="eps",
+        value_max=1.0,
+        value_min=0.1,
+        value_test=0.05,
+        nb_steps=1000000
     )
     
-    # Add preprocessing wrapper
-    env = AtariPreprocessing(
-        env,
-        frame_skip=4,  # Handle frame-skip in the preprocessing wrapper
-        grayscale_obs=True,
-        scale_obs=False,
-        terminal_on_life_loss=True,
-        screen_size=84
-    )
-    
-    # Stack frames
-    env = FrameStack(env, 4)
-    
-    nb_actions = env.action_space.n
-    input_shape = (84, 84, 4)  # Shape matches preprocessed and stacked frames
-
-    # Build model
-    model = build_model(input_shape, nb_actions)
-    print(model.summary())
-
-    # Configure agent
-    memory = SequentialMemory(limit=50000, window_length=1)
-    policy = EpsGreedyQPolicy()
-    processor = AtariProcessor()
-
     dqn = DQNAgent(
         model=model,
         nb_actions=nb_actions,
-        memory=memory,
-        nb_steps_warmup=5000,
-        target_model_update=1e-2,
         policy=policy,
+        memory=memory,
         processor=processor,
-        batch_size=32,
+        nb_steps_warmup=50000,
+        gamma=0.99,
+        target_model_update=10000,
         train_interval=4,
-        delta_clip=1.0,
-        enable_double_dqn=True
+        delta_clip=1.0
     )
-    dqn.compile(Adam(learning_rate=0.00025), metrics=['mae'])
+    
+    dqn.compile(optimizers.Adam(learning_rate=0.00025), metrics=['mae'])
+    return dqn
 
-    # Train
-    try:
-        dqn.fit(env, 
-                nb_steps=50000,
-                visualize=False,
-                verbose=1)
+
+class EarlyStoppingCallback(Callback):
+    def __init__(self, reward_threshold, window_size=100):
+        self.reward_threshold = reward_threshold
+        self.window_size = window_size
+        self.rewards = []
         
-        print("Training completed successfully")
-        dqn.save_weights('policy.h5', overwrite=True)
+    def on_episode_end(self, episode, logs):
+        self.rewards.append(logs['episode_reward'])
         
-    except KeyboardInterrupt:
-        print("\nTraining interrupted")
-        dqn.save_weights('policy.h5', overwrite=True)
+        if len(self.rewards) >= self.window_size:
+            mean_reward = np.mean(self.rewards[-self.window_size:])
+            if mean_reward >= self.reward_threshold:
+                print(f"\nEarly stopping triggered! Mean reward: {mean_reward:.2f}")
+                self.model.stop_training = True
+
+
+class TrainingMetricsCallback(Callback):
+    """Simple callback to track training metrics"""
+    def __init__(self):
+        self.rewards = []
+        self.start_time = time.time()
         
-    finally:
-        env.close()
+    def on_episode_end(self, episode, logs={}):
+        self.rewards.append(logs.get('episode_reward', 0))
+        
+    def on_train_end(self, logs={}):
+        """Display final training statistics"""
+        print("\nTraining Summary:")
+        print("=" * 30)
+        print(f"Total Episodes: {len(self.rewards)}")
+        print(f"Training Duration: {(time.time() - self.start_time) / 60:.2f} minutes")
+        print(f"Best Reward: {max(self.rewards):.2f}")
+        print(f"Average Reward: {np.mean(self.rewards):.2f}")
+        print(f"Final 100 Episodes Average: {np.mean(self.rewards[-100:]):.2f}")
+
+def train():
+    """Train the DQN agent on Breakout"""
+    env = gym.make("Breakout-v0")
+    env.reset()
+    
+    nb_actions = env.action_space.n
+    model, frames = create_CNN_model(nb_actions)
+    model.summary()
+    
+    processor = AtariProcessor()
+    dqn = setup_dqn_agent(model, nb_actions, processor)
+    
+    early_stopping = EarlyStoppingCallback(
+        reward_threshold=50.0,
+        window_size=100
+    )
+
+    metrics_callback = TrainingMetricsCallback()
+    
+    dqn.fit(
+        env, 
+        nb_steps=1000000, 
+        log_interval=10000, 
+        visualize=False, 
+        verbose=2,
+        callbacks=[early_stopping, metrics_callback]
+    )
+    
+    dqn.save_weights("policy.h5", overwrite=True)
+
 
 if __name__ == "__main__":
-    main()
+    train()
