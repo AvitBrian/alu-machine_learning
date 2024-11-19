@@ -22,12 +22,10 @@ class AtariProcessor(Processor):
 
     def process_observation(self, observation):
         """Process raw game frames for neural network input"""
-        assert observation.ndim == 3, "Expected 3D array (height, width, channel)"
-        
+        assert observation.ndim == 3
         image = Image.fromarray(observation)
         image = image.resize(self.target_size, Image.Resampling.LANCZOS).convert("L")
         processed_observation = np.array(image)
-        
         assert processed_observation.shape == self.target_size
         return processed_observation.astype("uint8")
 
@@ -79,16 +77,16 @@ def create_CNN_model(number_actions, frames=4, input_shape=(84, 84)):
 
 
 def setup_dqn_agent(model, nb_actions, processor):
-    """Configure DQN agent with specified hyperparameters"""
+    """Configure DQN agent with optimized hyperparameters"""
     memory = SequentialMemory(limit=1000000, window_length=4)
     
     policy = LinearAnnealedPolicy(
         EpsGreedyQPolicy(),
         attr="eps",
         value_max=1.0,
-        value_min=0.1,
-        value_test=0.05,
-        nb_steps=1000000
+        value_min=0.05,
+        value_test=0.02,
+        nb_steps=75000
     )
     
     dqn = DQNAgent(
@@ -97,51 +95,74 @@ def setup_dqn_agent(model, nb_actions, processor):
         policy=policy,
         memory=memory,
         processor=processor,
-        nb_steps_warmup=50000,
+        nb_steps_warmup=25000, 
         gamma=0.99,
-        target_model_update=10000,
+        target_model_update=5000, 
         train_interval=4,
-        delta_clip=1.0
+        delta_clip=1.0,
+        batch_size=64
     )
     
-    dqn.compile(optimizers.Adam(learning_rate=0.00025), metrics=['mae'])
+    dqn.compile(
+        optimizer=optimizers.Adam(learning_rate=0.00025),
+        metrics=['mae']
+    )
     return dqn
 
 
 class EarlyStoppingCallback(Callback):
-    def __init__(self, reward_threshold, window_size=100):
+    def __init__(self, reward_threshold=50.0, window_size=100, patience=20):
         self.reward_threshold = reward_threshold
         self.window_size = window_size
+        self.patience = patience
         self.rewards = []
+        self.last_mean = -float('inf')
+        self.no_improvement_count = 0
         
     def on_episode_end(self, episode, logs):
-        self.rewards.append(logs['episode_reward'])
+        reward = logs['episode_reward']
+        self.rewards.append(reward)
         
         if len(self.rewards) >= self.window_size:
             mean_reward = np.mean(self.rewards[-self.window_size:])
-            if mean_reward >= self.reward_threshold:
-                print(f"\nEarly stopping triggered! Mean reward: {mean_reward:.2f}")
+            
+            if mean_reward <= self.last_mean - 0.5: 
+                self.no_improvement_count += 1
+            elif mean_reward > self.last_mean:
+                self.no_improvement_count = 0
+                self.last_mean = mean_reward
+            
+            if self.no_improvement_count >= self.patience:
+                print(f"\nStopping training - No improvement for {self.patience} episodes")
+                print(f"Best mean reward: {self.last_mean:.2f}")
                 self.model.stop_training = True
 
 
 class TrainingMetricsCallback(Callback):
-    """Simple callback to track training metrics"""
-    def __init__(self):
+    def __init__(self, min_episodes=10):
         self.rewards = []
         self.start_time = time.time()
+        self.best_mean_reward = -float('inf')
+        self.best_episode_reward = -float('inf')
+        self.min_episodes = min_episodes
         
     def on_episode_end(self, episode, logs={}):
-        self.rewards.append(logs.get('episode_reward', 0))
+        reward = logs.get('episode_reward', 0)
+        self.rewards.append(reward)
         
-    def on_train_end(self, logs={}):
-        """Display final training statistics"""
-        print("\nTraining Summary:")
-        print("=" * 30)
-        print(f"Total Episodes: {len(self.rewards)}")
-        print(f"Training Duration: {(time.time() - self.start_time) / 60:.2f} minutes")
-        print(f"Best Reward: {max(self.rewards):.2f}")
-        print(f"Average Reward: {np.mean(self.rewards):.2f}")
-        print(f"Final 100 Episodes Average: {np.mean(self.rewards[-100:]):.2f}")
+        if len(self.rewards) >= self.min_episodes:
+            mean_reward = np.mean(self.rewards[-self.min_episodes:])
+            
+            if mean_reward > self.best_mean_reward + 0.5:
+                self.best_mean_reward = mean_reward
+                print(f"\nNew best average reward: {mean_reward:.2f}")
+                self.model.save_weights(f"policy_avg_{mean_reward:.1f}.h5")
+            
+            if reward > self.best_episode_reward + 1:
+                self.best_episode_reward = reward
+                print(f"\nNew best episode: {reward:.2f}")
+                self.model.save_weights(f"policy_best_{reward:.1f}.h5")
+
 
 def train():
     """Train the DQN agent on Breakout"""
@@ -160,16 +181,20 @@ def train():
         window_size=100
     )
 
-    metrics_callback = TrainingMetricsCallback()
+    metrics_callback = TrainingMetricsCallback(min_episodes=10)
     
-    dqn.fit(
-        env, 
-        nb_steps=1000000, 
-        log_interval=10000, 
-        visualize=False, 
-        verbose=2,
-        callbacks=[early_stopping, metrics_callback]
-    )
+    try:
+        dqn.fit(
+            env, 
+            nb_steps=250000,
+            log_interval=1000,
+            visualize=False, 
+            verbose=1,
+            callbacks=[early_stopping, metrics_callback]
+        )
+    except Exception as e:
+        print(f"Training interrupted: {e}")
+        dqn.save_weights("policy_final.h5", overwrite=True)
     
     dqn.save_weights("policy.h5", overwrite=True)
 

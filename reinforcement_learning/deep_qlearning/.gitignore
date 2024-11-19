@@ -1,3 +1,5 @@
 venv/
-env_latest/
-policy.h5
+policies/
+continue_train.py
+evaluate.py
+test_gpu.py
