@@ -1,0 +1,7 @@
+tensorflow>=2.10.0
+Keras-rl2
+stable-baselines3>=1.7.0
+gym>=0.26.0
+numpy>=1.24.0
+matplotlib>=3.4.3
+
